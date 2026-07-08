@@ -5,7 +5,7 @@ import type { CardElementDef } from "@/lib/card-elements";
 
 const W = 1080, H = 1350;
 const RED = "#ef476f", WHITE = "#f5f5f5", GREY = "#9aa0b0", BLACK = "#000", NAVY = "#14213d";
-const DEFAULT_NICKS = ["@teamnetto", "@n2squad"]; // nicks padrão exibidos quando o card não define os seus
+const DEFAULT_NICKS = ["@nutrinathprado", "@n2squad"]; // nicks padrão exibidos quando o card não define os seus
 const INK = "#0b0b0f", PAPER = "#ececec"; // Layout 9: preto profundo / cinza claro
 const WINE = "#3a0e1e", GOLD = "#c9a24b", WARMW = "#f3ece6"; // Layout 10: vinho / dourado / branco quente
 const TSHIFT = "translate(var(--tx, 0px), var(--ty, 0px))"; // deslocamento do bloco de texto (controlado no editor)
@@ -454,7 +454,7 @@ function L10Chrome({ card }: { card: Card }) {
 }
 // assinatura da marca no rodapé (Layout 6)
 function BrandFooter({ card, align = "center" }: { card: Card; align?: "center" | "left" | "right" }) {
-  const e = fixed(card, "brandFooter", { id: "brandFooter", label: "Assinatura do rodapé", kind: "text", x: 0.5, y: 0.92, text: "CÂNDIDO NETTO\nCONSULTORIA FITNESS · N² SQUAD", size: 28, color: "#f5f5f5", movable: true, sizable: true, editable: true, colorable: true });
+  const e = fixed(card, "brandFooter", { id: "brandFooter", label: "Assinatura do rodapé", kind: "text", x: 0.5, y: 0.92, text: "NATH PRADO\nNUTRICIONISTA ESPORTIVA · N² SQUAD", size: 28, color: "#f5f5f5", movable: true, sizable: true, editable: true, colorable: true });
   if (e.hidden) return null;
   const lines = (e.text || "").split("\n");
   return (
@@ -1124,7 +1124,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
           {card.body && <div data-mv="body" style={{ ...bodyOn(28, bs, "#5a6276", { serif: true, align: "center" }), marginTop: 14 }}><Rich text={card.body} /></div>}
         </div>
         {(() => {
-          const e = fixed(card, "galleryBrand", { id: "galleryBrand", label: "Rodapé da galeria", kind: "text", x: 0.5, y: 0.944, text: "CÂNDIDO NETTO\n· N² SQUAD", size: 24, color: "#14213d", movable: true, sizable: true, editable: true, colorable: true });
+          const e = fixed(card, "galleryBrand", { id: "galleryBrand", label: "Rodapé da galeria", kind: "text", x: 0.5, y: 0.944, text: "NATH PRADO\n· N² SQUAD", size: 24, color: "#14213d", movable: true, sizable: true, editable: true, colorable: true });
           if (e.hidden) return null;
           const lines = (e.text || "").split("\n");
           return <div style={{ position: "absolute", left: `${e.x * 100}%`, top: `${e.y * 100}%`, transform: "translateX(-50%)", textAlign: "center", zIndex: 8, fontFamily: "var(--cb-font, 'Inter'), sans-serif", whiteSpace: "pre-line" }}>

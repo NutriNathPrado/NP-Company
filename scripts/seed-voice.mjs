@@ -1,4 +1,4 @@
-// Seed da VOZ-OURO — grava exemplos reais de como o Netto escreve no kv "gold_voice".
+// Seed da VOZ-OURO — grava exemplos reais de como a Nath escreve no kv "gold_voice".
 // A IA usa esses textos como alvo de CADÊNCIA (não copia tema, imita o jeito de escrever).
 // Rodar: node scripts/seed-voice.mjs   (SOBRESCREVE o gold_voice atual com a lista abaixo)
 import { createClient } from "@supabase/supabase-js";

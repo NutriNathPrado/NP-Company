@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 const MODEL = process.env.ANTHROPIC_WRITE_MODEL || "claude-opus-4-8";
 
-const SYS = `Você é o Cândido Netto (Team Netto @teamnetto · N² Squad @n2squad) gerando 20 TEMAS para carrosséis de Instagram.
+const SYS = `Você é a Nathalia Prado (@nutrinathprado · N² Squad @n2squad) gerando 20 TEMAS para carrosséis de Instagram.
 
 Para cada tema gere:
 - "tema": o briefing do carrossel (1-3 linhas descritivas — vai pra caixa de conteúdo pra gerar o post)
@@ -15,7 +15,7 @@ Para cada tema gere:
 - "hook2": capa alternativa — ângulo diferente, mesma força
 - "pilar": qual pilar da marca este tema representa (curto: "hipertrofia" / "progressão" / "execução" / "mentalidade" / "desinformação" / "composição" / "comportamento" / "comunidade" / "método")
 
-## REGRA DOS HOOKS — o padrão aprovado pelo Cândido:
+## REGRA DOS HOOKS — o padrão aprovado pela Nathalia:
 Estude as CAPAS APROVADAS que vêm na mensagem — esse é o padrão exato que ele quer.
 Fórmula: use UMA das 5 linhas:
 1. Contradição direta: desfaz crença sem rodeio — "Repouso **não** cura dor" / "Equilíbrio **não** traz evolução"
@@ -72,10 +72,10 @@ export async function POST() {
   const brandBlock = `GRANDE TESE: ${brain.grandeTese.slice(0, 300)}
 INIMIGO CULTURAL: ${brain.inimigo.slice(0, 200)}
 PILARES: ${brain.pilares.join(" · ")}
-TEMAS QUE O CÂNDIDO DOMINA: ${brain.temas.join(", ")}`;
+TEMAS QUE A NATHALIA DOMINA: ${brain.temas.join(", ")}`;
 
   const hookGoldBlock = hookGold.length
-    ? `\n\nCAPAS APROVADAS PELO CÂNDIDO (esse é exatamente o padrão de capa que ele quer):\n${hookGold.map((h) => `✓ ${h.capa}`).join("\n")}`
+    ? `\n\nCAPAS APROVADAS PELA NATHALIA (esse é exatamente o padrão de capa que ele quer):\n${hookGold.map((h) => `✓ ${h.capa}`).join("\n")}`
     : "";
 
   const sourcesBlock = sourcesBg ? `\n\nFONTES DA BIBLIOTECA:\n${sourcesBg}` : "";

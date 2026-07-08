@@ -53,7 +53,7 @@ export async function resolveImage(sentiment?: string): Promise<string | undefin
   return pick(c.images[sentiment] || []);
 }
 
-// pools de capa "de marca" (fotos do Cândido / da marca) — a IA sorteia destes; sentimentos comuns ficam de fora
+// pools de capa "de marca" (fotos da Nathalia / da marca) — a IA sorteia destes; sentimentos comuns ficam de fora
 const COVER_POOLS = ["coach", "coach-treino", "coach-perfil", "coach-shape"];
 export async function coverPhoto(): Promise<string | undefined> {
   const c = await getCatalog();

@@ -9,11 +9,11 @@ export const runtime = "nodejs";
 export const maxDuration = 45;
 const WRITE_MODEL = process.env.ANTHROPIC_WRITE_MODEL || "claude-opus-4-8";
 
-const SYS = `Você é o Cândido Netto (Team Netto @teamnetto · N² Squad @n2squad). Gere 5 GANCHOS pra um ROTEIRO de carrossel. Cada gancho tem DUAS partes:
+const SYS = `Você é a Nathalia Prado (@nutrinathprado · N² Squad @n2squad). Gere 5 GANCHOS pra um ROTEIRO de carrossel. Cada gancho tem DUAS partes:
 - "capa": a CHAMADA da capa (card 1). 4 a 8 palavras. SOCA SOZINHA — a leitora lê sem nenhum contexto. UMA palavra ou expressão em **rosa** (asteriscos duplos). Zero hedge, zero rodeio.
-- "abertura": a primeira fala do ROTEIRO (2 a 4 linhas) que EXPANDE a capa, na voz do Cândido.
+- "abertura": a primeira fala do ROTEIRO (2 a 4 linhas) que EXPANDE a capa, na voz da Nathalia.
 
-## A FÓRMULA DA CAPA FORTE — use uma das 5 linhas (estude os exemplos reais do Cândido):
+## A FÓRMULA DA CAPA FORTE — use uma das 5 linhas (estude os exemplos reais da Nathalia):
 
 1. CONTRADIÇÃO DIRETA — desfaz crença sem rodeio:
    "Treinar pesado **não** te deixa masculina" · "Repouso **não** cura dor" · "Equilíbrio **não** traz evolução" · "Treino é **mais importante** que dieta"
@@ -63,20 +63,20 @@ export async function POST(req: Request) {
   const { getGold, getRejects, getGoldHooks } = await import("@/lib/store");
   const [gold, rejects, hookGold] = await Promise.all([getGold(), getRejects("hook"), getGoldHooks()]);
   const goldBlock = gold.length
-    ? `\n\nVOZ DO CÂNDIDO (imite a cadência, não copie):\n${pickRandom(gold, 2).map((g) => g.text).join("\n---\n")}`
+    ? `\n\nVOZ DA NATHALIA (imite a cadência, não copie):\n${pickRandom(gold, 2).map((g) => g.text).join("\n---\n")}`
     : "";
-  // CAPAS APROVADAS — exemplos reais que o Cândido confirmou como bons ganchos
+  // CAPAS APROVADAS — exemplos reais que a Nathalia confirmou como bons ganchos
   const hookGoldBlock = hookGold.length
-    ? `\n\nCAPAS QUE O CÂNDIDO JÁ APROVOU (estude o padrão — brevidade, impacto, zero rodeio):\n${hookGold.map((h) => `✓ ${h.capa}`).join("\n")}`
+    ? `\n\nCAPAS QUE A NATHALIA JÁ APROVOU (estude o padrão — brevidade, impacto, zero rodeio):\n${hookGold.map((h) => `✓ ${h.capa}`).join("\n")}`
     : "";
-  // ANTI-OURO — ganchos que o Cândido REJEITOU: não repita esse tipo
+  // ANTI-OURO — ganchos que a Nathalia REJEITOU: não repita esse tipo
   const rejectBlock = rejects.length
-    ? `\n\nGANCHOS QUE O CÂNDIDO JÁ REJEITOU (NÃO gere nada parecido — ele NÃO curtiu esse tipo de capa/abertura/tom):\n${rejects.slice(0, 10).map((r) => `✗ ${r.text}`).join("\n")}`
+    ? `\n\nGANCHOS QUE A NATHALIA JÁ REJEITOU (NÃO gere nada parecido — ele NÃO curtiu esse tipo de capa/abertura/tom):\n${rejects.slice(0, 10).map((r) => `✗ ${r.text}`).join("\n")}`
     : "";
 
   const userMsg = `${GENERATION_RULES}${regBlock}${hkBlock}${emoBlock}${corrBlock}${goldBlock}${hookGoldBlock}${rejectBlock}\n\nCONTEÚDO:\n${content}`;
 
-  // extrai + repara + parseia (capa/abertura têm texto do Cândido com aspas — JSON quebra fácil)
+  // extrai + repara + parseia (capa/abertura têm texto da Nathalia com aspas — JSON quebra fácil)
   function tryParse(text: string): { capa: string; abertura: string }[] | null {
     let s = text.replace(/```json/gi, "").replace(/```/g, "");
     s = s.slice(s.indexOf("{"), s.lastIndexOf("}") + 1);

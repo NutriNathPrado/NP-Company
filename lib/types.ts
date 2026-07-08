@@ -205,7 +205,7 @@ export interface Post {
   tom?: string;
   carousel: Carousel;
   metrics?: Metrics;
-  feedback?: string;        // feedback qualitativo do Cândido sobre o conteúdo
+  feedback?: string;        // feedback qualitativo da Nathalia sobre o conteúdo
   analysis?: string;        // análise/padrões (preenchido pela IA na síntese)
   stage?: Stage;            // etapa no quadro (default "ideia")
   type?: string;            // carrossel | reels | roteiro

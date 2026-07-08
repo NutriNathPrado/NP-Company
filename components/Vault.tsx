@@ -95,7 +95,7 @@ export default function Vault({ onOpen }: { onOpen: (c: Carousel) => void }) {
     } catch { toast("erro ao aprender", "err"); }
     setLearning(false);
   }
-  // Cândido revisou → integra (recolhe o painel; o aprendizado já alimenta a escrita automaticamente)
+  // Nathalia revisou → integra (recolhe o painel; o aprendizado já alimenta a escrita automaticamente)
   async function integrarLearn() {
     try {
       const r = await fetch("/api/learn", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ack: true }) });

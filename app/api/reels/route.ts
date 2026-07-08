@@ -1,4 +1,4 @@
-// Gera ideias de Reels para o Cândido Netto — falado, conversa ou POV/trend.
+// Gera ideias de Reels para a Nathalia Prado — falado, conversa ou POV/trend.
 import Anthropic from "@anthropic-ai/sdk";
 import { REELS_SYSTEM, REELS_TRANSCRICOES } from "@/lib/reels";
 import { GENERATION_RULES } from "@/lib/generation-rules";
@@ -78,7 +78,7 @@ async function buscarTendencias(exaKey: string): Promise<string> {
     .join("\n");
 
   return snippets
-    ? `\n\nTENDÊNCIAS REAIS DO MOMENTO (busca web — últimos 45 dias):\n${snippets}\n\nUse essas referências para criar ideias de POV/Trend que se encaixam no que está bombando AGORA — adaptado pro universo do Cândido (glúteo, treino feminino, método, N2 Squad). Não copie, inspire-se no formato e no espírito da tendência.`
+    ? `\n\nTENDÊNCIAS REAIS DO MOMENTO (busca web — últimos 45 dias):\n${snippets}\n\nUse essas referências para criar ideias de POV/Trend que se encaixam no que está bombando AGORA — adaptado pro universo da Nathalia (glúteo, treino feminino, método, N2 Squad). Não copie, inspire-se no formato e no espírito da tendência.`
     : "";
 }
 
@@ -215,14 +215,14 @@ ${distribuicao}
 FOCO DESTE LOTE: ${args.focus}. Não repita ideias óbvias de outros lotes.
 ═══════════════════════════════════════════
 
-TAREFA: gera EXATAMENTE ${args.nIdeas} ideias de Reel para o Instagram do Cândido Netto.
-Cada ideia é um TEMA e ÂNGULO específico, não um roteiro. O Cândido vai falar do jeito dele.
+TAREFA: gera EXATAMENTE ${args.nIdeas} ideias de Reel para o Instagram da Nathalia Prado.
+Cada ideia é um TEMA e ÂNGULO específico, não um roteiro. A Nathalia vai falar do jeito dela.
 
 VARIEDADE TEMÁTICA, escolha assuntos diferentes entre si:
 • Erro de execução de exercício específico, glúteo, posterior, quadríceps, ombro etc.
 • Diferença entre exercícios parecidos que as alunas confundem
 • Mito fitness que o mercado repete, com o porquê real
-• Volume vs intensidade, um dos temas mais fortes do Cândido
+• Volume vs intensidade, um dos temas mais fortes da Nathalia
 • Por que mulheres têm medo de carga e por que estão erradas
 • Bastidor da consultoria N2 Squad, como ele pensa, o que ele vê
 • Prova social, resultado de aluna com o contexto técnico do porquê funcionou
@@ -296,25 +296,25 @@ export async function POST(req: Request) {
     getAudience(), getEdge(), getBrainModel(), getGold(), getRejects("voice"), getReelLearnings(),
   ]);
 
-  const reguaBlock = `PÚBLICO-ALVO: ${aud}\n\nARESTA E CARA DO CÂNDIDO: ${edg}`;
+  const reguaBlock = `PÚBLICO-ALVO: ${aud}\n\nARESTA E CARA DA NATHALIA: ${edg}`;
   const histBlock = model.historia?.trim()
-    ? `\n\nVIDA REAL DO CÂNDIDO (use SÓ quando couber — Nath, Chico, Simba, N2 Squad, Darkside; NUNCA invente):\n${model.historia.trim().slice(0, 2000)}`
+    ? `\n\nVIDA REAL DA NATHALIA (use SÓ quando couber algo pessoal/bastidor; NUNCA invente):\n${model.historia.trim().slice(0, 2000)}`
     : "";
   const goldBlock = gold.length
-    ? `\n\nVOZ DO CÂNDIDO (cadência e tom — imite sem copiar):\n${pickRandom(gold, 3).map(g => g.text).join("\n---\n")}`
+    ? `\n\nVOZ DA NATHALIA (cadência e tom — imite sem copiar):\n${pickRandom(gold, 3).map(g => g.text).join("\n---\n")}`
     : "";
   const rejectBlock = rejects.length
     ? `\n\nFUGE DESSE PADRÃO (anti-ouro):\n${rejects.slice(0, 4).map(r => `✗ ${r.text}`).join("\n")}`
     : "";
   const learnBlock = reelLearnings?.summary
-    ? `\n\nO QUE FUNCIONA NOS REELS DO CÂNDIDO (aprendido — aplique):\n${reelLearnings.summary.slice(0, 800)}`
+    ? `\n\nO QUE FUNCIONA NOS REELS DA NATHALIA (aprendido — aplique):\n${reelLearnings.summary.slice(0, 800)}`
     : "";
   const ctxBlock = contexto ? `\n\nCONTEXTO DO MOMENTO:\n${contexto}` : "";
   const tomBlock = registroBlock(reg);
 
   const FUNIL_DESC: Record<string, string> = {
-    topo:  "TOPO DE FUNIL: ideias focadas em ALCANCE e DESCOBERTA. Gancho viral, curiosidade, contraintuição, temas amplos que atraem quem ainda não conhece o Cândido. Evita mencionar consultoria diretamente.",
-    meio:  "MEIO DE FUNIL: ideias focadas em AUTORIDADE e EDUCAÇÃO. Profundidade técnica, método real, diferença que só quem é especialista vê. Audiência já conhece o Cândido — quer aprender mais.",
+    topo:  "TOPO DE FUNIL: ideias focadas em ALCANCE e DESCOBERTA. Gancho viral, curiosidade, contraintuição, temas amplos que atraem quem ainda não conhece a Nathalia. Evita mencionar consultoria diretamente.",
+    meio:  "MEIO DE FUNIL: ideias focadas em AUTORIDADE e EDUCAÇÃO. Profundidade técnica, método real, diferença que só quem é especialista vê. Audiência já conhece a Nathalia — quer aprender mais.",
     fundo: "FUNDO DE FUNIL: ideias focadas em CONVERSÃO. Prova social (resultados de alunas), quebra de objeção, custo de não agir, CTA orgânico para a consultoria N2 Squad. Audiência está quase decidindo.",
   };
   const funilBlock = funil ? `\n\nETAPA DO FUNIL — OBRIGATÓRIO:\n${FUNIL_DESC[funil]}` : "";

@@ -625,7 +625,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
   };
   const alignNick = (ax: "x" | "y", wh: "start" | "mid" | "end") => {
     const size = card.nickPos?.size ?? 28;
-    const txt = ((card.nicks || []).filter(Boolean).length ? card.nicks!.filter(Boolean) : ["@teamnetto", "@n2squad"]).join("  ·  ");
+    const txt = ((card.nicks || []).filter(Boolean).length ? card.nicks!.filter(Boolean) : ["@nutrinathprado", "@n2squad"]).join("  ·  ");
     const wf = (txt.length * size * 0.5) / 1080, hf = (size * 1.5) / 1350;
     const cur = card.nickPos ?? { x: 0.06, y: 0.05, size };
     if (ax === "x") onChange({ nickPos: { ...cur, x: wh === "start" ? MARG : wh === "mid" ? (1 - wf) / 2 : 1 - wf - MARG } });
@@ -1120,7 +1120,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
           <div style={{ fontSize: 12, color: "#7c869c" }}>Nick <b style={{ color: "#e0738c" }}>desligado</b> neste card. Marque "mostrar" pra exibir</div>
         ) : (
           <>
-            <div style={{ fontSize: 11, color: "#7c869c", marginBottom: 8 }}>Aparece pequeno no topo dos cards dos <b style={{ color: "#cfcfcf" }}>Layouts 2 a 6</b>. Pode usar 1 ou 2 (ex: <b style={{ color: "#cfcfcf" }}>@teamnetto</b> e <b style={{ color: "#cfcfcf" }}>@n2squad</b>)</div>
+            <div style={{ fontSize: 11, color: "#7c869c", marginBottom: 8 }}>Aparece pequeno no topo dos cards dos <b style={{ color: "#cfcfcf" }}>Layouts 2 a 6</b>. Pode usar 1 ou 2 (ex: <b style={{ color: "#cfcfcf" }}>@nutrinathprado</b> e <b style={{ color: "#cfcfcf" }}>@n2squad</b>)</div>
             {[0, 1].map((i) => (
               <input key={i} value={card.nicks?.[i] || ""} placeholder={i === 0 ? "@nick principal (ex: @n2squad)" : "@2º nick (opcional)"}
                 onChange={(e) => { const arr = [card.nicks?.[0] || "", card.nicks?.[1] || ""]; arr[i] = e.target.value; onChange({ nicks: arr }); }}

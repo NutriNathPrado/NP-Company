@@ -35,7 +35,7 @@ export function detectTells(text: string): string[] {
   // motivação açucarada de coach
   if (/\b(voc[êe] consegue|acredite em voc|vai dar certo|o seu melhor|tudo (?:é|e) poss[íi]vel|você merece tudo|sua hora vai chegar)\b/i.test(t)) out.push("motivação açucarada (\"você consegue\"…)");
 
-  // clichês de coach proibidos pela régua Netto
+  // clichês de coach proibidos pela régua Nath
   if (/(confie no processo|acredite no processo|sa(ia|ir) da zona de conforto|zona de conforto|voc[êe] só precisa querer|n[ãa]o (?:é|e) falta (?:de|do|da|disso|daquilo)|v[áa] além|foco,? força e fé)/i.test(t)) out.push("clichê de coach ou muleta de \"falta de\"");
 
   // abertura clichê

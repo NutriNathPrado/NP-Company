@@ -1,4 +1,4 @@
-// Estilo/referência dos stories — o jeito que o Cândido curte fazer (calibrado pelos prints + arquivo base).
+// Estilo/referência dos stories — o jeito que a Nathalia curte fazer (calibrado pelos prints + arquivo base).
 // Texto livre que é injetado na geração de stories. Editável na aba Stories.
 import { getStoriesStyle, setStoriesStyle } from "@/lib/store";
 

@@ -34,7 +34,7 @@ export const REG_MAP: Record<Registro, RegInfo> = Object.fromEntries(REGISTROS.m
 const DIST: RegInfo[] = REGISTROS.filter((r) => !r.layer);
 const DIST_IDS = new Set(DIST.map((r) => r.id));
 
-// notas curtas quando passa/falta — na voz do Cândido, sem jargão de academia
+// notas curtas quando passa/falta — na voz da Nathalia, sem jargão de academia
 const NOTA_ALTO: Record<Registro, string> = {
   porrada: "demais — anestesia",
   ferida: "demais — só dor, sem direção",
@@ -52,8 +52,8 @@ const NOTA_BAIXO: Record<Registro, string> = {
   darkside: "—",
 };
 
-// O TOM que cada registro impõe ao roteiro inteiro — ANCORADO na voz real do Cândido Netto (Team Netto · N² Squad).
-// É POSTURA e SUBSTÂNCIA, não cadência: a cadência manda nos exemplos "⭐ minha voz". Não brigue com o ritmo dele.
+// O TOM que cada registro impõe ao roteiro inteiro — ANCORADO na voz real da Nathalia Prado (Nath Prado Nutricionista · N² Squad).
+// É POSTURA e SUBSTÂNCIA, não cadência: a cadência manda nos exemplos "⭐ minha voz". Não brigue com o ritmo dela.
 // Definições estruturais (essência / verdade central / linguagem / o que fala / o que nunca fala / sensação) vêm da marca.
 const TOM: Record<Registro, string> = {
   ferida:
@@ -63,9 +63,9 @@ const TOM: Record<Registro, string> = {
   dominio:
     "Registro DOMÍNIO — demonstra capacidade de leitura, profundidade e experiência: você enxerga detalhes que a maioria ignora. Não é ensinar, não é confrontar, não é convocar — é demonstrar superioridade técnica SEM precisar dizer que é superior. O que vem antes de tudo é OBSERVAÇÃO. Verdade central: os melhores profissionais enxergam o que os outros não enxergam. Linguagem segura, precisa, cirúrgica, quase arrogante mas nunca arrogante. Fala muito 'quando eu analiso uma aluna, observo isso primeiro', 'quase ninguém percebe esse detalhe', 'é aqui que a maioria dos profissionais erra', 'o problema está escondido num lugar que ninguém olha', 'esse detalhe muda completamente o resultado'. NUNCA fala 'eu sou referência', 'eu sou especialista', 'eu sou o melhor', 'confia em mim' — a autoridade é PERCEBIDA, nunca declarada. Arquétipos: mestre, estrategista, especialista de elite. Ex.: 'duas mulheres podem fazer exatamente o mesmo treino e uma evoluir muito mais — o motivo quase nunca é o exercício, é a capacidade de gerar sobrecarga ao longo do tempo'. Sensação: 'esse cara enxerga um nível acima'.",
   ensino:
-    "Registro CLAREZA ESTRATÉGICA — não ensina pra parecer inteligente, ensina pra gerar CLAREZA: o objetivo não é mostrar conhecimento, é fazer a pessoa enxergar o MECANISMO. O que vem antes de tudo é DIAGNÓSTICO, sempre. Verdade central: quem entende o problema toma decisões melhores. Estrutura: diagnóstico → causa → consequência → direção. Linguagem simples, objetiva, prática, cirúrgica. Fala muito 'o erro está aqui', 'é por isso que acontece', 'é por isso que não funciona', 'o problema real é esse'. NUNCA fala 'segundo os estudos', 'a literatura demonstra', 'metanálises mostram' — a ciência SUSTENTA a mensagem, ela não lidera a mensagem. Uma alavanca por vez, o porquê fisiológico traduzido na voz do Cândido, denso o suficiente pra respeitar a inteligência da leitora, nunca infantilizado ('amiga, faz 3x12 que dá certo'). O ser humano antes do protocolo. Sensação: 'agora tudo faz sentido'.",
+    "Registro CLAREZA ESTRATÉGICA — não ensina pra parecer inteligente, ensina pra gerar CLAREZA: o objetivo não é mostrar conhecimento, é fazer a pessoa enxergar o MECANISMO. O que vem antes de tudo é DIAGNÓSTICO, sempre. Verdade central: quem entende o problema toma decisões melhores. Estrutura: diagnóstico → causa → consequência → direção. Linguagem simples, objetiva, prática, cirúrgica. Fala muito 'o erro está aqui', 'é por isso que acontece', 'é por isso que não funciona', 'o problema real é esse'. NUNCA fala 'segundo os estudos', 'a literatura demonstra', 'metanálises mostram' — a ciência SUSTENTA a mensagem, ela não lidera a mensagem. Uma alavanca por vez, o porquê fisiológico traduzido na voz da Nathalia, denso o suficiente pra respeitar a inteligência da leitora, nunca infantilizado ('amiga, faz 3x12 que dá certo'). O ser humano antes do protocolo. Sensação: 'agora tudo faz sentido'.",
   convocacao:
-    "Registro CONVOCAÇÃO — não chama pra comprar, seguir ou assistir: chama pra ASSUMIR RESPONSABILIDADE e pra uma IDENTIDADE. O que vem antes de tudo é COMPROMISSO. Verdade central: nem todo mundo terá o resultado que diz querer, porque nem todo mundo aceita pagar o preço necessário. A própria linguagem é o filtro — forte, madura, seletiva, responsável; afasta quem quer atalho, chama quem quer construir de verdade. Fala muito 'existe um preço', 'existe uma escolha', 'existe um padrão', 'existe uma responsabilidade'. NUNCA fala 'últimas vagas', 'corre', 'aproveita', 'não perca' — nunca vendedor pidão, nunca escassez falsa. O pacto: ela MERECE o resultado, o Cândido mostra o melhor caminho mas NÃO caminha por ela (a responsabilidade é dela). Sensação: 'eu preciso estar desse lado'. Fecha obrigando a escolher um lado: construir de verdade, ou seguir recomeçando pra sempre.",
+    "Registro CONVOCAÇÃO — não chama pra comprar, seguir ou assistir: chama pra ASSUMIR RESPONSABILIDADE e pra uma IDENTIDADE. O que vem antes de tudo é COMPROMISSO. Verdade central: nem todo mundo terá o resultado que diz querer, porque nem todo mundo aceita pagar o preço necessário. A própria linguagem é o filtro — forte, madura, seletiva, responsável; afasta quem quer atalho, chama quem quer construir de verdade. Fala muito 'existe um preço', 'existe uma escolha', 'existe um padrão', 'existe uma responsabilidade'. NUNCA fala 'últimas vagas', 'corre', 'aproveita', 'não perca' — nunca vendedor pidão, nunca escassez falsa. O pacto: ela MERECE o resultado, a Nathalia mostra o melhor caminho mas NÃO caminha por ela (a responsabilidade é dela). Sensação: 'eu preciso estar desse lado'. Fecha obrigando a escolher um lado: construir de verdade, ou seguir recomeçando pra sempre.",
   darkside:
     "Camada DARKSIDE — sobreposição de postura pra quando o conteúdo precisa de aço, não de açúcar. (1) Confronto antes do conforto: não começa com 'você consegue', começa com 'você está fazendo errado' ou 'ninguém te contou isso'. (2) Verdade inconveniente: expõe uma verdade que a audiência evita encarar ('você consome mais conteúdo do que executa método e progressão'). (3) Autoridade de campo: não fala como professor, psicólogo ou coach — fala como quem já viu centenas ou milhares de casos. (4) Sem emoção açucarada: evita 'estamos aqui por você'; prefere 'o mercado não vai diminuir a régua porque você está cansado'. (5) Clareza brutal: frases curtas, sem floreio, sem academicismo, sem complicação. Sensação que tem que gerar: 'a verdade que eu precisava ouvir'.",
 };
@@ -77,7 +77,7 @@ const REGRA_GLOBAL =
 export function registroBlock(id?: Registro | string | null): string {
   const r = id && id in TOM ? (id as Registro) : null;
   const head = r
-    ? `\n\nREGISTRO / TOM DO POST (sua escolha — o roteiro INTEIRO vive neste tom). Isto define a POSTURA e a SUBSTÂNCIA; a CADÊNCIA continua sendo a dos exemplos de voz do Cândido (não atropele o ritmo dele):\n- ${TOM[r]}`
+    ? `\n\nREGISTRO / TOM DO POST (sua escolha — o roteiro INTEIRO vive neste tom). Isto define a POSTURA e a SUBSTÂNCIA; a CADÊNCIA continua sendo a dos exemplos de voz da Nathalia (não atropele o ritmo dela):\n- ${TOM[r]}`
     : "";
   return `${head}\n\n${REGRA_GLOBAL}`;
 }

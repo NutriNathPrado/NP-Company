@@ -7,12 +7,12 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 const MODEL = process.env.ANTHROPIC_LEARN_MODEL || "claude-sonnet-4-6";
 
-const SYS = `Você analisa stories do Instagram do Cândido Netto (Team Netto / N² Squad, consultoria fitness feminina) para extrair padrões de conteúdo que funcionam ou não.
+const SYS = `Você analisa stories do Instagram da Nathalia Prado (Nath Prado Nutricionista / N² Squad, nutrição esportiva no fitness feminino) para extrair padrões de conteúdo que funcionam ou não.
 
 Você recebe posts de stories com:
 - Conteúdo dos frames (texto, tipo câmera/tela, figurinhas)
-- Se foi salvo como "base" (o Cândido achou bom)
-- Feedback qualitativo escrito pelo Cândido
+- Se foi salvo como "base" (a Nathalia achou bom)
+- Feedback qualitativo escrito pela Nathalia
 - Engajamento observado (livre, ex: "5 DMs", "muita caixinha")
 - Stage (publicado / arquivado = descartado)
 

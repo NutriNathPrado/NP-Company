@@ -1,6 +1,6 @@
-# Netto Company Studio
+# Nath Company Studio
 
-Criador de carrosséis de Instagram na voz e identidade da **Netto Company / N² Squad — Cândido Netto Consultoria Fitness** — consultoria fitness feminina, foco em glúteo.
+Criador de carrosséis de Instagram na voz e identidade da **Nath Company / N² Squad — Nathalia Prado Consultoria Fitness** — consultoria de nutrição esportiva no fitness feminino.
 
 App web (Next.js 16 / React 19) que escreve o roteiro na voz da marca, fatia em cards (1080×1350) e exporta PNGs prontos pra postar. Em volta: pipeline (Quadro + Calendário), cérebro editável (marca, voz, ciência) e um Vault que aprende com as métricas reais.
 

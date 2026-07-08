@@ -1,4 +1,4 @@
-// ETAPA 1 — escreve o ROTEIRO corrido (prosa, voz do Cândido). Modelo forte (Opus). Saída: texto.
+// ETAPA 1 — escreve o ROTEIRO corrido (prosa, voz da Nathalia). Modelo forte (Opus). Saída: texto.
 import Anthropic from "@anthropic-ai/sdk";
 import { ROTEIRO_SYSTEM } from "@/lib/n2squad";
 import { emotionBlock, hookBlock } from "@/lib/frameworks";
@@ -75,7 +75,7 @@ export async function POST(req: Request) {
   } catch (e) { console.error("RAG roteiro", e instanceof Error ? e.message : String(e)); }
 
   const inline = (body.inlineSource || "").trim().slice(0, 14000);
-  const inlineBlock = inline ? `\n\nFONTE PRINCIPAL (embase os números NISTO, na voz do Cândido, sem copiar frases):\n${inline}` : "";
+  const inlineBlock = inline ? `\n\nFONTE PRINCIPAL (embase os números NISTO, na voz da Nathalia, sem copiar frases):\n${inline}` : "";
 
   // exemplos-ouro da voz (alvo de imitação de cadência) + estruturas-ouro (arco)
   const { getGold, getGoldStructures, getAudience, getEdge, recentFreshLabels, addFreshness, getBrainModel, getLearnings, getRejects, sourcesBackground } = await import("@/lib/store");
@@ -87,9 +87,9 @@ export async function POST(req: Request) {
   let brandBlock = "", learnBlock = "", historiaBlock = "";
   try {
     const [model, learn] = await Promise.all([getBrainModel(), getLearnings()]);
-    brandBlock = `\n\nESPINHA DA MARCA (ancore o conteúdo NISTO — é a verdade da marca (Team Netto · N² Squad); isto NÃO muda COMO você escreve, só no QUE você acredita e contra o que aponta):\nGRANDE TESE: ${model.grandeTese}\nINIMIGO (o conteúdo combate isto): ${model.inimigo}`;
-    if (learn?.summary) learnBlock = `\n\nAPRENDIZADO DOS DADOS REAIS DO CÂNDIDO (${learn.n} posts medidos — o que de fato performa pra ESTE público; use pra acertar mais, sem mudar a voz):\n${learn.summary}`;
-    if (model.historia?.trim()) historiaBlock = `\n\nA HISTÓRIA REAL DO CÂNDIDO (a vida dele, em primeira pessoa). Use QUANDO o conteúdo pedir HISTÓRIA / for sobre MARCA PESSOAL / a abertura partir da vivência dele — pra ancorar em momentos e cicatrizes REAIS, NUNCA inventar biografia nem colar uma frase pronta. NÃO force isto num post puramente técnico. Os pontos sensíveis se tocam com VERDADE e cuidado no peso, nunca como espetáculo nem como troféu:\n${model.historia.trim()}`;
+    brandBlock = `\n\nESPINHA DA MARCA (ancore o conteúdo NISTO — é a verdade da marca (Nath Prado Nutricionista · N² Squad); isto NÃO muda COMO você escreve, só no QUE você acredita e contra o que aponta):\nGRANDE TESE: ${model.grandeTese}\nINIMIGO (o conteúdo combate isto): ${model.inimigo}`;
+    if (learn?.summary) learnBlock = `\n\nAPRENDIZADO DOS DADOS REAIS DA NATHALIA (${learn.n} posts medidos — o que de fato performa pra ESTE público; use pra acertar mais, sem mudar a voz):\n${learn.summary}`;
+    if (model.historia?.trim()) historiaBlock = `\n\nA HISTÓRIA REAL DA NATHALIA (a vida dela, em primeira pessoa). Use QUANDO o conteúdo pedir HISTÓRIA / for sobre MARCA PESSOAL / a abertura partir da vivência dela — pra ancorar em momentos e cicatrizes REAIS, NUNCA inventar biografia nem colar uma frase pronta. NÃO force isto num post puramente técnico. Os pontos sensíveis se tocam com VERDADE e cuidado no peso, nunca como espetáculo nem como troféu:\n${model.historia.trim()}`;
   } catch (e) { console.error("brand/learn roteiro", e instanceof Error ? e.message : String(e)); }
   // CONHECIMENTO DE FUNDO da biblioteca de Fontes (PDFs/artigos/URLs) — embasa sem citar (invisível).
   let sourcesBlock = "";
@@ -108,12 +108,12 @@ export async function POST(req: Request) {
   // até 3 do MESMO registro (garante a cadência certa) + completa até 5 com outros
   const pickedGold = [...pickRandom(goldMatch, 3), ...pickRandom(goldOther, 5)].slice(0, 5);
   const goldBlock = pickedGold.length
-    ? `\n\nA VOZ DO CÂNDIDO — EXEMPLOS REAIS DE COMO ELE ESCREVE (imite a CADÊNCIA, o ritmo, as quebras, o jeito de fechar; NÃO copie tema/frases, é o TOM)${goldMatch.length ? " — priorizei exemplos do MESMO tom" : ""}:\n${pickedGold.map((g, i) => `### exemplo ${i + 1}\n${g.text}`).join("\n\n")}`
+    ? `\n\nA VOZ DA NATHALIA — EXEMPLOS REAIS DE COMO ELA ESCREVE (imite a CADÊNCIA, o ritmo, as quebras, o jeito de fechar; NÃO copie tema/frases, é o TOM)${goldMatch.length ? " — priorizei exemplos do MESMO tom" : ""}:\n${pickedGold.map((g, i) => `### exemplo ${i + 1}\n${g.text}`).join("\n\n")}`
     : "";
-  // ANTI-OURO — roteiros que o Cândido REJEITOU: o Escritor aprende o que NÃO fazer (não muda COMO escreve, ancora contra)
+  // ANTI-OURO — roteiros que a Nathalia REJEITOU: o Escritor aprende o que NÃO fazer (não muda COMO escreve, ancora contra)
   const voiceRejects = await getRejects("voice");
   const rejectBlock = voiceRejects.length
-    ? `\n\nROTEIROS/ABERTURAS QUE O CÂNDIDO REJEITOU (NÃO escreva assim — ele NÃO curtiu esse tom, ângulo ou jeito; fuja desse padrão):\n${voiceRejects.slice(0, 8).map((r) => `✗ ${r.text}`).join("\n")}`
+    ? `\n\nROTEIROS/ABERTURAS QUE A NATHALIA REJEITOU (NÃO escreva assim — ele NÃO curtiu esse tom, ângulo ou jeito; fuja desse padrão):\n${voiceRejects.slice(0, 8).map((r) => `✗ ${r.text}`).join("\n")}`
     : "";
   // ESTRUTURA-OURO RELEVANTE: prefere a do mesmo registro
   const gstructs = await getGoldStructures();
@@ -123,7 +123,7 @@ export async function POST(req: Request) {
     ? `\n\nESTRUTURA QUE FUNCIONOU (validada por métrica — use como MOLDE do ARCO, adapte ao tema, não copie):\n${pickedStructs.map((s) => s.outline).join("\n")}`
     : "";
 
-  const userMsg = `${GENERATION_RULES}${reguaBlock}${brandBlock}${historiaBlock}${learnBlock}${regBlock}${funilBlock}${freshBlock}${hkBlock}${emoBlock}${chosenBlock}${corrBlock}${structBlock}${booksBlock}${sourcesBlock}${inlineBlock}${goldBlock}${rejectBlock}\n\nCONTEÚDO BRUTO PRA VIRAR ROTEIRO:\n${content}\n\nEscreva o roteiro corrido, na voz do Cândido. Só o texto.`;
+  const userMsg = `${GENERATION_RULES}${reguaBlock}${brandBlock}${historiaBlock}${learnBlock}${regBlock}${funilBlock}${freshBlock}${hkBlock}${emoBlock}${chosenBlock}${corrBlock}${structBlock}${booksBlock}${sourcesBlock}${inlineBlock}${goldBlock}${rejectBlock}\n\nCONTEÚDO BRUTO PRA VIRAR ROTEIRO:\n${content}\n\nEscreva o roteiro corrido, na voz da Nathalia. Só o texto.`;
 
   try {
     // ESCREVE o rascunho (pensa o arco antes; o texto de pensamento não entra no roteiro).
@@ -146,7 +146,7 @@ export async function POST(req: Request) {
       try {
         const cl = await anthropic.messages.create({
           model: CLEAN_MODEL, max_tokens: 2600,
-          messages: [{ role: "user", content: `Este é um roteiro do Cândido Netto (Team Netto · N² Squad, voz calma, linear, introspectiva e breve; palavrão só se carregar emoção real, nunca gratuito). Um detector apontou estes possíveis "tells de IA" (vícios de robô): ${tells.join(" | ")}.\n\nConserte SOMENTE esses pontos. REGRAS DURAS:\n- Mude o MÍNIMO possível. Mantenha TODAS as outras palavras, a cadência, as quebras de linha, a pontuação.\n- NÃO reescreva, NÃO "melhore", NÃO suavize, NÃO acrescente ideia nova, NÃO resuma.\n- Se um "tell" na verdade for proposital e bom na voz dele (ex: uma repetição de força, "seu corpo responde a estímulo"), deixe quieto.\n- Tira muleta de IA: "não é X, é Y" virado clichê, travessão demais, exclamação fácil, frase motivacional açucarada ("você consegue"), jargão técnico cru, transição genérica, trocadilho esperto e determinismo confortável. Troca pela forma direta que o Cândido usaria.\n\nDevolva SÓ o texto do roteiro corrigido, nada mais.\n\nROTEIRO:\n${roteiro}` }],
+          messages: [{ role: "user", content: `Este é um roteiro da Nathalia Prado (Nath Prado Nutricionista · N² Squad, voz calma, linear, introspectiva e breve; palavrão só se carregar emoção real, nunca gratuito). Um detector apontou estes possíveis "tells de IA" (vícios de robô): ${tells.join(" | ")}.\n\nConserte SOMENTE esses pontos. REGRAS DURAS:\n- Mude o MÍNIMO possível. Mantenha TODAS as outras palavras, a cadência, as quebras de linha, a pontuação.\n- NÃO reescreva, NÃO "melhore", NÃO suavize, NÃO acrescente ideia nova, NÃO resuma.\n- Se um "tell" na verdade for proposital e bom na voz dela (ex: uma repetição de força, "seu corpo responde a estímulo"), deixe quieto.\n- Tira muleta de IA: "não é X, é Y" virado clichê, travessão demais, exclamação fácil, frase motivacional açucarada ("você consegue"), jargão técnico cru, transição genérica, trocadilho esperto e determinismo confortável. Troca pela forma direta que a Nathalia usaria.\n\nDevolva SÓ o texto do roteiro corrigido, nada mais.\n\nROTEIRO:\n${roteiro}` }],
         });
         const cand = textOf(cl).trim();
         const candTells = detectTells(cand);
@@ -156,7 +156,7 @@ export async function POST(req: Request) {
       } catch (e) { console.error("auto-clean", e instanceof Error ? e.message : String(e)); }
     }
 
-    // ===== JUIZ DE VOZ (Tier 3) — nota 0-100 de "quão Cândido é", comparando com os exemplos-ouro.
+    // ===== JUIZ DE VOZ (Tier 3) — nota 0-100 de "quãa Nathalia é", comparando com os exemplos-ouro.
     // Se baixo, regenera UMA vez com a crítica e fica com o melhor dos dois. Se o juiz falhar, não bloqueia.
     let voiceScore: number | null = null;
     let voiceIssues: string[] = [];
@@ -164,10 +164,10 @@ export async function POST(req: Request) {
     async function judgeVoice(text: string): Promise<{ score: number; issues: string[] }> {
       const refs = pickedGold.length
         ? pickedGold.map((g, i) => `### exemplo ${i + 1}\n${g.text}`).join("\n\n")
-        : "(sem exemplos-ouro ainda — julgue pela régua de voz do Cândido: calmo, breve, hesita na reflexão, detalhe mundano, fecha na verdade incômoda, zero cara de IA/coachismo)";
+        : "(sem exemplos-ouro ainda — julgue pela régua de voz da Nathalia: calmo, breve, hesita na reflexão, detalhe mundano, fecha na verdade incômoda, zero cara de IA/coachismo)";
       const jr = await anthropic.messages.create({
         model: JUDGE_MODEL, max_tokens: 500,
-        messages: [{ role: "user", content: `Você é o juiz de voz do Cândido Netto (Team Netto · N² Squad). Compare o ROTEIRO com os EXEMPLOS REAIS da escrita dele e dê uma nota 0-100 de "quão Cândido isso soa": cadência, brevidade, hesitação na reflexão (não no fato técnico), detalhe concreto/mundano, fecho na verdade incômoda, e ZERO cara de IA / coachismo / motivação açucarada. Seja rigoroso — 100 é "parece escrito por ele". Responda APENAS JSON {"score": <int 0-100>, "issues": ["o que mais destoa da voz dele, bem curto", ...]} (até 4 issues; [] se estiver ótimo).\n\nEXEMPLOS REAIS DA VOZ DELE:\n${refs}\n\nROTEIRO A JULGAR:\n${text}` }],
+        messages: [{ role: "user", content: `Você é o juiz de voz da Nathalia Prado (Nath Prado Nutricionista · N² Squad). Compare o ROTEIRO com os EXEMPLOS REAIS da escrita dela e dê uma nota 0-100 de "quão a Nathalia isso soa": cadência, brevidade, hesitação na reflexão (não no fato técnico), detalhe concreto/mundano, fecho na verdade incômoda, e ZERO cara de IA / coachismo / motivação açucarada. Seja rigoroso — 100 é "parece escrito por ela". Responda APENAS JSON {"score": <int 0-100>, "issues": ["o que mais destoa da voz dela, bem curto", ...]} (até 4 issues; [] se estiver ótimo).\n\nEXEMPLOS REAIS DA VOZ DELA:\n${refs}\n\nROTEIRO A JULGAR:\n${text}` }],
       });
       try {
         const j = JSON.parse(extractJson(textOf(jr))) as { score?: number; issues?: string[] };
@@ -178,7 +178,7 @@ export async function POST(req: Request) {
       const v1 = await judgeVoice(roteiro);
       voiceScore = v1.score; voiceIssues = v1.issues;
       if (v1.score < VOICE_MIN) {
-        const fb = `\n\nA TENTATIVA ANTERIOR NÃO SOOU SUFICIENTEMENTE COMO O CÂNDIDO (nota ${v1.score}/100). Reescreva o roteiro inteiro mais na cadência REAL dele (mais breve, mais hesitação na reflexão, detalhe mundano, fecho na verdade incômoda, ZERO cara de IA/coachismo), corrigindo: ${v1.issues.join(" | ") || "soou redondo/genérico demais"}. NÃO perca a substância nem o gancho escolhido.`;
+        const fb = `\n\nA TENTATIVA ANTERIOR NÃO SOOU SUFICIENTEMENTE COMO A NATHALIA (nota ${v1.score}/100). Reescreva o roteiro inteiro mais na cadência REAL dela (mais breve, mais hesitação na reflexão, detalhe mundano, fecho na verdade incômoda, ZERO cara de IA/coachismo), corrigindo: ${v1.issues.join(" | ") || "soou redondo/genérico demais"}. NÃO perca a substância nem o gancho escolhido.`;
         const gen2 = await anthropic.messages.create({
           model: WRITE_MODEL, max_tokens: 6000, thinking: { type: "adaptive" as const },
           system: [{ type: "text", text: ROTEIRO_SYSTEM, cache_control: { type: "ephemeral" } }],

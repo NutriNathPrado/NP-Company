@@ -1,6 +1,6 @@
 // ARSENAL DE STORIES — 62 scripts do curso, organizados por categoria.
 // Cada script é um TEMPLATE com estrutura story-a-story + exemplos.
-// A IA usa como esqueleto narrativo e reescreve 100% na voz do Cândido.
+// A IA usa como esqueleto narrativo e reescreve 100% na voz da Nathalia.
 
 export type ArsenalCategoria =
   | "educacao" | "autoridade" | "venda" | "quebra_objecao" | "conexao"
@@ -350,7 +350,7 @@ Curiosidade 01 + imagem
 
 *Curiosidade 01 + imagem*
 
-*Antes de ser personal trainer, eu era…*
+*Antes de ser nutricionista esportiva, eu era…*
 
 Sugestões:
 
@@ -533,7 +533,7 @@ Eu te garanto que ao começar a fazer isso você vai ver muita diferença.`,
 
  **Story 01**
 
-Use uma frase relacionada ao que seu produto gera e use como composição uma foto que você ainda não tenha usado para falar dele. A ideia é gerar um senso de mudança, novidade com a imagem diferente.
+Use uma frase relacionada ao que seu produto gera e use como composição uma foto que você ainda não tenha usado para falar dela. A ideia é gerar um senso de mudança, novidade com a imagem diferente.
 
 ***Exemplo***
 
@@ -547,7 +547,7 @@ Use uma frase relacionada ao que seu produto gera e use como composição uma fo
 
 Quadrante de fotos com o produto ou vídeo rápido mostrando um pouco de como é a experiência que você gera.
 
-Você pode tirar fotos de detalhes do seu produto, usando uma ferramenta, algo dele impresso. O ponto chave é: capriche nas fotos para gerar percepção de valor sobre o seu produto.
+Você pode tirar fotos de detalhes do seu produto, usando uma ferramenta, algo dela impresso. O ponto chave é: capriche nas fotos para gerar percepção de valor sobre o seu produto.
 
 ***Exemplo*** 
 
@@ -561,7 +561,7 @@ Você pode tirar fotos de detalhes do seu produto, usando uma ferramenta, algo d
     dia: 9,
     nome: "O bom dia que eu recebi",
     categoria: "story_unico",
-    roteiro: `Este é um **story único** para você complementar com outras **sequências estratégicas**, a ideia dele é **gerar valor** para o que você vende de uma forma mais contextualizada e menos invasiva. Você vai usar um **print de um elogio que você recebeu + um vídeo da sua rotina matinal**.
+    roteiro: `Este é um **story único** para você complementar com outras **sequências estratégicas**, a ideia dela é **gerar valor** para o que você vende de uma forma mais contextualizada e menos invasiva. Você vai usar um **print de um elogio que você recebeu + um vídeo da sua rotina matinal**.
 
 **Story único**
 
@@ -935,7 +935,7 @@ Esse tipo de conteúdo cria conexão com a audiência e gera engajamento, pois m
 
 **Exemplo 2:**
 
-*Selfie com o pet ou vídeo dele fazendo algo fofo/divertido*
+*Selfie com o pet ou vídeo dela fazendo algo fofo/divertido*
 
 *Quem aí também tem um pet que não desgruda?*
 
@@ -2037,7 +2037,7 @@ mas na verdade…
 
 ***Exemplo***
 
-*Quando as pessoas acham que você **é só uma personal trainer de Instagram**, mas na verdade…*
+*Quando as pessoas acham que você **é só uma nutricionista esportiva de Instagram**, mas na verdade…*
 
 Sugestões:
 
@@ -2063,7 +2063,7 @@ Eu não [descrição / caracterização limitada ou preconceito em relação ao 
 
 E você também não precisa ser/fazer para [desejo principal da audiência].
 
-*Eu não **sou só uma personal trainer de Instagram**.E você também não precisa **seguir dietas restritivas ou treinos sem fim para ver resultados.***
+*Eu não **sou só uma nutricionista esportiva de Instagram**.E você também não precisa **seguir dietas restritivas ou treinos sem fim para ver resultados.***
 
 Sugestões:
 

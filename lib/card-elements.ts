@@ -77,14 +77,14 @@ export function cardElementDefs(cardOrLayout: Card | Layout): CardElementDef[] {
     defs.push({ id: "l5Logo", label: "Logo da capa", kind: "logo", x: 0.052, y: 0.04, w: 118, movable: true, sizable: true });
   }
   if (layout === "l5-galeria") {
-    defs.push({ id: "galleryBrand", label: "Rodapé da galeria", kind: "text", x: 0.5, y: 0.944, size: 24, color: "#14213d", text: "CÂNDIDO NETTO\n· N² SQUAD", movable: true, sizable: true, editable: true, colorable: true });
+    defs.push({ id: "galleryBrand", label: "Rodapé da galeria", kind: "text", x: 0.5, y: 0.944, size: 24, color: "#14213d", text: "NATH PRADO\n· N² SQUAD", movable: true, sizable: true, editable: true, colorable: true });
   }
 
   if (layout.startsWith("l6-")) {
     defs.push({ id: "l6Decor", label: "Moldura / vinheta", kind: "decor", x: 0, y: 0, w: 1080, h: 1350, color: RED, movable: false, sizable: false, colorable: true });
   }
   if (layout === "l6-capa" || layout === "l6-fecho" || layout === "l6-manifesto") {
-    defs.push({ id: "brandFooter", label: "Assinatura do rodapé", kind: "text", x: 0.5, y: 0.92, size: 28, color: "#f5f5f5", text: "CÂNDIDO NETTO\nCONSULTORIA FITNESS · N² SQUAD", movable: true, sizable: true, editable: true, colorable: true });
+    defs.push({ id: "brandFooter", label: "Assinatura do rodapé", kind: "text", x: 0.5, y: 0.92, size: 28, color: "#f5f5f5", text: "NATH PRADO\nNUTRICIONISTA ESPORTIVA · N² SQUAD", movable: true, sizable: true, editable: true, colorable: true });
   }
 
   if (l7ChromeLayouts.includes(layout)) {

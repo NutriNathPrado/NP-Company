@@ -638,7 +638,7 @@ publico da marca
 aresta da marca
 grande tese
 inimigo
-historia real do Candido, quando fizer sentido
+historia real da Nathalia, quando fizer sentido
 aprendizados dos dados reais
 conhecimento de fundo da biblioteca de fontes
 livros indexados, quando houver embeddings
@@ -705,7 +705,7 @@ Estas regras valem para gancho, roteiro, cards e legenda.
 VOZ
 
 - Tom: calmo, linear, introspectivo e breve
-- Fala um a um: "tu", "voce", "meu querido"
+- Fala um a um: "tu", "voce", "minha querida"
 - Soa como quem pensa em voz alta, nao como quem performa
 - Na reflexao, pode hesitar e subestimar: "eu acho que", "nao sei se", "talvez", "meio que"
 - No dado tecnico, fala com autoridade. A hesitacao fica na reflexao, nunca no fato
@@ -880,7 +880,7 @@ Usa:
 - aresta da marca
 - Grande Tese
 - Inimigo
-- historia real do Pedro/Candido quando fizer sentido
+- historia real do Pedro/Nathalia quando fizer sentido
 - aprendizados das metricas
 - exemplos "minha voz"
 - roteiros rejeitados

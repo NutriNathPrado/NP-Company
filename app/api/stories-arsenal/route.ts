@@ -1,5 +1,5 @@
 // Gera uma sequência de stories baseada em um script do Arsenal (curso).
-// O script é o ESQUELETO narrativo; a IA reescreve 100% na voz do Cândido.
+// O script é o ESQUELETO narrativo; a IA reescreve 100% na voz da Nathalia.
 import Anthropic from "@anthropic-ai/sdk";
 import { STORIES_SYSTEM } from "@/lib/stories";
 import { GENERATION_RULES } from "@/lib/generation-rules";
@@ -79,19 +79,19 @@ export async function POST(req: Request) {
   const catInfo = ARSENAL_CATEGORIAS[categoria];
   const contexto = (body.contexto || "").trim();
 
-  // Cérebro do Cândido
+  // Cérebro da Nathalia
   const { getAudience, getEdge, getBrainModel, getGold, getRejects, getStoriesStyle, getStoryLearnings } = await import("@/lib/store");
   const [aud, edg, model, gold, rejects, estilo, storyLearnings] = await Promise.all([
     getAudience(), getEdge(), getBrainModel(), getGold(), getRejects("voice"), getStoriesStyle(), getStoryLearnings()
   ]);
   const reguaBlock = `\n\nRÉGUA DA MARCA:\nPÚBLICO: ${aud}\nARESTA/CARA: ${edg}`;
   const histBlock = model.historia?.trim()
-    ? `\n\nVIDA REAL DO CÂNDIDO (use SÓ quando couber: Nath, Chico, Simba, N2 Squad, Darkside; NUNCA invente):\n${model.historia.trim().slice(0, 2000)}`
+    ? `\n\nVIDA REAL DA NATHALIA (use SÓ quando couber algo pessoal/bastidor; NUNCA invente):\n${model.historia.trim().slice(0, 2000)}`
     : "";
-  const goldBlock = gold.length ? `\n\nA VOZ DO CÂNDIDO (imite a cadência, NÃO copie):\n${pickRandom(gold, 2).map(g => g.text).join("\n---\n")}` : "";
+  const goldBlock = gold.length ? `\n\nA VOZ DA NATHALIA (imite a cadência, NÃO copie):\n${pickRandom(gold, 2).map(g => g.text).join("\n---\n")}` : "";
   const rejectBlock = rejects.length ? `\n\nFOGE DESSE PADRÃO (anti-ouro):\n${rejects.slice(0, 4).map(r => `✗ ${r.text}`).join("\n")}` : "";
   const estiloBlock = estilo ? `\n\nESTILO DOS STORIES (priorize):\n${estilo}` : "";
-  const learnBlock = storyLearnings?.summary ? `\n\nO QUE FUNCIONA NOS STORIES DO CÂNDIDO (aprendido dos posts reais — aplique):\n${storyLearnings.summary.slice(0, 1000)}` : "";
+  const learnBlock = storyLearnings?.summary ? `\n\nO QUE FUNCIONA NOS STORIES DA NATHALIA (aprendido dos posts reais — aplique):\n${storyLearnings.summary.slice(0, 1000)}` : "";
   const ctxBlock = contexto ? `\n\nCONTEXTO DO MOMENTO (encaixe no roteiro se fizer sentido):\n${contexto}` : "";
 
   const userMsg = `${GENERATION_RULES}${reguaBlock}${histBlock}${estiloBlock}${learnBlock}${goldBlock}${rejectBlock}${ctxBlock}
@@ -106,12 +106,12 @@ ${script.roteiro}
 ═══════════════════════════════════════════
 COMO USAR ESTE SCRIPT:
 • O script acima é um ESQUELETO narrativo com lacunas [assim] e exemplos genéricos.
-• Sua tarefa: preencher o esqueleto 100% com o universo do Cândido — treino feminino, glúteo, progressão de carga, consultoria N2 Squad, alunas reais, a Nath, o método dele.
+• Sua tarefa: preencher o esqueleto 100% com o universo da Nathalia — treino feminino, glúteo, progressão de carga, consultoria N2 Squad, alunas reais, a Nath, o método dela.
 • A ESTRUTURA story-a-story do script deve ser respeitada (mesma ordem, mesma progressão narrativa, mesmas figurinhas/enquetes onde indicadas).
-• A VOZ é do Cândido: "a real é que", "entendam isso", frases curtas, zero coach genérico. Os exemplos do script são de OUTRA pessoa — NÃO copie o texto deles, use só como referência de estrutura.
-• Onde o script pede imagem/vídeo, descreva no campo "mostrar" o que o Cândido deve mostrar/gravar (algo da rotina real dele).
+• A VOZ é da Nathalia: "a real é que", "entendam isso", frases curtas, zero coach genérico. Os exemplos do script são de OUTRA pessoa — NÃO copie o texto deles, use só como referência de estrutura.
+• Onde o script pede imagem/vídeo, descreva no campo "mostrar" o que a Nathalia deve mostrar/gravar (algo da rotina real dela).
 • Onde o script pede enquete/caixinha/reação, use o campo "figurinha".
-• Se o script menciona Manychat/código no direct, adapte para o padrão do Cândido: reação no story ou "me chama no direct".
+• Se o script menciona Manychat/código no direct, adapte para o padrão da Nathalia: reação no story ou "me chama no direct".
 ═══════════════════════════════════════════
 
 TAREFA: crie EXATAMENTE 1 sequência de stories seguindo o script acima.
@@ -142,7 +142,7 @@ Devolve APENAS este JSON válido:
       const blob = (cand.opcoes || []).flatMap(o => o.frames || []).map(f => `${f.texto || ""}\n${f.mostrar || ""}`).join("\n");
       const tells = detectTells(blob);
       if (tells.length && attempt < 2) {
-        retryNote = `\n\nATENÇÃO: o texto tinha cara de IA (${tells.slice(0, 3).join(" | ")}). Refaz mais humano, mais Cândido, sem travessão e sem clichê de coach.`;
+        retryNote = `\n\nATENÇÃO: o texto tinha cara de IA (${tells.slice(0, 3).join(" | ")}). Refaz mais humano, mais Nathalia, sem travessão e sem clichê de coach.`;
         continue;
       }
       parsed = { opcoes: (cand.opcoes || []).map(o => cleanSeq(o as Sequencia)) };

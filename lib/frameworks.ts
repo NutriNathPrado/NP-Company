@@ -15,7 +15,7 @@ export const EMOTIONS: Framework[] = [
     id: "polarizacao",
     name: "Polarização",
     short: "posiciona num extremo, cria tribo",
-    prompt: "POLARIZAÇÃO — escolha um lado e ABANDONE o meio-termo. Crie um 'nós contra eles'. Tem que ser uma colina que vale defender e que é de verdade a posição do Cândido Netto (Team Netto · N² Squad): método e constância contra atalho e milagre. Aliena o morno de propósito: quem concorda vira tribo, quem discorda engaja. Sem cima do muro.",
+    prompt: "POLARIZAÇÃO — escolha um lado e ABANDONE o meio-termo. Crie um 'nós contra eles'. Tem que ser uma colina que vale defender e que é de verdade a posição da Nathalia Prado (Nath Prado Nutricionista · N² Squad): método e constância contra atalho e milagre. Aliena o morno de propósito: quem concorda vira tribo, quem discorda engaja. Sem cima do muro.",
   },
   {
     id: "vies",

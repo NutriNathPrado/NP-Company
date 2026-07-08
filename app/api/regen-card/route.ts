@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   const gold = await getGold();
   const pickedGold = pickRandom(gold, 2);
   const goldBlock = pickedGold.length
-    ? `\n\nA VOZ DO CÂNDIDO — COMO ELE ESCREVE (imite a CADÊNCIA: frases curtas e quebradas, perguntas que cutucam, palavrão só quando carrega emoção real, fecho na verdade incômoda). NÃO copie o tema nem a estrutura — só o jeito de escrever:\n${pickedGold.map((g, i) => `### exemplo ${i + 1}\n${g.text}`).join("\n\n")}`
+    ? `\n\nA VOZ DA NATHALIA — COMO ELA ESCREVE (imite a CADÊNCIA: frases curtas e quebradas, perguntas que cutucam, palavrão só quando carrega emoção real, fecho na verdade incômoda). NÃO copie o tema nem a estrutura — só o jeito de escrever:\n${pickedGold.map((g, i) => `### exemplo ${i + 1}\n${g.text}`).join("\n\n")}`
     : "";
 
   const userMsg = `Tom: ${body.tom || "técnico"}.
@@ -42,9 +42,9 @@ SENTIMENTOS (imageSentiment): ${menu}
 Carrossel atual (resumo de cada card):
 ${JSON.stringify(ctx)}
 
-Reescreva APENAS o card de índice ${index}, mantendo coerência com os outros, a voz e o design do Cândido Netto (Team Netto · N² Squad).${body.instruction ? " INSTRUÇÃO: " + body.instruction : ""}${learnBlock}${goldBlock}
+Reescreva APENAS o card de índice ${index}, mantendo coerência com os outros, a voz e o design da Nathalia Prado (Nath Prado Nutricionista · N² Squad).${body.instruction ? " INSTRUÇÃO: " + body.instruction : ""}${learnBlock}${goldBlock}
 
-POUCO TEXTO (regra dura): headline até 8 palavras · body até 22 palavras · bullets no máximo 4 de até 6 palavras · card inteiro no máximo 40 palavras. O Cândido odeia card lotado.
+POUCO TEXTO (regra dura): headline até 8 palavras · body até 22 palavras · bullets no máximo 4 de até 6 palavras · card inteiro no máximo 40 palavras. A Nathalia odeia card lotado.
 
 Devolva SÓ um objeto JSON de UM card (sem array, sem "tema", sem markdown):
 {"layout": string, "kicker"?: string, "headline"?: string, "body"?: string, "bullets"?: string[], "stats"?: [{"value":string,"label":string}], "source"?: string, "signoff"?: string, "imageSentiment"?: string, "focalX"?: number, "focalY"?: number}`;

@@ -1,4 +1,4 @@
-// NOTA DE DESEMPENHO — composto equilibrado (escolha do Cândido).
+// NOTA DE DESEMPENHO — composto equilibrado (escolha da Nathalia).
 // Junta QUALIDADE (salvar/compartilhar/comentar) + CRESCIMENTO (perfil/seguidor) + NEGÓCIO (DM/venda),
 // TUDO relativo ao alcance. Cada métrica é normalizada pelo melhor post (0..1) e somada pelos pesos.
 // Curtida fica DE FORA de propósito (sinal fraco/vaidade). A nota é RELATIVA aos teus próprios posts.

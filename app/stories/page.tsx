@@ -825,7 +825,7 @@ export default function StoriesPage() {
                 { key: "tarde" as PeriodoKey, emoji: "☀️", label: "TARDE", hint: "consultoria 2ª parte, treino da Nath",
                   temas: tardeTemas, setTemas: setTardeTemas,
                   phs: ["ex: vou treinar a Nath", "ex: chegou feedback incrível de aluna", "ex: quero explicar progressão de carga"] },
-                { key: "noite" as PeriodoKey, emoji: "🌙", label: "NOITE", hint: "fechamento, Nath, programação hobby",
+                { key: "noite" as PeriodoKey, emoji: "🌙", label: "NOITE", hint: "fechamento, momento pessoal",
                   temas: noiteTemas, setTemas: setNoiteTemas,
                   phs: ["ex: programei material novo hoje", "ex: quero fechar o dia com CTA leve", "ex: algo da consultoria que quero comentar"] },
               ] as const).map(({ key, emoji, label, hint, temas, setTemas, phs }) => {

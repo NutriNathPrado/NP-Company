@@ -29,14 +29,14 @@ function clampCards(n?: number) {
   return Math.min(12, Math.max(3, x));
 }
 
-// O Cândido odeia card lotado de texto — orçamento duro anexado a TODO layout.
+// A Nathalia odeia card lotado de texto — orçamento duro anexado a TODO layout.
 const BREVIDADE = `
 
 ## POUCO TEXTO POR CARD (REGRA MAIS IMPORTANTE DE TODAS)
-O Cândido NÃO GOSTA de card com muito texto. Card lotado = FALHOU, mesmo que o conteúdo seja bom.
+A Nathalia NÃO GOSTA de card com muito texto. Card lotado = FALHOU, mesmo que o conteúdo seja bom.
 - ORÇAMENTO DURO por card: headline até 8 palavras · body até 22 palavras (2 a 3 linhas curtas) · bullets no máximo 4, cada um até 6 palavras.
 - PROIBIDO card com mais de 40 palavras somando headline + body + bullets.
-- Se o trecho do roteiro estoura o orçamento: corte a gordura (conectivos, repetições, exemplo redundante) mantendo VERBATIM as frases do Cândido que ficarem — ou distribua em mais um card.
+- Se o trecho do roteiro estoura o orçamento: corte a gordura (conectivos, repetições, exemplo redundante) mantendo VERBATIM as frases da Nathalia que ficarem — ou distribua em mais um card.
 - Um card com UMA frase forte vale mais que um card com cinco frases médias. Respiro visual > completude.
 - Na dúvida entre caber tudo ou cortar: CORTE. O carrossel ensina UMA ideia por card, não despeja o roteiro inteiro.
 
@@ -125,28 +125,28 @@ export async function POST(req: Request) {
     ? `\n\nRITMOS DE DIAGRAMAÇÃO QUE VOCÊ APROVOU (siga ESTE tipo de variedade e ritmo de layout — capa que soca, verdade curta em quote, dado em data; NUNCA repita o mesmo layout em sequência). NÃO copie o tema, copie o RITMO:\n${slices.slice(0, 4).map((s) => `• ${s.pattern}`).join("\n")}`
     : "";
   const captionBlock = body.caption
-    ? `\n\nINCLUA também no JSON um campo "legenda" (string): a legenda do post pro Instagram na voz do Cândido — a partir do roteiro, gancho na 1ª linha, 2-4 linhas, CTA e no máximo 5 hashtags. Escolha as hashtags com maior chance de engajamento para público feminino fitness, treino, glúteo, evolução e consultoria.`
+    ? `\n\nINCLUA também no JSON um campo "legenda" (string): a legenda do post pro Instagram na voz da Nathalia — a partir do roteiro, gancho na 1ª linha, 2-4 linhas, CTA e no máximo 5 hashtags. Escolha as hashtags com maior chance de engajamento para público feminino fitness, treino, glúteo, evolução e consultoria.`
     : "";
 
   const userMsg = isL2
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; escolha imageSentiment e marque os destaques (**rosa** e ==caixa==).${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; escolha imageSentiment e marque os destaques (**rosa** e ==caixa==).${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
     : isL3
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; distribua a história com narrativa premium e marque o destaque em **rosa** com parcimônia.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; distribua a história com narrativa premium e marque o destaque em **rosa** com parcimônia.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
     : isL4
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; escolha imageSentiment e marque o destaque (**rosa**/==caixa==).${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; escolha imageSentiment e marque o destaque (**rosa**/==caixa==).${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
     : isL5
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; use poucas palavras por slide e muito respiro.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; use poucas palavras por slide e muito respiro.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
     : isL6
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; títulos grandes, storytelling e contraste alto.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; títulos grandes, storytelling e contraste alto.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
     : isL7
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; use bullets quando ajudar e ciência como clareza, não jargão.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; use bullets quando ajudar e ciência como clareza, não jargão.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
     : isL8
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; pouquíssimo texto, fotos fortes e números quando couber.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; pouquíssimo texto, fotos fortes e números quando couber.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
     : isL9
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; hierarquia extrema e muito respiro.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; hierarquia extrema e muito respiro.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
     : isL10
-    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; elegância, 70% espaço vazio e CTA limpo.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
-    : `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras do Cândido; só distribua, formate, escolha layout/imagem e marque o destaque em rosa.${intentBlock}${sliceBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`;
+    ? `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; elegância, 70% espaço vazio e CTA limpo.${intentBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`
+    : `${GENERATION_RULES}\n\n${styleGuide.text}\nPRESERVE as palavras da Nathalia; só distribua, formate, escolha layout/imagem e marque o destaque em rosa.${intentBlock}${sliceBlock}${libBlock}${captionBlock}\n\nROTEIRO APROVADO:\n${roteiro}`;
 
   // tenta extrair + reparar + parsear o JSON; retorna null se falhar
   function tryParse(text: string): (Carousel & { legenda?: string }) | null {

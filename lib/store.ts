@@ -49,7 +49,7 @@ export interface Learnings {
   updatedAt: string;
   n: number;        // nº de posts com métricas analisados
   summary: string;  // regras/padrões acionáveis
-  ackAt?: string;   // quando o Cândido revisou/integrou este aprendizado (recolhe o painel)
+  ackAt?: string;   // quando a Nathalia revisou/integrou este aprendizado (recolhe o painel)
 }
 
 export async function getLearnings(): Promise<Learnings | null> {
@@ -61,7 +61,7 @@ export async function setLearnings(l: Learnings): Promise<void> {
   const { error } = await sb.from("kv").upsert({ key: "learnings", value: l });
   if (error) console.error("setLearnings", error.message);
 }
-// Cândido revisou e integrou o aprendizado atual → marca QUAL aprendizado (pelo updatedAt) foi integrado.
+// Nathalia revisou e integrou o aprendizado atual → marca QUAL aprendizado (pelo updatedAt) foi integrado.
 // (guardar o updatedAt em vez de "agora" evita bug de relógio: integrado = ackAt === updatedAt)
 export async function ackLearnings(): Promise<Learnings | null> {
   const cur = await getLearnings();
@@ -71,7 +71,7 @@ export async function ackLearnings(): Promise<Learnings | null> {
   return updated;
 }
 
-// ---- VOZ: exemplos-ouro (carrosséis/cards que o Cândido confirma serem a voz dele) ----
+// ---- VOZ: exemplos-ouro (carrosséis/cards que a Nathalia confirma serem a voz dela) ----
 export interface GoldExample { text: string; createdAt: string; note?: string; registro?: string }
 
 export async function getGold(): Promise<GoldExample[]> {
@@ -89,7 +89,7 @@ export async function setGold(arr: GoldExample[]): Promise<void> {
   if (error) console.error("setGold", error.message);
 }
 
-// ---- GANCHOS-OURO: capas aprovadas pelo Cândido (a IA usa como régua de capa forte) ----
+// ---- GANCHOS-OURO: capas aprovadas pela Nathalia (a IA usa como régua de capa forte) ----
 export interface HookGold { capa: string; createdAt: string }
 export async function getGoldHooks(): Promise<HookGold[]> {
   const { data } = await sb.from("kv").select("value").eq("key", "gold_hooks").maybeSingle();
@@ -109,7 +109,7 @@ export async function deleteGoldHook(createdAt: string): Promise<void> {
   if (error) console.error("deleteGoldHook", error.message);
 }
 
-// ---- ANTI-OURO: o que o Cândido REJEITOU (a IA aprende o que NÃO fazer — inverso do ouro) ----
+// ---- ANTI-OURO: o que a Nathalia REJEITOU (a IA aprende o que NÃO fazer — inverso do ouro) ----
 export type RejectKind = "pauta" | "hook" | "voice";
 export interface Reject { kind: RejectKind; text: string; registro?: string; createdAt: string }
 export async function getRejects(kind?: RejectKind): Promise<Reject[]> {
@@ -182,7 +182,7 @@ export async function setStoryLearnings(l: StoryLearnings): Promise<void> {
 }
 
 // ---- ESTILO DOS STORIES (referência de estilo/formato que o gerador de stories segue) ----
-// Texto livre calibrado pelos prints + arquivo base do Cândido. Editável na aba Stories.
+// Texto livre calibrado pelos prints + arquivo base da Nathalia. Editável na aba Stories.
 export async function getStoriesStyle(): Promise<string> {
   const { data } = await sb.from("kv").select("value").eq("key", "stories_style").maybeSingle();
   const v = data?.value as { text?: string } | null;
@@ -234,7 +234,7 @@ export async function deleteReelIdea(id: string): Promise<void> {
   const { error } = await sb.from("kv").upsert({ key: "reel_ideas", value: cur.filter(p => p.id !== id) });
   if (error) console.error("deleteReelIdea", error.message);
 }
-// ---- TEMAS SALVOS: temas gerados no Criar que o Cândido guardou pra usar depois ----
+// ---- TEMAS SALVOS: temas gerados no Criar que a Nathalia guardou pra usar depois ----
 export interface SavedTema {
   id: string;
   tema: string;
@@ -271,7 +271,7 @@ export async function setReelLearnings(l: ReelLearnings): Promise<void> {
   await sb.from("kv").upsert({ key: "reel_learnings", value: l });
 }
 
-// ---- OURO DE DIAGRAMAÇÃO: carrosséis cujo RITMO de layout o Cândido aprovou (ensina o fatiador) ----
+// ---- OURO DE DIAGRAMAÇÃO: carrosséis cujo RITMO de layout a Nathalia aprovou (ensina o fatiador) ----
 export interface GoldSlice { pattern: string; tema?: string; createdAt: string }
 export async function getGoldSlices(): Promise<GoldSlice[]> {
   const { data } = await sb.from("kv").select("value").eq("key", "gold_slices").maybeSingle();
@@ -316,67 +316,45 @@ export async function setEdge(text: string): Promise<void> { await sb.from("kv")
 export const DEFAULTS = { audience: DEFAULT_AUDIENCE, edge: DEFAULT_EDGE };
 
 // ---- MODELO DE MARCA estruturado (Grande Tese, Inimigo, Pilares, Temas) ----
-// Ancora pautas e (futuramente, com aval do Cândido) a geração. NÃO substitui o pipeline de escrita.
+// Ancora pautas e (futuramente, com aval da Nathalia) a geração. NÃO substitui o pipeline de escrita.
 export interface BrainModel {
   grandeTese: string;   // a crença central que permeia tudo
   inimigo: string;      // o inimigo cultural que o conteúdo combate
   pilares: string[];    // teses secundárias = pilares de conteúdo
-  temas: string[];      // territórios temáticos que o Cândido domina
-  historia: string;     // a HISTÓRIA real do Cândido — material pra ancorar conteúdo de marca pessoal (não inventar)
+  temas: string[];      // territórios temáticos que a Nathalia domina
+  historia: string;     // a HISTÓRIA real da Nathalia — material pra ancorar conteúdo de marca pessoal (não inventar)
 }
-// HISTÓRIA pessoal real do Cândido Netto (1ª pessoa). Material pra IA ancorar conteúdo de marca
+// HISTÓRIA pessoal real da Nathalia Prado (1ª pessoa). Material pra IA ancorar conteúdo de marca
 // pessoal — NUNCA inventar; usar só quando o post pedir história/vivência. Editável na aba Marca.
-const DEFAULT_HISTORIA = `1. DE ONDE EU VIM
-O esporte sempre esteve presente na minha vida. Muito antes de pensar em ser treinador, eu queria ser jogador de futebol. Durante anos esse foi o plano. Eu era aquele moleque que vivia o esporte, respirava esporte e acreditava que o futuro seria dentro de campo. Tanto que saí de Teresina pra morar em Jundiaí buscando essa oportunidade. Na minha cabeça aquilo era o que eu faria pelo resto da vida. Mas nem sempre a vida segue o caminho que a gente desenha. Uma lesão no joelho mudou completamente meus planos. E pela primeira vez eu precisei pensar em quem eu seria sem o futebol.
-
-2. A ESCOLHA DA PROFISSÃO
-Quando chegou a hora de escolher uma profissão eu estava dividido. Gostava de tecnologia, de cálculo, de engenharia. Sempre fui muito curioso e apaixonado por aprender coisa nova. Mas existia uma coisa que me acompanhava desde criança: o esporte. Foi isso que me levou pra Educação Física. Não porque eu sonhava em trabalhar com musculação, muito menos com treinamento feminino. Na verdade eu queria continuar ligado ao futebol de alguma forma.
-
-3. O PRIMEIRO CHOQUE DE REALIDADE
-Logo no começo da faculdade apareceu uma oportunidade pra trabalhar numa escolinha de futebol. Era exatamente o caminho que eu imaginava seguir. Mas bastaram poucos meses pra perceber que aquilo não era o que eu queria pra minha vida. A realidade era muito diferente da expectativa. Foi nesse momento que surgiu uma oportunidade dentro de academia. E eu resolvi aceitar, sem imaginar que aquela decisão mudaria completamente minha trajetória.
-
-4. O QUE MUDOU TUDO
-Dentro da academia eu comecei a perceber uma coisa curiosa: as mulheres me procuravam mais. Confiavam mais em mim. Tinham mais liberdade pra conversar comigo. Enquanto muitos profissionais tinham dificuldade de se conectar com elas, pra mim aquilo acontecia de forma natural. Hoje eu entendo o motivo. Eu cresci cercado por mulheres: minha mãe, minha irmã, minhas tias. Minha vida inteira foi dentro desse ambiente. Sem perceber, eu aprendi a ouvir melhor, a entender melhor, a enxergar detalhes que muitos profissionais ignoravam. E isso acabou se tornando uma das minhas maiores vantagens.
-
-5. QUANDO ENCONTREI MEU PROPÓSITO
-Quanto mais mulheres eu atendia, mais eu percebia um padrão. Elas treinavam, se esforçavam, frequentavam a academia, mas não sabiam exatamente o que estavam fazendo. Viviam frustradas. Achavam que eram fracas, que tinham genética ruim, que o problema estava nelas. Quando muitas vezes o problema era apenas falta de orientação. Aquilo me incomodava, porque eu via mulheres extremamente dedicadas colocando energia na direção errada. Foi nesse momento que comecei a aprofundar meus estudos: hipertrofia, biomecânica, treinamento feminino, glúteos, progressão de carga, composição corporal. Eu queria entender por que algumas mulheres evoluíam tanto e outras passavam anos sem resultado.
-
-6. O PERÍODO QUE MAIS ME MARCOU
-Quando eu ainda era estagiário, muita gente zombava de mim. Falavam que eu queria ser o sabichão, que eu inventava moda, que eu complicava as coisas, que eu queria aparecer. Eu escutava tudo isso enquanto estudava mais do que qualquer um ao meu redor. O curioso é que as mesmas coisas que diziam ser invenção começaram a gerar resultado. Minhas alunas evoluíam. Os feedbacks apareciam. Os resultados apareciam. E aos poucos as críticas foram desaparecendo. Essa fase me ensinou uma coisa que levo até hoje: resultado sempre fala mais alto do que opinião.
-
-7. O ERRO QUE MAIS ME ENSINOU
-Durante minha trajetória eu também cometi erros. Perdi alunos que eu gostaria de ter mantido por perto. Não porque faltava conhecimento, não porque faltava resultado, mas porque deixei brechas no atendimento. Isso me marcou profundamente, porque me fez entender que transformação física não é apenas treino e dieta. Pessoas precisam se sentir acompanhadas, cuidadas, sentir que existe alguém ao lado delas durante o processo. Desde então eu passei a enxergar atendimento de uma forma completamente diferente.
-
-8. QUEM EU SOU HOJE
-Hoje eu sou um treinador especializado em mulheres. Mas acima disso, sou alguém que acredita que mulheres são muito mais fortes do que imaginam. Todos os dias eu vejo mulheres chegando inseguras, achando que não têm força, que não conseguem, que não nasceram pra ter resultado. E todos os dias eu vejo essas mesmas mulheres fazendo coisas que jamais imaginavam ser capazes. É por isso que continuo fazendo o que faço. Não é apenas sobre construir glúteos: é sobre construir confiança, é sobre mostrar pra uma mulher que ela é capaz de muito mais do que acredita quando entra pela primeira vez na academia. E isso continua sendo a parte mais gratificante do meu trabalho.`;
+const DEFAULT_HISTORIA = "";  // vazio: preencha sua história real na aba Marca (nunca inventar)
 export const DEFAULT_MODEL: BrainModel = {
-  grandeTese: "Mulheres são muito mais fortes do que acreditam. A maioria nunca descobre isso porque passou anos recebendo informação errada sobre treino, força, emagrecimento e hipertrofia. Quando uma mulher aprende a treinar de verdade, entende progressão e para de procurar atalho, ela constrói o físico que deseja — e muda também a forma como se enxerga: força, confiança, autonomia e orgulho da própria evolução. Resultado não vem de exercício mágico nem de método milagroso; vem da combinação entre treino estruturado, progressão, consistência e direcionamento correto.",
-  inimigo: "A desinformação no treinamento feminino e tudo que vende ilusão no lugar de resultado: promessa milagrosa de transformação rápida, método que vende atalho, treino montado sem lógica nem progressão, a ideia de que mulher é fraca ou que precisa treinar leve pra 'não ficar masculinizada', a crença de que genética explica tudo, a caça eterna ao próximo exercício milagroso, o profissional que vende ilusão em vez de ensinar, o conteúdo que gera confusão em vez de clareza, e a cultura fitness que faz a mulher achar que precisa sofrer, cansar ou suar mais pra ter resultado estético. Porque na prática o corpo responde a princípios — e princípio não sai de moda.",
+  grandeTese: "Mulheres são muito mais fortes e capazes de evoluir do que acreditam. O que trava a maioria não é genética nem falta de vontade: é falta de método na alimentação e no treino. Quando uma mulher aprende a comer pra construir físico e performar (em vez de viver de dieta restritiva e passar fome), entende progressão no treino e para de procurar atalho, ela transforma o corpo de verdade — e muda também a relação com a comida e consigo mesma: mais força, autonomia, saúde e orgulho da própria evolução. Resultado não vem de dieta da moda nem de suplemento milagroso; vem de nutrição estruturada, treino progressivo, constância e acompanhamento correto.",
+  inimigo: "A desinformação sobre nutrição e treino feminino, e tudo que vende ilusão no lugar de resultado: dieta da moda e detox milagroso, dieta de fome que destrói o metabolismo e a relação com a comida, suplemento vendido como atalho, a ideia de que mulher tem que 'comer pouquinho' pra emagrecer ou 'treinar leve pra não ficar masculinizada', a crença de que genética explica tudo, a cultura do sofrimento que ignora recuperação e saúde, e o profissional que entrega protocolo genérico em vez de ensinar a comer e treinar com lógica. Porque o corpo responde a princípios — e princípio não sai de moda.",
   historia: DEFAULT_HISTORIA,
   pilares: [
-    "Hipertrofia de glúteos sem mitos.",
+    "Nutrição esportiva sem mito nem dieta da moda.",
+    "Comer pra construir físico, não pra passar fome.",
     "Mulheres são mais fortes do que imaginam.",
-    "Progressão é o que gera resultado.",
-    "Treino feminino sem desinformação.",
-    "Execução e técnica aplicada à hipertrofia.",
-    "Erros que impedem a evolução estética.",
-    "Composição corporal e construção de físico.",
-    "Como pensar o treino de forma inteligente.",
-    "Comportamentos que sabotam resultados.",
+    "Progressão (na dieta e no treino) é o que gera resultado.",
+    "Bastidores reais de atleta de fisiculturismo.",
+    "Emagrecimento e composição corporal com método.",
+    "Suplementação: o que vale e o que é jogar dinheiro fora.",
+    "Erros de alimentação que travam a evolução estética.",
+    "Relação saudável com a comida e constância na vida real.",
     "Confiança construída através da evolução física.",
     "Opinião clara como combustível de comunidade — tomar posição firme sobre crença do nicho cria pertencimento real.",
     "Frequência e desdobramento como estratégia — uma ideia vira múltiplos formatos; aparecer todo dia supera viralizar uma vez.",
     "Alcance qualificado acima de alcance amplo — atingir as pessoas certas vale mais que atingir muitas.",
   ],
   temas: [
-    "Treinamento feminino",
-    "Desenvolvimento de glúteos",
-    "Hipertrofia muscular",
-    "Biomecânica aplicada ao treino",
-    "Execução de exercícios",
-    "Progressão de carga e prescrição de treino",
+    "Nutrição esportiva feminina",
     "Emagrecimento e composição corporal",
-    "Comportamento, adesão e erros comuns de mulheres que treinam",
+    "Alimentação para hipertrofia e construção de físico",
+    "Suplementação baseada em evidência",
+    "Preparação e bastidores de fisiculturismo",
+    "Treino feminino e progressão de carga",
+    "Relação com a comida, adesão e constância",
+    "Erros comuns de dieta que sabotam o resultado",
   ],
 };
 export async function getBrainModel(): Promise<BrainModel> {

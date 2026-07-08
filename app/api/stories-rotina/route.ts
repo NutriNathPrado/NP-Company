@@ -1,7 +1,7 @@
 // Gera 2 opções de sequência de stories para um período do dia (manhã / tarde / noite).
 // Recebe descrição do período + contexto do dia todo → devolve 2 sequências completas.
 import Anthropic from "@anthropic-ai/sdk";
-import { STORIES_SYSTEM, CANDIDO_ROUTINE } from "@/lib/stories";
+import { STORIES_SYSTEM, NATH_ROUTINE } from "@/lib/stories";
 import { GENERATION_RULES } from "@/lib/generation-rules";
 import { textOf, pickRandom } from "@/lib/llm";
 import { detectTells } from "@/lib/tells";
@@ -23,7 +23,7 @@ type Sequencia = { titulo: string; angulo: string; frames: Frame[]; dica?: strin
 const PERIODO_LABELS: Record<string, string> = {
   manha: "MANHÃ (abertura + consultoria + treino pessoal)",
   tarde:  "TARDE (consultoria 2ª parte + treino da Nath)",
-  noite:  "NOITE (fechamento + momento pessoal + programação hobby)",
+  noite:  "NOITE (fechamento + momento pessoal)",
 };
 
 const PERIODO_ANGULOS: Record<string, string[]> = {
@@ -37,7 +37,7 @@ const PERIODO_ANGULOS: Record<string, string[]> = {
   ],
   noite: [
     "fechamento do dia com reflexão leve: o que esse dia ensinou / CTA natural para a consultoria (A→venda suave)",
-    "bastidor humano noturno: momento com a Nath, hobby de programação ou algo fora do trabalho que mostra quem ele é (E)",
+    "bastidor humano noturno: um momento pessoal ou algo fora do trabalho que mostra quem ela é (E)",
   ],
 };
 
@@ -117,17 +117,17 @@ export async function POST(req: Request) {
   ]);
   const reguaBlock = `\n\nRÉGUA DA MARCA:\nPÚBLICO: ${aud}\nARESTA/CARA: ${edg}`;
   const histBlock = model.historia?.trim()
-    ? `\n\nVIDA REAL DO CÂNDIDO (use SÓ quando couber: Nath, Chico, Simba, N2 Squad, Darkside; NUNCA invente):\n${model.historia.trim().slice(0, 2000)}`
+    ? `\n\nVIDA REAL DA NATHALIA (use SÓ quando couber algo pessoal/bastidor; NUNCA invente):\n${model.historia.trim().slice(0, 2000)}`
     : "";
-  const goldBlock = gold.length ? `\n\nA VOZ DO CÂNDIDO (imite a cadência, NÃO copie):\n${pickRandom(gold, 2).map(g => g.text).join("\n---\n")}` : "";
+  const goldBlock = gold.length ? `\n\nA VOZ DA NATHALIA (imite a cadência, NÃO copie):\n${pickRandom(gold, 2).map(g => g.text).join("\n---\n")}` : "";
   const rejectBlock = rejects.length ? `\n\nFOGE DESSE PADRÃO (anti-ouro):\n${rejects.slice(0, 4).map(r => `✗ ${r.text}`).join("\n")}` : "";
   const estiloBlock = estilo ? `\n\nESTILO DOS STORIES (priorize):\n${estilo}` : "";
-  const learnBlock = storyLearnings?.summary ? `\n\nO QUE FUNCIONA NOS STORIES DO CÂNDIDO (aprendido dos posts reais — aplique):\n${storyLearnings.summary.slice(0, 1000)}` : "";
+  const learnBlock = storyLearnings?.summary ? `\n\nO QUE FUNCIONA NOS STORIES DA NATHALIA (aprendido dos posts reais — aplique):\n${storyLearnings.summary.slice(0, 1000)}` : "";
   const escritaBlock = modoEscrita
     ? `\n\nMODO SEQUÊNCIA ESCRITA (OBRIGATÓRIO):\n• Todos os frames devem ser tipo "tela" (campo "tipo": "tela"). NENHUM frame de câmera.\n• Cada frame carrega apenas texto escrito — curto, direto, impactante.\n• Os frames se complementam em sequência: cada um continua ou aprofunda o anterior, como uma thread visual.\n• Campo "mostrar": deixe vazio ou descreva apenas o fundo/cenário visual estático.\n• Sem "gravar", sem "câmera", sem instruções de gravação — é conteúdo 100% escrito.`
     : "";
 
-  const userMsg = `${GENERATION_RULES}${reguaBlock}${histBlock}${CANDIDO_ROUTINE}${estiloBlock}${learnBlock}${goldBlock}${rejectBlock}${escritaBlock}
+  const userMsg = `${GENERATION_RULES}${reguaBlock}${histBlock}${NATH_ROUTINE}${estiloBlock}${learnBlock}${goldBlock}${rejectBlock}${escritaBlock}
 
 OBJETIVO DO DIA: ${objetivo}${ctxBlock}
 
@@ -135,7 +135,7 @@ CONTEXTO GERAL DO DIA (para coerência entre os períodos):
 ${diaCompleto || "Não informado"}
 
 RELATO DO PERÍODO ${PERIODO_LABELS[periodo].toUpperCase()}:
-${descricao || "Rotina padrão do Cândido para este período"}
+${descricao || "Rotina padrão da Nathalia para este período"}
 
 ────────────────────────────────────────────────────
 COMO INTERPRETAR O RELATO ACIMA:
@@ -145,7 +145,7 @@ O relato pode estar em qualquer tempo verbal:
   • PRESENTE: "estou treinando" "acabei de corrigir"
 Independente do tempo verbal: gere conteúdo para postar NESTE PERÍODO do dia.
 
-O CONTEÚDO GERADO NÃO PRECISA SER LITERAL do que o Cândido está fazendo:
+O CONTEÚDO GERADO NÃO PRECISA SER LITERAL do que a Nathalia está fazendo:
   ✅ Pode ser SOBRE a atividade: mostrar o treino, a correção, o feedback
   ✅ Pode ser INSPIRADO pela atividade: insight técnico que surgiu, erro que viu, mito que quer quebrar
   ✅ Pode ser EDUCATIVO relacionado ao tema: por que aquele exercício/conceito funciona
@@ -183,7 +183,7 @@ Devolve APENAS este JSON válido:
       const blob = (cand.opcoes || []).flatMap(o => o.frames || []).map(f => `${f.texto || ""}\n${f.mostrar || ""}`).join("\n");
       const tells = detectTells(blob);
       if (tells.length && attempt < 2) {
-        retryNote = `\n\nATENÇÃO: o texto tinha cara de IA (${tells.slice(0, 3).join(" | ")}). Refaz mais humano, mais Cândido, sem travessão e sem clichê de coach.`;
+        retryNote = `\n\nATENÇÃO: o texto tinha cara de IA (${tells.slice(0, 3).join(" | ")}). Refaz mais humano, mais Nathalia, sem travessão e sem clichê de coach.`;
         continue;
       }
       parsed = { opcoes: (cand.opcoes || []).map(o => cleanSeq(o as Sequencia)) };

@@ -28,7 +28,7 @@ export async function POST() {
     model: MODEL, max_tokens: 1200,
     messages: [{
       role: "user",
-      content: `Analisa estes reels do Cândido Netto (@teamnetto · @n2squad) e extrai padrões que funcionaram:\n\n${sample}\n\nRetorna um parágrafo conciso (máx 900 chars) com: quais formatos performam melhor, quais temas geram mais engajamento, padrões de ângulo/gancho que funcionam, o que evitar. Escreve como instrução direta pro gerador de ideias futuras.`
+      content: `Analisa estes reels da Nathalia Prado (@nutrinathprado · @n2squad) e extrai padrões que funcionaram:\n\n${sample}\n\nRetorna um parágrafo conciso (máx 900 chars) com: quais formatos performam melhor, quais temas geram mais engajamento, padrões de ângulo/gancho que funcionam, o que evitar. Escreve como instrução direta pro gerador de ideias futuras.`
     }],
   });
 
