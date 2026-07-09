@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import Toaster from "@/components/Toaster";
 
 // menu lateral + barra de título. Cada item é um LINK de verdade (abre em aba nova, favorito, voltar funciona).
@@ -34,6 +35,14 @@ const TITLES: Record<string, [string, string]> = {
   vault: ["VAULT", "desempenho & aprendizado"],
 };
 
+type ThemeMode = "light" | "dark" | "system";
+
+const THEME_OPTIONS: { value: ThemeMode; label: string }[] = [
+  { value: "light", label: "Claro" },
+  { value: "dark", label: "Escuro" },
+  { value: "system", label: "Auto" },
+];
+
 // ícones de linha (stroke = currentColor): consistentes, herdam a cor do item (rosa quando ativo)
 function Icon({ name }: { name: string }) {
   const c = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.55, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
@@ -52,6 +61,54 @@ function Icon({ name }: { name: string }) {
     case "reels": return (<svg {...c}><rect x="2" y="2" width="20" height="20" rx="4" /><path d="m10 8 6 4-6 4V8z" /><path d="M2 12h2M20 12h2M12 2v2M12 20v2" /></svg>);
     default: return null;
   }
+}
+
+function applyTheme(mode: ThemeMode) {
+  const root = document.documentElement;
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.themeMode = mode;
+  root.dataset.theme = mode === "system" ? (prefersDark ? "dark" : "light") : mode;
+}
+
+function ThemeSwitch() {
+  const [mode, setMode] = useState<ThemeMode>("system");
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("np-theme-mode") as ThemeMode | null;
+    const initial = saved === "light" || saved === "dark" || saved === "system" ? saved : "system";
+    setMode(initial);
+    applyTheme(initial);
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => {
+      if ((window.localStorage.getItem("np-theme-mode") || "system") === "system") applyTheme("system");
+    };
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+
+  const select = (next: ThemeMode) => {
+    setMode(next);
+    window.localStorage.setItem("np-theme-mode", next);
+    applyTheme(next);
+  };
+
+  return (
+    <div className="dg-theme-switch" aria-label="Tema do site">
+      {THEME_OPTIONS.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          className={mode === option.value ? "is-active" : ""}
+          onClick={() => select(option.value)}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 export default function Shell({ children }: { children: React.ReactNode }) {
@@ -89,7 +146,6 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           <div
             className="dg-user-avatar"
             aria-hidden="true"
-            style={{ background: 'url("/logo/np-logo.png") center / 32px auto no-repeat, radial-gradient(circle at 50% 50%, rgba(240,30,121,0.10), rgba(6,7,10,0.9) 68%)' }}
           >
             <span />
           </div>
@@ -100,13 +156,18 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <main className="dg-main">
-        {!hidePageHead && (
+        {hidePageHead ? (
+          <div className="dg-page-head dg-page-head--theme-only">
+            <ThemeSwitch />
+          </div>
+        ) : (
           <div className="dg-page-head">
             <div className="dg-page-title">
               <span className="dg-page-mark" />
               <h1 className="dg-title">{title}</h1>
               {sub && <span>{sub}</span>}
             </div>
+            <ThemeSwitch />
           </div>
         )}
         {children}

@@ -23,14 +23,30 @@ export const metadata: Metadata = {
   },
 };
 
+const themeInitScript = `
+(() => {
+  try {
+    const mode = localStorage.getItem("np-theme-mode") || "system";
+    const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.themeMode = mode;
+    document.documentElement.dataset.theme = mode === "system" ? (dark ? "dark" : "light") : mode;
+  } catch {
+    document.documentElement.dataset.theme = "light";
+  }
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="h-full antialiased">
-      <body className="min-h-full"><Shell>{children}</Shell></body>
+    <html lang="pt-BR" className="h-full antialiased" suppressHydrationWarning>
+      <body className="min-h-full">
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <Shell>{children}</Shell>
+      </body>
     </html>
   );
 }
