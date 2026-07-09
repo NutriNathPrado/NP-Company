@@ -54,23 +54,23 @@ export async function resolveImage(sentiment?: string): Promise<string | undefin
 }
 
 // pools de capa "de marca" (fotos da Nathalia / da marca) — a IA sorteia destes; sentimentos comuns ficam de fora
-const COVER_POOLS = ["coach", "coach-treino", "coach-perfil", "coach-shape"];
+const COVER_POOLS = ["capa", "capa-treino", "capa-perfil", "capa-shape"];
 export async function coverPhoto(): Promise<string | undefined> {
   const c = await getCatalog();
   const pool = COVER_POOLS.flatMap((k) => c.images[k] || []);
-  return pick(pool.length ? pool : (c.images["coach"] || []));
+  return pick(pool.length ? pool : (c.images["capa"] || []));
 }
 
 // menu compacto pro prompt: sentimentos disponíveis (sem os pools de capa)
 export async function sentimentMenu(): Promise<string> {
   const c = await getCatalog();
-  const keys = Object.keys(c.images).filter((k) => !k.startsWith("coach") && k !== "overlays").sort();
+  const keys = Object.keys(c.images).filter((k) => !k.startsWith("capa") && k !== "overlays").sort();
   return keys.join(", ");
 }
 
 export async function sentimentKeys(): Promise<string[]> {
   const c = await getCatalog();
-  return Object.keys(c.images).filter((k) => !k.startsWith("coach") && k !== "overlays").sort();
+  return Object.keys(c.images).filter((k) => !k.startsWith("capa") && k !== "overlays").sort();
 }
 // imagens de overlay (figuras com fundo transparente que vão POR CIMA do card)
 export async function overlayImages(): Promise<string[]> {
@@ -88,7 +88,7 @@ export async function imagesForCategory(cat: string): Promise<string[]> {
   const c = await getCatalog();
   const out: string[] = [];
   for (const [k, arr] of Object.entries(c.images)) {
-    if (k.startsWith("coach")) continue;
+    if (k.startsWith("capa")) continue;
     if (k === cat || k.startsWith(cat + "-")) out.push(...arr);
   }
   return [...new Set(out)];
