@@ -4143,3 +4143,57 @@ html .dg-main :where(.dg-btn-primary,.hoje-action--primary) {
 html .dg-main :where(.studio-danger-btn,.draft-delete-btn:hover,.tile-remove) {
   color: #FF577F !important;
 }
+
+/* Botões antigos com estilo inline: mantém legibilidade no tema escolhido. */
+html[data-theme="light"] .dg-main :where(
+  .studio-section,
+  .dg-box,
+  .stories-idea-list,
+  .calendar-toolbar
+) button:not(.dg-btn-primary):not(.hoje-action--primary):not(.create-step):not(.story-frame-card):not(.theme-option) {
+  background: #FFF5F7 !important;
+  color: #1F1F1F !important;
+  border-color: rgba(31,31,31,0.16) !important;
+}
+
+html[data-theme="light"] .dg-main :where(
+  .studio-section,
+  .dg-box,
+  .stories-idea-list,
+  .calendar-toolbar
+) button:not(.dg-btn-primary):not(.hoje-action--primary):not(.create-step):not(.story-frame-card):not(.theme-option) :where(span,strong,small,em,b) {
+  color: #1F1F1F !important;
+}
+
+html[data-theme="light"] .dg-main :where(.stories-idea-list button:hover) {
+  background: #ffffff !important;
+  border-color: rgba(240,30,121,0.34) !important;
+}
+
+html[data-theme="light"] .dg-main :where(.studio-section-head button) {
+  color: #1F1F1F !important;
+}
+
+html[data-theme="dark"] .dg-main :where(
+  .studio-section,
+  .dg-box,
+  .stories-idea-list,
+  .calendar-toolbar
+) button:not(.dg-btn-primary):not(.hoje-action--primary):not(.create-step):not(.story-frame-card):not(.theme-option) {
+  background: #17171b !important;
+  color: #f5f5f8 !important;
+  border-color: rgba(255,255,255,0.14) !important;
+}
+
+html[data-theme="dark"] .dg-main :where(
+  .studio-section,
+  .dg-box,
+  .stories-idea-list,
+  .calendar-toolbar
+) button:not(.dg-btn-primary):not(.hoje-action--primary):not(.create-step):not(.story-frame-card):not(.theme-option) :where(span,strong,small,em,b) {
+  color: #f5f5f8 !important;
+}
+
+html[data-theme="dark"] .dg-main :where(.studio-section-head button) {
+  color: #f5f5f8 !important;
+}
