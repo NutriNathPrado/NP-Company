@@ -3988,3 +3988,158 @@ html[data-theme="dark"] .reels-card-titulo,
 html[data-theme="dark"] .rotina-opcao-titulo {
   color: var(--dg-text);
 }
+
+/* Camada final de contraste: corrige cards/inputs com cores fixas nos componentes. */
+html[data-theme="light"] .dg-main :where(
+  .dg-panel,
+  .dg-box,
+  .dg-card,
+  .studio-section,
+  .hoje-card,
+  .board-column,
+  .board-card,
+  .calendar-day,
+  .week-day,
+  .brain-accordion,
+  .brain-stat,
+  .draft-card,
+  .reels-card,
+  .rotina-period,
+  .rotina-opcao,
+  .rotina-opcao-card,
+  .card-section-shell,
+  .card-editor-nav,
+  .reels-tom-body,
+  .reels-batch-bar
+) {
+  background-color: #fff !important;
+  border-color: rgba(31,31,31,0.12) !important;
+  color: #1F1F1F !important;
+}
+
+html[data-theme="light"] .dg-main :where(
+  .dg-panel,
+  .dg-box,
+  .dg-card,
+  .studio-section,
+  .hoje-card,
+  .board-column,
+  .board-card,
+  .calendar-day,
+  .week-day,
+  .brain-accordion,
+  .brain-stat,
+  .draft-card,
+  .reels-card,
+  .rotina-period,
+  .rotina-opcao,
+  .rotina-opcao-card,
+  .card-section-shell,
+  .card-editor-nav,
+  .reels-tom-body,
+  .reels-batch-bar
+) :where(h1,h2,h3,h4,p,div,span,label,li,strong,small,input,textarea,select,button):not(.dg-btn-primary):not(.hoje-action--primary):not(.studio-eyebrow):not(.dg-kicker):not(.hoje-kicker):not(.reels-card-check):not(.draft-badge):not([data-mv]):not([data-mv] *):not(.create-preview-frame *):not(.create-preview-inner *) {
+  color: #1F1F1F !important;
+}
+
+html[data-theme="light"] .dg-main :where(input,textarea,select,.studio-input,.studio-textarea,.dg-input):not(.create-preview-frame *) {
+  background: #fff !important;
+  color: #1F1F1F !important;
+  border-color: rgba(31,31,31,0.16) !important;
+}
+
+html[data-theme="light"] .dg-main :where(.dg-btn,.studio-mini-btn,.calendar-nav-btn,.week-reg-btn,.reels-card-btn,.draft-delete-btn):not(.dg-btn-primary):not(.hoje-action--primary) {
+  background: rgba(255,255,255,0.74) !important;
+  color: #1F1F1F !important;
+  border-color: rgba(31,31,31,0.14) !important;
+}
+
+html[data-theme="light"] .dg-main :where(.calendar-event,.calendar-day-num,.week-name,.dose-label,.draft-titulo,.reels-card-titulo,.reels-card-descricao,.rotina-opcao-titulo,.rotina-opcao-angulo,.board-card-title,.vault-rank-title) {
+  color: #1F1F1F !important;
+}
+
+html[data-theme="light"] .dg-main :where(.studio-muted,.studio-note,.studio-empty,.reels-results-count,.reels-dica-toggle,.rotina-dica,.arsenal-card-obj,.drafts-empty) {
+  color: #6E6E6E !important;
+}
+
+html[data-theme="dark"] .dg-main :where(
+  .dg-panel,
+  .dg-box,
+  .dg-card,
+  .studio-section,
+  .hoje-card,
+  .board-column,
+  .board-card,
+  .calendar-day,
+  .week-day,
+  .brain-accordion,
+  .brain-stat,
+  .draft-card,
+  .reels-card,
+  .rotina-period,
+  .rotina-opcao,
+  .rotina-opcao-card,
+  .card-section-shell,
+  .card-editor-nav,
+  .reels-tom-body,
+  .reels-batch-bar
+) {
+  background-color: #17171b !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: #e4e4e9 !important;
+}
+
+html[data-theme="dark"] .dg-main :where(
+  .dg-panel,
+  .dg-box,
+  .dg-card,
+  .studio-section,
+  .hoje-card,
+  .board-column,
+  .board-card,
+  .calendar-day,
+  .week-day,
+  .brain-accordion,
+  .brain-stat,
+  .draft-card,
+  .reels-card,
+  .rotina-period,
+  .rotina-opcao,
+  .rotina-opcao-card,
+  .card-section-shell,
+  .card-editor-nav,
+  .reels-tom-body,
+  .reels-batch-bar
+) :where(h1,h2,h3,h4,p,div,span,label,li,strong,small,input,textarea,select,button):not(.dg-btn-primary):not(.hoje-action--primary):not(.studio-eyebrow):not(.dg-kicker):not(.hoje-kicker):not(.reels-card-check):not(.draft-badge):not([data-mv]):not([data-mv] *):not(.create-preview-frame *):not(.create-preview-inner *) {
+  color: #e4e4e9 !important;
+}
+
+html[data-theme="dark"] .dg-main :where(input,textarea,select,.studio-input,.studio-textarea,.dg-input):not(.create-preview-frame *) {
+  background: #0a0a0c !important;
+  color: #f5f5f8 !important;
+  border-color: rgba(255,255,255,0.14) !important;
+}
+
+html[data-theme="dark"] .dg-main :where(.dg-btn,.studio-mini-btn,.calendar-nav-btn,.week-reg-btn,.reels-card-btn,.draft-delete-btn):not(.dg-btn-primary):not(.hoje-action--primary) {
+  background: rgba(255,255,255,0.06) !important;
+  color: #eef1f7 !important;
+  border-color: rgba(255,255,255,0.14) !important;
+}
+
+html[data-theme="dark"] .dg-main :where(.calendar-event,.calendar-day-num,.week-name,.dose-label,.draft-titulo,.reels-card-titulo,.reels-card-descricao,.rotina-opcao-titulo,.rotina-opcao-angulo,.board-card-title,.vault-rank-title) {
+  color: #f5f5f8 !important;
+}
+
+html[data-theme="dark"] .dg-main :where(.studio-muted,.studio-note,.studio-empty,.reels-results-count,.reels-dica-toggle,.rotina-dica,.arsenal-card-obj,.drafts-empty) {
+  color: #a0a0ac !important;
+}
+
+html .dg-main :where(.dg-btn-primary,.hoje-action--primary) {
+  color: #fff !important;
+  background: linear-gradient(180deg, #F01E79, #c91361) !important;
+  border-color: rgba(240,30,121,0.76) !important;
+}
+
+html .dg-main :where(.studio-danger-btn,.draft-delete-btn:hover,.tile-remove) {
+  color: #FF577F !important;
+}
