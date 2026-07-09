@@ -89,7 +89,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           <div
             className="dg-user-avatar"
             aria-hidden="true"
-            style={{ background: 'url("/logo/np-logo.png") center / 32px auto no-repeat, radial-gradient(circle at 50% 50%, rgba(239,71,111,0.10), rgba(6,7,10,0.9) 68%)' }}
+            style={{ background: 'url("/logo/np-logo.png") center / 32px auto no-repeat, radial-gradient(circle at 50% 50%, rgba(240,30,121,0.10), rgba(6,7,10,0.9) 68%)' }}
           >
             <span />
           </div>

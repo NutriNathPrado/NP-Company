@@ -168,7 +168,7 @@ export default function Vault({ onOpen }: { onOpen: (c: Carousel) => void }) {
             {p.outline && (
               <button onClick={() => eligivel && markStructure(p, nota!)} disabled={!eligivel}
                 title={eligivel ? "Guarda o ARCO deste post como estrutura-ouro (a IA usa de molde) — validado por desempenho" : "🔒 " + goldWhy}
-                style={{ ...btn, color: eligivel ? "#e8c860" : "#56607c", borderColor: eligivel ? "#6a5a1e" : "#2a3552", cursor: eligivel ? "pointer" : "not-allowed", opacity: eligivel ? 1 : 0.65 }}>
+                style={{ ...btn, color: eligivel ? "#FED576" : "#56607c", borderColor: eligivel ? "#6a5a1e" : "#2a3552", cursor: eligivel ? "pointer" : "not-allowed", opacity: eligivel ? 1 : 0.65 }}>
                 {eligivel ? "🏆 estrutura-ouro" : "🔒 estrutura-ouro"}
               </button>
             )}
@@ -244,9 +244,9 @@ export default function Vault({ onOpen }: { onOpen: (c: Carousel) => void }) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
               <span style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
                 🧠 Aprendizado da IA
-                {learning && <span style={{ color: "#ef476f", fontSize: 13 }}>· aprendendo</span>}
+                {learning && <span style={{ color: "#F01E79", fontSize: 13 }}>· aprendendo</span>}
                 {integrado && !learning && <span className="dg-chip" style={{ color: "#7ed957", borderColor: "#2c4c28" }}>✓ integrado</span>}
-                {!integrado && learnings && !learning && <span className="dg-chip" style={{ color: "#e8c860", borderColor: "#6a5a1e" }}>novo — revisar</span>}
+                {!integrado && learnings && !learning && <span className="dg-chip" style={{ color: "#FED576", borderColor: "#6a5a1e" }}>novo — revisar</span>}
               </span>
               <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                 {learnings && <span style={{ fontSize: 12, color: "var(--dg-faint)" }}>{learnings.n} posts · {new Date(learnings.updatedAt).toLocaleDateString("pt-BR")}</span>}

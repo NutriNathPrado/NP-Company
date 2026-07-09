@@ -27,7 +27,7 @@ function Section({ title, children, right, open, onToggle, secId }: { title: str
     <section
       className={"dg-box card-section-shell" + (isOpen ? " is-open" : "")}
       id={secId ? "sec-" + secId : undefined}
-      style={{ marginBottom: 6, borderRadius: 12, overflow: "hidden", borderColor: isOpen ? "rgba(239,71,111,.32)" : "rgba(255,255,255,.07)", scrollMarginTop: 80, transition: "border-color .2s" }}
+      style={{ marginBottom: 6, borderRadius: 12, overflow: "hidden", borderColor: isOpen ? "rgba(240,30,121,.32)" : "rgba(255,255,255,.07)", scrollMarginTop: 80, transition: "border-color .2s" }}
     >
       <div
         className="card-section-toggle"
@@ -35,15 +35,15 @@ function Section({ title, children, right, open, onToggle, secId }: { title: str
         tabIndex={collapsible ? 0 : undefined}
         onClick={onToggle}
         onKeyDown={(e) => { if (!collapsible) return; if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onToggle?.(); } }}
-        style={{ width: "100%", border: 0, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, minHeight: 52, padding: "0 14px", cursor: collapsible ? "pointer" : "default", userSelect: "none", background: isOpen ? "rgba(239,71,111,0.07)" : "rgba(255,255,255,.025)", transition: "background .18s", textAlign: "left" }}
+        style={{ width: "100%", border: 0, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, minHeight: 52, padding: "0 14px", cursor: collapsible ? "pointer" : "default", userSelect: "none", background: isOpen ? "rgba(240,30,121,0.07)" : "rgba(255,255,255,.025)", transition: "background .18s", textAlign: "left" }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 11, minWidth: 0 }}>
-          <span style={{ width: 34, height: 34, borderRadius: 9, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 13, fontWeight: 900, color: isOpen ? "#fff" : "#7a8399", background: isOpen ? "#ef476f" : "rgba(255,255,255,.06)", border: "1.5px solid " + (isOpen ? "#ef476f" : "rgba(255,255,255,.09)"), transition: "background .18s, color .18s, border-color .18s" }}>{sectionIcon(title)}</span>
+          <span style={{ width: 34, height: 34, borderRadius: 9, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 13, fontWeight: 900, color: isOpen ? "#fff" : "#7a8399", background: isOpen ? "#F01E79" : "rgba(255,255,255,.06)", border: "1.5px solid " + (isOpen ? "#F01E79" : "rgba(255,255,255,.09)"), transition: "background .18s, color .18s, border-color .18s" }}>{sectionIcon(title)}</span>
           <span style={{ fontFamily: "var(--cb-font,'Inter'),sans-serif", fontSize: 14, fontWeight: 700, color: isOpen ? "#fff" : "#9aa0b0", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", transition: "color .18s" }}>{title}</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           {right && <div onClick={(e) => e.stopPropagation()}>{right}</div>}
-          {collapsible && <span style={{ color: isOpen ? "#ef476f" : "#4a5168", fontSize: 18, lineHeight: 1, display: "inline-block", transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .22s, color .18s" }}>⌄</span>}
+          {collapsible && <span style={{ color: isOpen ? "#F01E79" : "#4a5168", fontSize: 18, lineHeight: 1, display: "inline-block", transform: isOpen ? "rotate(180deg)" : "none", transition: "transform .22s, color .18s" }}>⌄</span>}
         </div>
       </div>
       {/* Animação via CSS grid — compatível com altura dinâmica */}
@@ -60,7 +60,7 @@ function Slider({ label, val, min, max, step, on, fmt, pctEdit }: { label: strin
   return (
     <div className="card-slider" style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8 }}>
       <span className="card-slider-label" style={{ width: 88, fontSize: 12, color: "#9aa0b2", flexShrink: 0 }}>{label}</span>
-      <input type="range" min={min} max={max} step={step} value={val} onChange={(e) => on(Number(e.target.value))} style={{ flex: 1, accentColor: "#ef476f", height: 4 }} />
+      <input type="range" min={min} max={max} step={step} value={val} onChange={(e) => on(Number(e.target.value))} style={{ flex: 1, accentColor: "#F01E79", height: 4 }} />
       {pctEdit ? (
         <span style={{ display: "flex", alignItems: "center", gap: 1 }}>
           <input type="number" value={Math.round(val * 100)} min={Math.round(min * 100)} max={Math.round(max * 100)}
@@ -79,12 +79,12 @@ function Slider({ label, val, min, max, step, on, fmt, pctEdit }: { label: strin
 const PALETTE_SWATCHES: { hex: string; n: string }[] = [
   { hex: "#f5f5f5", n: "branco" },
   { hex: "#000000", n: "preto" },
-  { hex: "#ef476f", n: "rosa" },
+  { hex: "#F01E79", n: "rosa" },
   { hex: "#14213d", n: "azul" },
   { hex: "#9aa0b0", n: "cinza" },
 ];
 function Swatch({ hex, on, onClick, title }: { hex: string; on: boolean; onClick: () => void; title?: string }) {
-  return <button title={title} onClick={onClick} style={{ width: 26, height: 26, borderRadius: 6, background: hex, border: on ? "2px solid #ef476f" : "1px solid #5a6480", cursor: "pointer", boxShadow: on ? "0 0 0 2px rgba(239,71,111,.35)" : "none", flex: "0 0 auto" }} />;
+  return <button title={title} onClick={onClick} style={{ width: 26, height: 26, borderRadius: 6, background: hex, border: on ? "2px solid #F01E79" : "1px solid #5a6480", cursor: "pointer", boxShadow: on ? "0 0 0 2px rgba(240,30,121,.35)" : "none", flex: "0 0 auto" }} />;
 }
 // Seletor de cor: paleta + favoritas + cor por código + salvar favorita + voltar ao padrão
 function ColorRow({ label, value, def, onChange, favs, onFav }: { label: string; value?: string; def: string; onChange: (v: string | undefined) => void; favs: string[]; onFav: (hex: string) => void }) {
@@ -101,7 +101,7 @@ function ColorRow({ label, value, def, onChange, favs, onFav }: { label: string;
           <input type="color" value={/^#[0-9a-f]{6}$/i.test(cur) ? cur : "#ffffff"} onChange={(e) => onChange(e.target.value)} style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer" }} />
         </label>
         <input value={value || ""} placeholder={def} onChange={(e) => onChange(e.target.value || undefined)} style={{ width: 82, fontSize: 11, color: "#cfcfcf", background: "#121216", border: "1px solid #2e2e36", borderRadius: 6, padding: "5px 6px" }} />
-        <button onClick={() => onFav(cur)} title="salvar nas favoritas" style={{ fontSize: 12, background: "transparent", color: "#e8c860", border: "1px solid #6a5a1e", borderRadius: 6, padding: "4px 8px", cursor: "pointer" }}>★</button>
+        <button onClick={() => onFav(cur)} title="salvar nas favoritas" style={{ fontSize: 12, background: "transparent", color: "#FED576", border: "1px solid #6a5a1e", borderRadius: 6, padding: "4px 8px", cursor: "pointer" }}>★</button>
         <button onClick={() => onChange(undefined)} title="voltar ao padrão" style={{ fontSize: 11, background: "transparent", color: "#9aa0b0", border: "1px solid #3b3b44", borderRadius: 6, padding: "4px 8px", cursor: "pointer" }}>padrão</button>
       </div>
     </div>
@@ -289,11 +289,11 @@ function RedField({ label, value, onChange, rows = 3, hint }: { label: string; v
         <label style={{ fontSize: 11.5, color: "#b0b6c4", textTransform: "uppercase", letterSpacing: 1 }}>{label}</label>
         <span className="card-red-field-tools" style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
           {([
-            ["**", "#3a1424", "#ff6b8f", "1px solid #ef476f", "none", "● rosa", "Cor rosa — selecione um trecho"],
-            ["==", "#ef476f", "#fff", "1px solid #ef476f", "none", "▢ caixa", "Caixa sólida rosa"],
-            ["__", "#2a1018", "#ff6b8f", "1px solid #ef476f", "underline", "_ linha", "Sublinhado rosa"],
-            ["~~", "rgba(239,71,111,.35)", "#fff", "1px solid #ef476f", "none", "▒ marca", "Marca-texto rosa"],
-            ["++", "transparent", "#ff6b8f", "1px solid #ef476f", "none", "□ borda", "Contorno rosa"],
+            ["**", "#3a1424", "#ff6b8f", "1px solid #F01E79", "none", "● rosa", "Cor rosa — selecione um trecho"],
+            ["==", "#F01E79", "#fff", "1px solid #F01E79", "none", "▢ caixa", "Caixa sólida rosa"],
+            ["__", "#2a1018", "#ff6b8f", "1px solid #F01E79", "underline", "_ linha", "Sublinhado rosa"],
+            ["~~", "rgba(240,30,121,.35)", "#fff", "1px solid #F01E79", "none", "▒ marca", "Marca-texto rosa"],
+            ["++", "transparent", "#ff6b8f", "1px solid #F01E79", "none", "□ borda", "Contorno rosa"],
           ] as const).map(([mark, bg, color, border, decoration, lbl, title]) => (
             <button key={mark} onMouseDown={(e) => e.preventDefault()} onClick={() => wrap(mark)} title={title}
               style={{ fontSize: 11.5, background: bg, color, border, borderRadius: 6, padding: "5px 9px", cursor: "pointer", textDecoration: decoration, whiteSpace: "nowrap", minHeight: 32 }}>
@@ -380,16 +380,16 @@ function CropModal({ src, initial, onConfirm, onCancel }: { src: string; initial
       <div ref={containerRef} style={{ position: "relative", display: "inline-block", userSelect: "none", touchAction: "none" }}>
         <img src={src} alt="" style={{ display: "block", maxWidth: "84vw", maxHeight: "62vh", objectFit: "contain" }} />
         <div onPointerDown={(e) => startDrag(e, "move")}
-          style={{ position: "absolute", left: `${crop.x * 100}%`, top: `${crop.y * 100}%`, width: `${crop.w * 100}%`, height: `${crop.h * 100}%`, boxShadow: "0 0 0 9999px rgba(0,0,0,.6)", border: "2px solid #ef476f", cursor: "move", touchAction: "none" }}>
+          style={{ position: "absolute", left: `${crop.x * 100}%`, top: `${crop.y * 100}%`, width: `${crop.w * 100}%`, height: `${crop.h * 100}%`, boxShadow: "0 0 0 9999px rgba(0,0,0,.6)", border: "2px solid #F01E79", cursor: "move", touchAction: "none" }}>
           <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.1) 1px,transparent 1px)", backgroundSize: "33.33% 33.33%", pointerEvents: "none" }} />
-          <div onPointerDown={(e) => startDrag(e, "resize", "tl")} style={{ position: "absolute", width: 14, height: 14, top: -6, left: -6, background: "#ef476f", borderRadius: 4, border: "2px solid #fff", cursor: "nwse-resize", touchAction: "none" }} />
-          <div onPointerDown={(e) => startDrag(e, "resize", "tr")} style={{ position: "absolute", width: 14, height: 14, top: -6, right: -6, background: "#ef476f", borderRadius: 4, border: "2px solid #fff", cursor: "nesw-resize", touchAction: "none" }} />
-          <div onPointerDown={(e) => startDrag(e, "resize", "bl")} style={{ position: "absolute", width: 14, height: 14, bottom: -6, left: -6, background: "#ef476f", borderRadius: 4, border: "2px solid #fff", cursor: "nesw-resize", touchAction: "none" }} />
-          <div onPointerDown={(e) => startDrag(e, "resize", "br")} style={{ position: "absolute", width: 14, height: 14, bottom: -6, right: -6, background: "#ef476f", borderRadius: 4, border: "2px solid #fff", cursor: "nwse-resize", touchAction: "none" }} />
+          <div onPointerDown={(e) => startDrag(e, "resize", "tl")} style={{ position: "absolute", width: 14, height: 14, top: -6, left: -6, background: "#F01E79", borderRadius: 4, border: "2px solid #fff", cursor: "nwse-resize", touchAction: "none" }} />
+          <div onPointerDown={(e) => startDrag(e, "resize", "tr")} style={{ position: "absolute", width: 14, height: 14, top: -6, right: -6, background: "#F01E79", borderRadius: 4, border: "2px solid #fff", cursor: "nesw-resize", touchAction: "none" }} />
+          <div onPointerDown={(e) => startDrag(e, "resize", "bl")} style={{ position: "absolute", width: 14, height: 14, bottom: -6, left: -6, background: "#F01E79", borderRadius: 4, border: "2px solid #fff", cursor: "nesw-resize", touchAction: "none" }} />
+          <div onPointerDown={(e) => startDrag(e, "resize", "br")} style={{ position: "absolute", width: 14, height: 14, bottom: -6, right: -6, background: "#F01E79", borderRadius: 4, border: "2px solid #fff", cursor: "nwse-resize", touchAction: "none" }} />
         </div>
       </div>
       <div style={{ display: "flex", gap: 10, marginTop: 20, flexWrap: "wrap", justifyContent: "center" }}>
-        <button onClick={() => onConfirm(crop)} style={{ background: "#ef476f", color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontSize: 14, cursor: "pointer", fontWeight: 700 }}>✓ confirmar corte</button>
+        <button onClick={() => onConfirm(crop)} style={{ background: "#F01E79", color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontSize: 14, cursor: "pointer", fontWeight: 700 }}>✓ confirmar corte</button>
         {initial && <button onClick={() => onConfirm(null)} style={{ background: "transparent", color: "#9aa0b0", border: "1px solid #3b3b44", borderRadius: 8, padding: "10px 16px", fontSize: 13, cursor: "pointer" }}>remover corte</button>}
         <button onClick={onCancel} style={{ background: "transparent", color: "#9aa0b0", border: "1px solid #3b3b44", borderRadius: 8, padding: "10px 16px", fontSize: 13, cursor: "pointer" }}>cancelar</button>
       </div>
@@ -673,7 +673,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 7 }}>
         {opts.map(([v, lbl, title]) => {
           const on = current === v;
-          return <button key={v} title={title} onClick={() => onChange({ [key]: v } as Partial<Card>)} style={{ fontSize: 12, background: on ? "#3a1424" : "#17171b", color: on ? "#ff6b8f" : "#cfcfcf", border: "1px solid " + (on ? "#ef476f" : "#3b3b44"), borderRadius: 6, padding: "6px 4px", cursor: "pointer", minWidth: 0 }}>{lbl}</button>;
+          return <button key={v} title={title} onClick={() => onChange({ [key]: v } as Partial<Card>)} style={{ fontSize: 12, background: on ? "#3a1424" : "#17171b", color: on ? "#ff6b8f" : "#cfcfcf", border: "1px solid " + (on ? "#F01E79" : "#3b3b44"), borderRadius: 6, padding: "6px 4px", cursor: "pointer", minWidth: 0 }}>{lbl}</button>;
         })}
       </div>
     );
@@ -692,11 +692,11 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
         </div>
         <span className="card-editor-top-spacer" style={{ flex: 1 }} />
         <button className="card-editor-voice" onClick={markVoice} title="Marca este card como a tua voz no ponto — vira exemplo que a IA imita nas próximas gerações"
-          style={{ fontSize: 11.5, background: "#241f0e", color: "#e8c860", border: "1px solid #6a5a1e", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontWeight: 600 }}>
+          style={{ fontSize: 11.5, background: "#241f0e", color: "#FED576", border: "1px solid #6a5a1e", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontWeight: 600 }}>
           ⭐ minha voz
         </button>
       </div>
-      {voiceMsg && <div style={{ fontSize: 12, color: voiceMsg.startsWith("⭐") ? "#e8c860" : "#e0738c", marginBottom: 10 }}>{voiceMsg}</div>}
+      {voiceMsg && <div style={{ fontSize: 12, color: voiceMsg.startsWith("⭐") ? "#FED576" : "#e0738c", marginBottom: 10 }}>{voiceMsg}</div>}
 
       <nav className="card-editor-nav" style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)", borderRadius: 12, padding: "8px 10px", marginBottom: 14 }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
@@ -708,7 +708,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
                 return (
                   <button key={n.id} onClick={() => jumpTo(n.id)}
                     style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 2, minWidth: 48, minHeight: 48, padding: "6px 8px", borderRadius: 10, cursor: "pointer",
-                      background: on ? "#ef476f" : "transparent", color: on ? "#fff" : "#8a93a8",
+                      background: on ? "#F01E79" : "transparent", color: on ? "#fff" : "#8a93a8",
                       border: "none", transition: "background .15s, color .15s", flexShrink: 0 }}>
                     <span style={{ fontSize: 15, lineHeight: 1, fontWeight: 800 }}>{n.icon}</span>
                     <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: 0.3, lineHeight: 1 }}>{n.label}</span>
@@ -746,7 +746,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
 
         <Divider label="Cores" />
         <ColorRow label="Cor do título" value={card.titleColor} def="#f5f5f5" onChange={(v) => onChange({ titleColor: v })} favs={favColors} onFav={addFav} />
-        <ColorRow label="Destaques (● rosa · caixa · linha · marca · borda)" value={card.highlightColor} def="#ef476f" onChange={(v) => onChange({ highlightColor: v })} favs={favColors} onFav={addFav} />
+        <ColorRow label="Destaques (● rosa · caixa · linha · marca · borda)" value={card.highlightColor} def="#F01E79" onChange={(v) => onChange({ highlightColor: v })} favs={favColors} onFav={addFav} />
 
         <Divider label="Sombra, espaçamento & alinhamento" />
         <Slider label="Sombra" val={card.titleShadow ?? 0.6} min={0} max={1.5} step={0.01} on={(v) => onChange({ titleShadow: v })} pctEdit />
@@ -847,7 +847,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
           <>
             <Divider label="Assinatura / CTA" />
             <RedField label="Texto da assinatura (ex: Tamo junto)" value={card.signoff || ""} onChange={(v) => onChange({ signoff: v })} rows={1} />
-            <ColorRow label="Cor" value={card.signoffColor} def="#ef476f" onChange={(v) => onChange({ signoffColor: v })} favs={favColors} onFav={addFav} />
+            <ColorRow label="Cor" value={card.signoffColor} def="#F01E79" onChange={(v) => onChange({ signoffColor: v })} favs={favColors} onFav={addFav} />
             <Slider label="Tamanho" val={card.signoffScale ?? 1} min={0.35} max={1.6} step={0.01} on={(v) => onChange({ signoffScale: v })} pctEdit />
             <div style={{ fontSize: 11.5, color: "#7c869c", marginTop: 10, marginBottom: 4 }}>Posição — arraste a alça <b style={{ color: "#cfcfcf" }}>CTA</b> na prévia, ou use os botões</div>
             <AlignButtons onSet={alignOffset((ax, v) => onChange(ax === "x" ? { signoffX: v } : { signoffY: v }))} />
@@ -877,14 +877,14 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
                 const on = (card.imageFit ?? "cover") === v;
                 return (
                   <button key={v} onClick={() => onChange({ imageFit: v })}
-                    style={{ flex: 1, fontSize: 13, fontWeight: 600, background: on ? (v === "contain" ? "#ef476f" : "#21212a") : "transparent", color: on ? "#fff" : "#6a7080", border: "none", borderRadius: 7, padding: "9px 8px", cursor: "pointer", transition: "background .15s, color .15s" }}>
+                    style={{ flex: 1, fontSize: 13, fontWeight: 600, background: on ? (v === "contain" ? "#F01E79" : "#21212a") : "transparent", color: on ? "#fff" : "#6a7080", border: "none", borderRadius: 7, padding: "9px 8px", cursor: "pointer", transition: "background .15s, color .15s" }}>
                     {v === "cover" ? "⬛ preencher" : "⬜ foto inteira"}
                   </button>
                 );
               })}
             </div>
             {(card.imageFit ?? "cover") === "contain" && (
-              <div style={{ fontSize: 11.5, color: "#7c869c", marginBottom: 10, padding: "6px 10px", background: "rgba(239,71,111,.06)", borderRadius: 7, border: "1px solid rgba(239,71,111,.15)" }}>
+              <div style={{ fontSize: 11.5, color: "#7c869c", marginBottom: 10, padding: "6px 10px", background: "rgba(240,30,121,.06)", borderRadius: 7, border: "1px solid rgba(240,30,121,.15)" }}>
                 A foto aparece inteira no card — o fundo de cor preenche o espaço vazio nas laterais ou topo/base.
               </div>
             )}
@@ -919,7 +919,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(60px, 1fr))", gap: 5, maxHeight: 240, overflowY: "auto", padding: 5, background: "#0a0a0e", borderRadius: 10, border: "1px solid #1e1e26" }}>
                   {imgs.map((src) => (
                     <img key={src} src={src} alt="" loading="lazy" onClick={() => onChange({ image: src, imageSentiment: card.imageSentiment })}
-                      style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", borderRadius: 6, cursor: "pointer", border: "2px solid " + (card.image === src ? "#ef476f" : "transparent"), filter: "grayscale(1) contrast(1.08) brightness(.9)" }} />
+                      style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", borderRadius: 6, cursor: "pointer", border: "2px solid " + (card.image === src ? "#F01E79" : "transparent"), filter: "grayscale(1) contrast(1.08) brightness(.9)" }} />
                   ))}
                 </div>
               </>
@@ -966,7 +966,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 5, marginTop: 6, maxHeight: 200, overflowY: "auto" }}>
                 {lib2.map((src) => (
                   <img key={src} src={src} alt="" loading="lazy" onClick={() => onChange({ image2: src })}
-                    style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", borderRadius: 6, cursor: "pointer", border: card.image2 === src ? "2px solid #ef476f" : "1px solid #2e2e36" }} />
+                    style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", borderRadius: 6, cursor: "pointer", border: card.image2 === src ? "2px solid #F01E79" : "1px solid #2e2e36" }} />
                 ))}
               </div>
             )}
@@ -975,10 +975,10 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
 
         <Divider label={hasImage ? "Cor de fundo (atrás da foto)" : "Cor de fundo do card"} />
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {([["#000000", "● Preto"], ["#14213d", "● Azul"], ["#ef476f", "● Rosa"], ["#f5f5f5", "● Branco"]] as const).map(([hex, nm]) => {
+          {([["#000000", "● Preto"], ["#14213d", "● Azul"], ["#F01E79", "● Rosa"], ["#f5f5f5", "● Branco"]] as const).map(([hex, nm]) => {
             const on = (card.bg || "#000000").toLowerCase() === hex;
             return (
-              <button key={hex} onClick={() => onChange({ bg: hex })} style={{ fontSize: 12, background: on ? "#3a1424" : "#17171b", color: on ? "#fff" : "#cfcfcf", border: "2px solid " + (on ? "#ef476f" : "#2e2e36"), borderRadius: 8, padding: "7px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, flex: "1 1 auto" }}>
+              <button key={hex} onClick={() => onChange({ bg: hex })} style={{ fontSize: 12, background: on ? "#3a1424" : "#17171b", color: on ? "#fff" : "#cfcfcf", border: "2px solid " + (on ? "#F01E79" : "#2e2e36"), borderRadius: 8, padding: "7px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, flex: "1 1 auto" }}>
                 <span style={{ width: 10, height: 10, borderRadius: "50%", background: hex, border: "1px solid #5a6480", flexShrink: 0 }} />{nm.replace("● ", "")}
               </button>
             );
@@ -987,9 +987,9 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
 
         <Divider label="Sombra / tom de cor sobre a foto" />
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {([["#ef476f", "Rosa", "#ff6b8f", 0.28], ["#14213d", "Azul", "#cfd6e6", 0.35], ["#000000", "Preta", "#f5f5f5", 0.35]] as const).map(([color, label, textColor, defOpacity]) => (
+          {([["#F01E79", "Rosa", "#ff6b8f", 0.28], ["#14213d", "Azul", "#cfd6e6", 0.35], ["#000000", "Preta", "#f5f5f5", 0.35]] as const).map(([color, label, textColor, defOpacity]) => (
             <button key={color} onClick={() => onChange({ tint: { color, opacity: tint?.opacity ?? defOpacity } })}
-              style={{ fontSize: 12, background: tint?.color === color ? "#21212a" : "#17171b", color: textColor, border: "1px solid " + (tint?.color === color ? "#ef476f" : "#2e2e36"), borderRadius: 8, padding: "7px 14px", cursor: "pointer", flex: "1 1 auto", fontWeight: tint?.color === color ? 700 : 400 }}>
+              style={{ fontSize: 12, background: tint?.color === color ? "#21212a" : "#17171b", color: textColor, border: "1px solid " + (tint?.color === color ? "#F01E79" : "#2e2e36"), borderRadius: 8, padding: "7px 14px", cursor: "pointer", flex: "1 1 auto", fontWeight: tint?.color === color ? 700 : 400 }}>
               {label}
             </button>
           ))}
@@ -1019,17 +1019,17 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
               const sel = (card.logos || []).some((l) => l.src === url);
               return (
                 <div key={url} onClick={() => toggleLogo(url)} title={sel ? "remover do card" : "usar no card"}
-                  style={{ position: "relative", height: 50, borderRadius: 6, cursor: "pointer", overflow: "hidden", border: "2px solid " + (sel ? "#ef476f" : "#2e2e36"),
+                  style={{ position: "relative", height: 50, borderRadius: 6, cursor: "pointer", overflow: "hidden", border: "2px solid " + (sel ? "#F01E79" : "#2e2e36"),
                     backgroundColor: "#8a93a8", backgroundImage: "linear-gradient(45deg,#6b7488 25%,transparent 25%),linear-gradient(-45deg,#6b7488 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#6b7488 75%),linear-gradient(-45deg,transparent 75%,#6b7488 75%)", backgroundSize: "10px 10px", backgroundPosition: "0 0,0 5px,5px -5px,-5px 0" }}>
                   <img src={url} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", padding: 3 }} />
-                  {sel && <span style={{ position: "absolute", top: 1, right: 1, background: "#ef476f", color: "#fff", fontSize: 9, fontWeight: 700, padding: "0 4px", borderRadius: 4 }}>✓</span>}
+                  {sel && <span style={{ position: "absolute", top: 1, right: 1, background: "#F01E79", color: "#fff", fontSize: 9, fontWeight: 700, padding: "0 4px", borderRadius: 4 }}>✓</span>}
                 </div>
               );
             })}
           </div>
         )}
         <div style={{ display: "flex", gap: 6, marginBottom: 10, flexWrap: "wrap" }}>
-          <button onClick={() => onChange({ logos: undefined })} style={{ fontSize: 11, background: card.logos === undefined ? "#3a1424" : "#17171b", color: card.logos === undefined ? "#ff6b8f" : "#cfcfcf", border: "1px solid " + (card.logos === undefined ? "#ef476f" : "#3b3b44"), borderRadius: 6, padding: "5px 10px", cursor: "pointer" }}>usar a logo padrão</button>
+          <button onClick={() => onChange({ logos: undefined })} style={{ fontSize: 11, background: card.logos === undefined ? "#3a1424" : "#17171b", color: card.logos === undefined ? "#ff6b8f" : "#cfcfcf", border: "1px solid " + (card.logos === undefined ? "#F01E79" : "#3b3b44"), borderRadius: 6, padding: "5px 10px", cursor: "pointer" }}>usar a logo padrão</button>
           <button onClick={() => onChange({ logos: [] })} style={{ fontSize: 11, background: (card.logos && card.logos.length === 0) ? "#3a1424" : "#17171b", color: "#cfcfcf", border: "1px solid #3b3b44", borderRadius: 6, padding: "5px 10px", cursor: "pointer" }}>nenhuma logo</button>
         </div>
         {card.logos === undefined ? (
@@ -1099,7 +1099,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
                       ) : def.sizable ? (
                         <Slider label={el.kind === "text" || el.kind === "marker" ? "Tamanho" : "Tamanho"} val={mainSize} min={8} max={520} step={1} on={(v) => updateElement(def.id, el.kind === "text" || el.kind === "marker" ? { size: v } : { w: v })} />
                       ) : null}
-                      {def.colorable && <ColorRow label="Cor do elemento" value={el.color} def={def.color || "#ef476f"} onChange={(v) => updateElement(def.id, { color: v })} favs={favColors} onFav={addFav} />}
+                      {def.colorable && <ColorRow label="Cor do elemento" value={el.color} def={def.color || "#F01E79"} onChange={(v) => updateElement(def.id, { color: v })} favs={favColors} onFav={addFav} />}
                     </>
                   )}
                 </div>
@@ -1177,8 +1177,8 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
                   const on = (card.indexStyle || "texto") === s.id;
                   return (
                     <button key={s.id} onClick={() => onChange({ indexStyle: s.id })}
-                      style={{ padding: "7px 6px", borderRadius: 8, border: "1px solid " + (on ? "#ef476f" : "#2e2e36"), background: on ? "#2a0e16" : "#17171b", cursor: "pointer", textAlign: "center" }}>
-                      <div style={{ fontFamily: "monospace", fontSize: 11, color: on ? "#ef476f" : "#cfcfcf", marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.label}</div>
+                      style={{ padding: "7px 6px", borderRadius: 8, border: "1px solid " + (on ? "#F01E79" : "#2e2e36"), background: on ? "#2a0e16" : "#17171b", cursor: "pointer", textAlign: "center" }}>
+                      <div style={{ fontFamily: "monospace", fontSize: 11, color: on ? "#F01E79" : "#cfcfcf", marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.label}</div>
                       <div style={{ fontSize: 9.5, color: on ? "#c47080" : "#5a6378" }}>{s.desc}</div>
                     </button>
                   );
@@ -1250,13 +1250,13 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
             <Slider label="▲ Y ▼" val={ci.y} min={-4} max={4} step={0.01} on={(v) => updateCardImg(i, { y: v })} fmt={(v) => Math.round(v * 100) + "%"} />
           </div>
         ))}
-        {cardImgs.length > 0 && <div style={{ fontSize: 11, color: "#6a7080", marginTop: 4 }}>Arraste a alça <b style={{ color: "#ef476f" }}>IMG</b> na prévia para posicionar com precisão</div>}
+        {cardImgs.length > 0 && <div style={{ fontSize: 11, color: "#6a7080", marginTop: 4 }}>Arraste a alça <b style={{ color: "#F01E79" }}>IMG</b> na prévia para posicionar com precisão</div>}
       </Section>
 
       {/* OVERLAYS */}
       <Section title="Imagens por cima (overlay)" {...sec("overlays")} right={
         <div style={{ display: "flex", gap: 6 }}>
-          <button onClick={openLibOv} style={{ fontSize: 12, background: showLibOv ? "#3a1424" : "#21212a", color: showLibOv ? "#ff6b8f" : "#f5f5f5", border: "1px solid " + (showLibOv ? "#ef476f" : "#3b3b44"), borderRadius: 6, padding: "4px 10px", cursor: "pointer" }}>📚 biblioteca</button>
+          <button onClick={openLibOv} style={{ fontSize: 12, background: showLibOv ? "#3a1424" : "#21212a", color: showLibOv ? "#ff6b8f" : "#f5f5f5", border: "1px solid " + (showLibOv ? "#F01E79" : "#3b3b44"), borderRadius: 6, padding: "4px 10px", cursor: "pointer" }}>📚 biblioteca</button>
           <button onClick={() => fileRef.current?.click()} style={{ fontSize: 12, background: "#21212a", color: "#f5f5f5", border: "1px solid #3b3b44", borderRadius: 6, padding: "4px 10px", cursor: "pointer" }}>+ imagem</button>
           <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadOverlay(f); e.currentTarget.value = ""; }} />
         </div>
@@ -1311,7 +1311,7 @@ export default function CardEditor({ card, onChange, carousel, index, onReplace,
       {/* KIT DA MARCA (por último) */}
       <Section title="Kit da marca (estilo)" {...sec("kit")}>
         <div style={{ fontSize: 11, color: "var(--dg-faint)", marginBottom: 8 }}>Salva fonte, cores, sombras, espaçamento, alinhamento, fundo e nick como um kit — e aplica num clique. Pra ver/renomear/excluir todos, abra <b style={{ color: "#cfcfcf" }}>Kit</b> no menu lateral</div>
-        <button onClick={saveKit} style={{ fontSize: 12.5, fontWeight: 600, background: "var(--dg-red-soft)", color: "#ff9fb4", border: "1px solid rgba(239,71,111,0.4)", borderRadius: 8, padding: "8px 12px", cursor: "pointer" }}>💾 salvar estilo atual como kit</button>
+        <button onClick={saveKit} style={{ fontSize: 12.5, fontWeight: 600, background: "var(--dg-red-soft)", color: "#ff9fb4", border: "1px solid rgba(240,30,121,0.4)", borderRadius: 8, padding: "8px 12px", cursor: "pointer" }}>💾 salvar estilo atual como kit</button>
         {kits.length === 0 ? (
           <div style={{ fontSize: 11.5, color: "var(--dg-faint)", marginTop: 8 }}>Nenhum kit salvo ainda. Deixa um card do jeito que quer e salva</div>
         ) : (

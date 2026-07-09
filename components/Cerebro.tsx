@@ -148,7 +148,7 @@ export default function Cerebro() {
         {/* cobertura por registro — deixa os vazios óbvios */}
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
           {vozPorReg.map(({ r, n }) => (
-            <span key={r.id} title={`${n} exemplo(s) no tom ${r.label}`} style={{ fontSize: 11.5, padding: "4px 9px", borderRadius: 999, border: "1px solid " + (n === 0 ? "#5a2030" : "#2e2e36"), background: n === 0 ? "rgba(239,71,111,0.08)" : "#17171b", color: n === 0 ? "#e0738c" : r.color, fontWeight: 600, whiteSpace: "nowrap" }}>
+            <span key={r.id} title={`${n} exemplo(s) no tom ${r.label}`} style={{ fontSize: 11.5, padding: "4px 9px", borderRadius: 999, border: "1px solid " + (n === 0 ? "#5a2030" : "#2e2e36"), background: n === 0 ? "rgba(240,30,121,0.08)" : "#17171b", color: n === 0 ? "#e0738c" : r.color, fontWeight: 600, whiteSpace: "nowrap" }}>
               {r.emoji} {r.label}: {n}
             </span>
           ))}
@@ -200,7 +200,7 @@ export default function Cerebro() {
         {estr.map((s, i) => (
           <div key={i} className="studio-section studio-section--pad" style={{ marginBottom: 8, display: "flex", gap: 10 }}>
             <div style={{ flex: 1, fontSize: 12, color: "#cfcfcf", lineHeight: 1.4, whiteSpace: "pre-line", maxHeight: 80, overflow: "hidden" }}>
-              {s.score ? <span style={{ color: "#e8c860" }}>nota {Math.round(s.score * 100)} · </span> : null}{s.tema ? <b>{s.tema}: </b> : null}{s.outline}
+              {s.score ? <span style={{ color: "#FED576" }}>nota {Math.round(s.score * 100)} · </span> : null}{s.tema ? <b>{s.tema}: </b> : null}{s.outline}
             </div>
             <button onClick={() => delEstr(i)} className="studio-danger-btn" style={{ alignSelf: "flex-start", flexShrink: 0 }} type="button">excluir</button>
           </div>

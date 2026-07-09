@@ -199,7 +199,7 @@ export default function Biblioteca() {
                   <div key={lg.url} style={{ display: "flex", flexDirection: "column", gap: 5, alignItems: "center" }}>
                     <div className={"logo-tile" + (isActive ? " is-active" : "")}>
                       <img src={`${lg.url}?v=${logoV}`} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-                      {isActive && <span style={{ position: "absolute", bottom: 3, right: 3, background: "#ef476f", color: "#fff", fontSize: 9, fontWeight: 700, padding: "1px 5px", borderRadius: 4 }}>EM USO</span>}
+                      {isActive && <span style={{ position: "absolute", bottom: 3, right: 3, background: "#F01E79", color: "#fff", fontSize: 9, fontWeight: 700, padding: "1px 5px", borderRadius: 4 }}>EM USO</span>}
                     </div>
                     <div style={{ display: "flex", gap: 4 }}>
                       {!isActive && <button onClick={() => selectLogo(lg.url)} className="dg-btn-primary" style={{ fontSize: 10.5, padding: "4px 8px" }}>usar</button>}
@@ -305,7 +305,7 @@ export default function Biblioteca() {
                   <button onClick={() => { setEditing(c.key); setEditName(c.key); }} title="renomear categoria" className="studio-mini-btn" type="button">editar</button>
                 </div>
               )}
-              {c.key.startsWith("coach") && <span className="dg-chip" style={{ color: "#e8c860", borderColor: "#6a5a1e" }}>capa</span>}
+              {c.key.startsWith("coach") && <span className="dg-chip" style={{ color: "#FED576", borderColor: "#6a5a1e" }}>capa</span>}
               <span style={{ fontSize: 12, color: "#7c869c" }}>{c.images.length} foto(s)</span>
               <p>{dragCat === c.key ? "solte para subir" : "arraste fotos aqui"}</p>
               <span className="spacer" />

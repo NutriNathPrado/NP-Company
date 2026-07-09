@@ -4,7 +4,7 @@ import { cardElement } from "@/lib/card-elements";
 import type { CardElementDef } from "@/lib/card-elements";
 
 const W = 1080, H = 1350;
-const RED = "#ef476f", WHITE = "#f5f5f5", GREY = "#9aa0b0", BLACK = "#000", NAVY = "#14213d";
+const RED = "#F01E79", WHITE = "#f5f5f5", GREY = "#9aa0b0", BLACK = "#000", NAVY = "#14213d";
 const DEFAULT_NICKS = ["@nutrinathprado", "@n2squad"]; // nicks padrão exibidos quando o card não define os seus
 const INK = "#0b0b0f", PAPER = "#ececec"; // Layout 9: preto profundo / cinza claro
 const WINE = "#3a0e1e", GOLD = "#c9a24b", WARMW = "#f3ece6"; // Layout 10: vinho / dourado / branco quente
@@ -19,11 +19,11 @@ const L1_LAYOUTS = ["cover", "top", "bottom", "full", "moral", "list", "data", "
 function Rich({ text }: { text: string }) {
   // **rosa** · ==caixa sólida== · __sublinhado__ · ~~marca-texto~~ · ++contorno++
   // cada tipo tem sua própria cor via CSS var (herda --hl-color quando não definida individualmente)
-  const HL      = "var(--hl-color, #ef476f)";
-  const CAIXA   = "var(--caixa-color, var(--hl-color, #ef476f))";
-  const UL      = "var(--ul-color, var(--hl-color, #ef476f))";
-  const MARCA   = "var(--marca-color, var(--hl-color, #ef476f))";
-  const CONTORNO = "var(--contorno-color, var(--hl-color, #ef476f))";
+  const HL      = "var(--hl-color, #F01E79)";
+  const CAIXA   = "var(--caixa-color, var(--hl-color, #F01E79))";
+  const UL      = "var(--ul-color, var(--hl-color, #F01E79))";
+  const MARCA   = "var(--marca-color, var(--hl-color, #F01E79))";
+  const CONTORNO = "var(--contorno-color, var(--hl-color, #F01E79))";
   const parts = text.split(/(\*\*[^*]+\*\*|==[^=]+==|__[^_]+__|~~[^~]+~~|\+\+[^+]+\+\+)/g);
   return (
     <>
@@ -130,7 +130,7 @@ function FixedLogo({ card, id, label, x, y, w, z = 9, circle = false, opacity = 
   const size = e.w ?? w;
   return (
     <div style={{ position: "absolute", ...clampInside(e.x, e.y, size, size), width: size, height: circle ? size : "auto", borderRadius: circle ? "50%" : undefined, overflow: circle ? "hidden" : undefined, background: circle ? "#fff" : undefined, boxShadow: circle ? "0 6px 18px rgba(0,0,0,.18)" : undefined, zIndex: z, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <img src="/logo/cn-logo.png" alt="" style={{ width: circle ? "76%" : "100%", height: circle ? "76%" : "auto", objectFit: "contain", opacity, filter: "drop-shadow(0 2px 6px rgba(0,0,0,.45))" }} />
+      <img src="/logo/np-logo.png" alt="" style={{ width: circle ? "76%" : "100%", height: circle ? "76%" : "auto", objectFit: "contain", opacity, filter: "drop-shadow(0 2px 6px rgba(0,0,0,.45))" }} />
     </div>
   );
 }
@@ -172,7 +172,7 @@ function Logos({ card, side = "left" }: { card: Card; side?: "left" | "right" })
   const style: React.CSSProperties = lg
     ? { ...base, ...clampInside(lg.x, lg.y, w, w), width: w }
     : { ...base, top: 56, [side]: 56, width: 200 };
-  return <img src="/logo/cn-logo.png" alt="" style={style} />;
+  return <img src="/logo/np-logo.png" alt="" style={style} />;
 }
 
 function Kicker({ text }: { text: string }) {
@@ -639,7 +639,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {card.stats?.map((s, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 36, borderBottom: "2px solid #303848", padding: "6px 0" }}>
-                <span style={{ fontFamily: "var(--ct-font, 'Anton'), sans-serif", color: RED, fontSize: 130, lineHeight: 1, WebkitTextStroke: "1.5px #ef476f" }}>{s.value}</span>
+                <span style={{ fontFamily: "var(--ct-font, 'Anton'), sans-serif", color: RED, fontSize: 130, lineHeight: 1, WebkitTextStroke: "1.5px #F01E79" }}>{s.value}</span>
                 <span style={{ fontFamily: "var(--ct-font, 'Anton'), sans-serif", color: WHITE, fontSize: 50, letterSpacing: 1 }}>{s.label}</span>
               </div>
             ))}
@@ -851,7 +851,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
           </div>
         )}
         <div style={{ position: "absolute", top: 0, bottom: 0, left: isEdu ? 80 : card.image ? 470 : 80, right: isEdu ? (card.image ? 470 : 80) : 70, display: "flex", flexDirection: "column", justifyContent: "center", zIndex: 5, transform: TSHIFT }}>
-          {card.kicker && <div data-mv="kicker" style={{ fontFamily: "var(--cb-font, 'Inter'), sans-serif", fontSize: 26, letterSpacing: 3, textTransform: "uppercase", color: "var(--kicker-color, #ef476f)", marginBottom: 22, fontWeight: 700, transform: KSYNC}}>{card.kicker}</div>}
+          {card.kicker && <div data-mv="kicker" style={{ fontFamily: "var(--cb-font, 'Inter'), sans-serif", fontSize: 26, letterSpacing: 3, textTransform: "uppercase", color: "var(--kicker-color, #F01E79)", marginBottom: 22, fontWeight: 700, transform: KSYNC}}>{card.kicker}</div>}
           {isEdu
             ? card.headline && <h1 style={{ ...headlineStyle, fontSize: 96 * ts, textAlign: al || "left", lineHeight: "var(--ct-leading, 1.00)" }}><Rich text={card.headline} /></h1>
             : card.body && <div data-mv="body" style={{ ...bodyStyle, fontSize: 40 * bs, lineHeight: "var(--cb-leading, 1.00)", whiteSpace: "pre-line", ...alignStyle(bodyAl) }}><Rich text={card.body} /></div>}
@@ -875,7 +875,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
           </div>
         )}
         <div style={{ position: "absolute", left: 90, right: 90, top: card.image ? 790 : 220, zIndex: 5, transform: TSHIFT }}>
-          {card.headline && <div style={{ fontFamily: "var(--ct-font, 'Anton'), sans-serif", fontSize: 56 * ts, lineHeight: "var(--ct-leading, 1.00)", color: "var(--hl-color, #ef476f)", textTransform: "uppercase", marginBottom: 18 }}><Rich text={card.headline} /></div>}
+          {card.headline && <div style={{ fontFamily: "var(--ct-font, 'Anton'), sans-serif", fontSize: 56 * ts, lineHeight: "var(--ct-leading, 1.00)", color: "var(--hl-color, #F01E79)", textTransform: "uppercase", marginBottom: 18 }}><Rich text={card.headline} /></div>}
           {card.body && <div data-mv="body" style={{ ...bodyStyle, fontSize: 36 * bs, lineHeight: "var(--cb-leading, 1.00)", whiteSpace: "pre-line", ...alignStyle(bodyAl) }}><Rich text={card.body} /></div>}
         </div>
         <Decor card={card} />
@@ -891,10 +891,10 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
       <div style={{ ...canvas, background: card.bg || NAVY }} className={grainCls}>
         <L3Chrome card={card} />
         <div style={{ position: "absolute", left: 90, right: 90, top: 180, bottom: 200, display: "flex", flexDirection: "column", justifyContent: "center", zIndex: 5, transform: TSHIFT }}>
-          {card.kicker && <div data-mv="kicker" style={{ fontFamily: "var(--cb-font, 'Inter'), sans-serif", fontSize: 26, letterSpacing: 3, textTransform: "uppercase", color: "var(--kicker-color, #ef476f)", marginBottom: 24, fontWeight: 700, transform: KSYNC}}>{card.kicker}</div>}
+          {card.kicker && <div data-mv="kicker" style={{ fontFamily: "var(--cb-font, 'Inter'), sans-serif", fontSize: 26, letterSpacing: 3, textTransform: "uppercase", color: "var(--kicker-color, #F01E79)", marginBottom: 24, fontWeight: 700, transform: KSYNC}}>{card.kicker}</div>}
           {card.body && <div data-mv="body" style={{ ...bodyStyle, fontSize: 42 * bs, lineHeight: "var(--cb-leading, 1.00)", whiteSpace: "pre-line", ...alignStyle(bodyAl) }}><Rich text={card.body} /></div>}
         </div>
-        {card.signoff && <div data-mv="signoff" style={{ position: "absolute", left: 90, right: 90, bottom: 110, fontFamily: "var(--cb-font, 'Inter'), sans-serif", fontSize: 34 * signoffScale, color: "var(--hl-color, #ef476f)", fontWeight: 700, zIndex: 5, transform: signoffMove || undefined, transformOrigin: "left center" }}>{card.signoff}</div>}
+        {card.signoff && <div data-mv="signoff" style={{ position: "absolute", left: 90, right: 90, bottom: 110, fontFamily: "var(--cb-font, 'Inter'), sans-serif", fontSize: 34 * signoffScale, color: "var(--hl-color, #F01E79)", fontWeight: 700, zIndex: 5, transform: signoffMove || undefined, transformOrigin: "left center" }}>{card.signoff}</div>}
         <Decor card={card} />
         {card.logos !== undefined && <Logos card={card} />}
         {card.index && <Index card={card} text={card.index} />}
@@ -931,7 +931,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
         {card.image && <Photo src={card.image} fx={fx} fy={fy} scale={zoom} rotate={card.rotate} bw={photoBw} fit={photoFit} />}
         <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to top, #14213d 0%, rgba(20,33,61,.82) 32%, rgba(20,33,61,.35) 100%)" }} />
         <div style={{ position: "absolute", left: 64, right: "32%", bottom: 150, zIndex: 5, transform: TSHIFT }}>
-          {card.headline && <h1 style={headStyle(118, ts, { color: "var(--title-color, #ef476f)" })}><Rich text={card.headline} /></h1>}
+          {card.headline && <h1 style={headStyle(118, ts, { color: "var(--title-color, #F01E79)" })}><Rich text={card.headline} /></h1>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(38, bs, "#f5f5f5"), marginTop: 22 }}><Rich text={card.body} /></div>}
         </div>
         <FixedLogo card={card} id="l4Logo" label="Logo da capa" x={0.852} y={0.881} w={120} z={7} opacity={0.92} />
@@ -952,7 +952,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
         )}
         <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "60%", padding: "0 56px", display: "flex", flexDirection: "column", justifyContent: "center", zIndex: 5, transform: TSHIFT }}>
           {card.kicker && <div data-mv="kicker" style={{ ...bodyOn(24, 1, "#14213d", { weight: 700 }), color: "var(--kicker-color, #14213d)", letterSpacing: 2, textTransform: "uppercase", opacity: 0.65, marginBottom: 14, transform: KSYNC }}>{card.kicker}</div>}
-          {card.headline && <h2 style={headStyle(86, ts, { color: "var(--title-color, #ef476f)" })}><Rich text={card.headline} /></h2>}
+          {card.headline && <h2 style={headStyle(86, ts, { color: "var(--title-color, #F01E79)" })}><Rich text={card.headline} /></h2>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(36, bs, "#14213d"), marginTop: 22 }}><Rich text={card.body} /></div>}
         </div>
         {card.logos !== undefined && <Logos card={card} />}
@@ -971,7 +971,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
           </div>
         )}
         <div style={{ position: "absolute", top: "42%", bottom: 0, left: 0, right: 0, padding: "0 90px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 5, transform: TSHIFT }}>
-          {card.headline && <h2 style={headStyle(80, ts, { color: "var(--title-color, #ef476f)", align: "center" })}><Rich text={card.headline} /></h2>}
+          {card.headline && <h2 style={headStyle(80, ts, { color: "var(--title-color, #F01E79)", align: "center" })}><Rich text={card.headline} /></h2>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(34, bs, "#14213d", { align: "center" }), marginTop: 20 }}><Rich text={card.body} /></div>}
         </div>
         {card.logos !== undefined && <Logos card={card} />}
@@ -991,8 +991,8 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
           return <div style={{ position: "absolute", left: `${band.x * 100}%`, top: `${band.y * 100}%`, width: band.w ?? 497, height: band.h ?? 1350, background: band.color || "rgba(20,33,61,.95)", zIndex: 4 }} />;
         })()}
         <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "46%", padding: "0 48px", display: "flex", flexDirection: "column", justifyContent: "center", zIndex: 5, transform: TSHIFT }}>
-          {card.kicker && <div data-mv="kicker" style={{ ...bodyOn(24, 1, "#ef476f", { weight: 700 }), color: "var(--kicker-color, #ef476f)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 14, transform: KSYNC }}>{card.kicker}</div>}
-          {card.headline && <h2 style={headStyle(72, ts, { color: "var(--title-color, #ef476f)" })}><Rich text={card.headline} /></h2>}
+          {card.kicker && <div data-mv="kicker" style={{ ...bodyOn(24, 1, "#F01E79", { weight: 700 }), color: "var(--kicker-color, #F01E79)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 14, transform: KSYNC }}>{card.kicker}</div>}
+          {card.headline && <h2 style={headStyle(72, ts, { color: "var(--title-color, #F01E79)" })}><Rich text={card.headline} /></h2>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(31, bs, "#f5f5f5"), marginTop: 20 }}><Rich text={card.body} /></div>}
         </div>
         {card.index && <Index card={card} text={card.index} />}
@@ -1007,7 +1007,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
         {card.image && <Photo src={card.image} fx={fx} fy={fy} scale={zoom} rotate={card.rotate} bw={photoBw} fit={photoFit} />}
         <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to top, rgba(11,11,15,.92), rgba(11,11,15,.6))" }} />
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 80px", zIndex: 5, transform: TSHIFT }}>
-          {card.headline && <h1 style={headStyle(98, ts, { color: "var(--title-color, #ef476f)", align: "center" })}><Rich text={card.headline} /></h1>}
+          {card.headline && <h1 style={headStyle(98, ts, { color: "var(--title-color, #F01E79)", align: "center" })}><Rich text={card.headline} /></h1>}
           {card.kicker && <div data-mv="kicker" style={{ marginTop: 46, width: "80%", border: "2px solid var(--kicker-color, #2f4368)", borderRadius: 10, padding: "20px 24px", color: "var(--kicker-color, #aeb6c8)", fontFamily: "var(--cb-font, 'Inter'), sans-serif", fontSize: 30, transform: KSYNC}}>{card.kicker}</div>}
           {card.signoff && <div data-mv="signoff" style={{ marginTop: 22, color: "#f5f5f5", fontFamily: "var(--cb-font, 'Inter'), sans-serif", fontSize: 27 * signoffScale, opacity: 0.92, display: "inline-block", transform: SSYNC, transformOrigin: "center" }}>{card.signoff}</div>}
         </div>
@@ -1054,7 +1054,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
           </div>
         )}
         <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%", padding: "0 56px", display: "flex", flexDirection: "column", justifyContent: "center", zIndex: 5, transform: TSHIFT }}>
-          {card.kicker && <div data-mv="kicker" style={{ ...bodyOn(24, 1, "#ef476f", { weight: 700 }), color: "var(--kicker-color, #ef476f)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 14, transform: KSYNC }}>{card.kicker}</div>}
+          {card.kicker && <div data-mv="kicker" style={{ ...bodyOn(24, 1, "#F01E79", { weight: 700 }), color: "var(--kicker-color, #F01E79)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 14, transform: KSYNC }}>{card.kicker}</div>}
           {card.headline && <h2 style={headStyle(74, ts, { mont: true, color: "var(--title-color, #14213d)", leading: "1.02" })}><Rich text={card.headline} /></h2>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(33, bs, "#14213d", { serif: true }), marginTop: 20 }}><Rich text={card.body} /></div>}
         </div>
@@ -1070,7 +1070,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
         {card.image && <Photo src={card.image} fx={fx} fy={fy} scale={zoom} rotate={card.rotate} bw={photoBw} fit={photoFit} />}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(11,11,15,.85), rgba(11,11,15,.25))", zIndex: 1 }} />
         <div style={{ position: "absolute", left: 64, right: 64, bottom: 230, zIndex: 5, transform: TSHIFT }}>
-          {card.headline && <div style={{ ...headStyle(74, ts, { mont: true, color: "#fff" }), display: "inline-block", background: "var(--hl-color, #ef476f)", padding: "14px 26px", borderRadius: 6 }}><Rich text={card.headline} /></div>}
+          {card.headline && <div style={{ ...headStyle(74, ts, { mont: true, color: "#fff" }), display: "inline-block", background: "var(--hl-color, #F01E79)", padding: "14px 26px", borderRadius: 6 }}><Rich text={card.headline} /></div>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(34, bs, "#f5f5f5"), marginTop: 22 }}><Rich text={card.body} /></div>}
         </div>
         {card.index && <Index card={card} text={card.index} />}
@@ -1129,7 +1129,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
           const lines = (e.text || "").split("\n");
           return <div style={{ position: "absolute", left: `${e.x * 100}%`, top: `${e.y * 100}%`, transform: "translateX(-50%)", textAlign: "center", zIndex: 8, fontFamily: "var(--cb-font, 'Inter'), sans-serif", whiteSpace: "pre-line" }}>
             <span style={{ fontWeight: 800, fontSize: e.size ?? 24, letterSpacing: 2, color: e.color || "#14213d" }}>{lines[0]}</span>
-            {lines.slice(1).join("\n") && <span style={{ fontSize: Math.max(12, (e.size ?? 24) * 0.75), color: "#ef476f", marginLeft: 10 }}>{lines.slice(1).join("\n")}</span>}
+            {lines.slice(1).join("\n") && <span style={{ fontSize: Math.max(12, (e.size ?? 24) * 0.75), color: "#F01E79", marginLeft: 10 }}>{lines.slice(1).join("\n")}</span>}
           </div>;
         })()}
         {card.logos !== undefined && <Logos card={card} />}
@@ -1236,8 +1236,8 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
         )}
         <L7Chrome card={card} />
         <div style={{ position: "absolute", top: 150, bottom: 110, right: 0, width: "52%", padding: "0 80px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", zIndex: 5, transform: TSHIFT }}>
-          {card.kicker && <div data-mv="kicker" style={{ ...bodyOn(24, 1, "#ef476f", { weight: 700 }), color: "var(--kicker-color, #ef476f)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 12, transform: KSYNC }}>{card.kicker}</div>}
-          {card.headline && <h2 style={headStyle(64, ts, { color: "var(--title-color, #ef476f)" })}><Rich text={card.headline} /></h2>}
+          {card.kicker && <div data-mv="kicker" style={{ ...bodyOn(24, 1, "#F01E79", { weight: 700 }), color: "var(--kicker-color, #F01E79)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 12, transform: KSYNC }}>{card.kicker}</div>}
+          {card.headline && <h2 style={headStyle(64, ts, { color: "var(--title-color, #F01E79)" })}><Rich text={card.headline} /></h2>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(32, bs, "#f5f5f5"), marginTop: 18 }}><Rich text={card.body} /></div>}
           {card.bullets && card.bullets.length > 0 && (
             <div style={{ marginTop: 18, display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1291,7 +1291,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
         <div style={{ position: "absolute", inset: 0, background: resolvedOv || "#07111d", opacity: 0.3, zIndex: 1 }} />
         <L7Chrome card={card} />
         <div style={{ position: "absolute", left: 80, right: 80, top: 230, maxWidth: "70%", zIndex: 5, transform: TSHIFT }}>
-          {card.headline && <h2 style={headStyle(88, ts, { color: "var(--title-color, #ef476f)", leading: "0.92" })}><Rich text={card.headline} /></h2>}
+          {card.headline && <h2 style={headStyle(88, ts, { color: "var(--title-color, #F01E79)", leading: "0.92" })}><Rich text={card.headline} /></h2>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(34, bs, "#f5f5f5"), marginTop: 20 }}><Rich text={card.body} /></div>}
         </div>
         {card.logos !== undefined && <Logos card={card} />}
@@ -1307,7 +1307,7 @@ function CarouselCard({ card, grain = true }: { card: Card; grain?: boolean }) {
         <FixedBar card={card} h={6} />
         <FixedLogo card={card} id="l7Logo" label="Logo superior" x={0.42} y={0.033} w={172} />
         <div style={{ position: "absolute", inset: 0, top: 70, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 90px", zIndex: 5, transform: TSHIFT }}>
-          {card.headline && <h1 style={headStyle(76, ts, { color: "var(--title-color, #ef476f)", align: "center", leading: "0.95" })}><Rich text={card.headline} /></h1>}
+          {card.headline && <h1 style={headStyle(76, ts, { color: "var(--title-color, #F01E79)", align: "center", leading: "0.95" })}><Rich text={card.headline} /></h1>}
           {card.signoff && <div data-mv="signoff" style={{ marginTop: 40, border: "2px solid #fff", borderRadius: 8, padding: "20px 40px", color: "#fff", fontFamily: "var(--ct-font, 'Anton'), sans-serif", textTransform: "uppercase", fontSize: 46 * signoffScale, letterSpacing: 1, transform: SSYNC, transformOrigin: "center" }}>{card.signoff}</div>}
           {card.body && <div data-mv="body" style={{ ...bodyOn(28, bs, "#f5f5f5", { align: "center" }), marginTop: 24, opacity: 0.85 }}><Rich text={card.body} /></div>}
         </div>

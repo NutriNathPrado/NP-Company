@@ -457,7 +457,7 @@ export default function CriarPage() {
   const EXPORT_OPTS = { width: 1080, height: 1350, pixelRatio: 1, cacheBust: true } as const;
   // imagens/fontes precisam estar carregadas antes de rasterizar (senão sai card vazio na 1ª vez)
   function cardImageUrls(): string[] {
-    const urls = new Set<string>(["/logo/cn-logo.png"]);
+    const urls = new Set<string>(["/logo/np-logo.png"]);
     for (const c of carousel.cards) {
       if (c.image) urls.add(c.image);
       if (c.image2) urls.add(c.image2);
@@ -849,7 +849,7 @@ export default function CriarPage() {
                 {([
                   { id: "topo", emoji: "🔍", label: "Topo", desc: "atrair atenção", detail: "Descoberta · alcance · curiosidade · viral", color: "#22c55e" },
                   { id: "meio", emoji: "📚", label: "Meio", desc: "construir autoridade", detail: "Educação · confiança · método · profundidade", color: "#3b82f6" },
-                  { id: "fundo", emoji: "🎯", label: "Fundo", desc: "gerar conversão", detail: "Decisão · provas · quebra de objeções · CTA", color: "#ef476f" },
+                  { id: "fundo", emoji: "🎯", label: "Fundo", desc: "gerar conversão", detail: "Decisão · provas · quebra de objeções · CTA", color: "#F01E79" },
                 ] as const).map((f) => {
                   const on = funil === f.id;
                   return (
@@ -882,7 +882,7 @@ export default function CriarPage() {
                     const on = emotions.includes(e.id);
                     return (
                       <button key={e.id} title={e.short} onClick={() => setEmotions(on ? emotions.filter((x) => x !== e.id) : [...emotions, e.id])}
-                        style={{ fontSize: 11, background: on ? "#3a1424" : "#17171b", color: on ? "#ff6b8f" : "#9aa0b0", border: "1px solid " + (on ? "#ef476f" : "#2e2e36"), borderRadius: 14, padding: "4px 10px", cursor: "pointer" }}>
+                        style={{ fontSize: 11, background: on ? "#3a1424" : "#17171b", color: on ? "#ff6b8f" : "#9aa0b0", border: "1px solid " + (on ? "#F01E79" : "#2e2e36"), borderRadius: 14, padding: "4px 10px", cursor: "pointer" }}>
                         {on ? "✓ " : ""}{e.name}
                       </button>
                     );
@@ -913,7 +913,7 @@ export default function CriarPage() {
                               <button key={i} onClick={() => { setCorrelation(c.title + (c.comoConecta ? " — conexão: " + c.comoConecta : c.snippet ? " — " + c.snippet : "")); setCorrCands([]); }} title={c.comoConecta || c.snippet}
                                 style={{ textAlign: "left", fontSize: 11.5, background: "#17171b", color: "#cfcfcf", border: "1px solid " + (c.usado ? "#6a5a1e" : "#2e2e36"), borderRadius: 7, padding: "7px 9px", cursor: "pointer", display: "block", opacity: c.usado ? 0.75 : 1 }}>
                                 <span style={{ fontWeight: 600 }}>{c.title}</span>
-                                {c.usado && <span style={{ color: "#e8c860", fontSize: 10, marginLeft: 6 }}>· já usado recentemente</span>}
+                                {c.usado && <span style={{ color: "#FED576", fontSize: 10, marginLeft: 6 }}>· já usado recentemente</span>}
                                 {c.comoConecta && <span style={{ display: "block", color: "#7fa0a0", fontSize: 10.5, marginTop: 2 }}>🔗 {c.comoConecta}</span>}
                               </button>
                             ))}
@@ -958,7 +958,7 @@ export default function CriarPage() {
               {(chosenCover || chosenHook) && (
                 <div style={{ background: "#17171b", border: "1px solid #6a5a1e", borderRadius: 8, padding: 10, marginTop: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                    <span style={{ fontSize: 11.5, color: "#e8c860", fontWeight: 600 }}>✓ gancho travado</span>
+                    <span style={{ fontSize: 11.5, color: "#FED576", fontWeight: 600 }}>✓ gancho travado</span>
                     <span style={{ flex: 1 }} />
                     <button onClick={() => { setChosenHook(""); setChosenCover(""); }} style={{ fontSize: 11, background: "transparent", color: "#e0738c", border: "1px solid #3d3d4d", borderRadius: 6, padding: "3px 8px", cursor: "pointer" }}>limpar</button>
                   </div>
@@ -1026,9 +1026,9 @@ export default function CriarPage() {
                 <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 20, color: "#fff", letterSpacing: 1 }}>✍️ ROTEIRO</span>
                 <span style={{ fontSize: 12, color: "#9aa0b0" }}>edita à vontade — é a TUA escrita. Só vira carrossel quando você aprovar</span>
                 <span style={{ flex: 1 }} />
-                {voiceMsg && <span style={{ fontSize: 12, color: voiceMsg.startsWith("⭐") ? "#e8c860" : "#e0738c" }}>{voiceMsg}</span>}
+                {voiceMsg && <span style={{ fontSize: 12, color: voiceMsg.startsWith("⭐") ? "#FED576" : "#e0738c" }}>{voiceMsg}</span>}
                 <button onClick={markRoteiroVoice} title="Marca este roteiro como a TUA voz no ponto — a IA imita a cadência nas próximas"
-                  style={{ fontSize: 12, background: "#241f0e", color: "#e8c860", border: "1px solid #6a5a1e", borderRadius: 7, padding: "6px 11px", cursor: "pointer", fontWeight: 600 }}>⭐ minha voz</button>
+                  style={{ fontSize: 12, background: "#241f0e", color: "#FED576", border: "1px solid #6a5a1e", borderRadius: 7, padding: "6px 11px", cursor: "pointer", fontWeight: 600 }}>⭐ minha voz</button>
                 <button onClick={rejectRoteiro} title="Não curti — a IA aprende a NÃO escrever assim (evita esse tom/ângulo nas próximas)"
                   style={{ fontSize: 12, background: "transparent", color: "#9a8a90", border: "1px solid #3a2a32", borderRadius: 7, padding: "6px 11px", cursor: "pointer" }}>👎 não curti</button>
                 <button onClick={generateRoteiro} disabled={roteiroLoad} className="dg-btn" style={{ fontSize: 12, padding: "6px 12px" }}>{roteiroLoad ? "reescrevendo" : "↻ reescrever"}</button>
@@ -1068,7 +1068,7 @@ export default function CriarPage() {
               </div>
               {voiceScore != null && (
                 <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid #2e2e36", display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
-                  <span title="juiz de voz: quão parecido com a sua escrita real (comparado aos seus exemplos-ouro)" style={{ fontSize: 12.5, fontWeight: 600, flexShrink: 0, color: voiceScore >= 80 ? "#7bbf6a" : voiceScore >= 65 ? "#e8c860" : "#e0738c" }}>🎯 voz: {voiceScore}/100{regenerated ? " · regenerei pra subir" : ""}</span>
+                  <span title="juiz de voz: quão parecido com a sua escrita real (comparado aos seus exemplos-ouro)" style={{ fontSize: 12.5, fontWeight: 600, flexShrink: 0, color: voiceScore >= 80 ? "#7bbf6a" : voiceScore >= 65 ? "#FED576" : "#e0738c" }}>🎯 voz: {voiceScore}/100{regenerated ? " · regenerei pra subir" : ""}</span>
                   {voiceIssues.length > 0 && <span style={{ fontSize: 12, color: "#cfcfcf" }}>{voiceIssues.join(" · ")}</span>}
                   {voiceScore < 80 && <span style={{ fontSize: 11, color: "#7c869c" }}>(quanto mais exemplos seus no Cérebro, mais alto isso fica)</span>}
                 </div>
@@ -1090,7 +1090,7 @@ export default function CriarPage() {
           )}
           </>)}{/* fim ETAPA 1 — texto */}
 
-          {err && <div style={{ color: "#ef476f", marginBottom: 16 }}>⚠ {err}</div>}
+          {err && <div style={{ color: "#F01E79", marginBottom: 16 }}>⚠ {err}</div>}
 
           {stage === "carrossel" && (<>
             {/* barra de ações do carrossel */}
@@ -1147,7 +1147,7 @@ export default function CriarPage() {
           {carousel.cards.length === 0 && (
             <div className="studio-section studio-section--pad create-empty" style={{ textAlign: "center", color: "#7c869c" }}>
               <div className="dg-title" style={{ fontSize: 26, color: "#cfcfcf", marginBottom: 6 }}>NADA AQUI AINDA</div>
-              <div style={{ fontSize: 14, marginBottom: 20 }}>Cola um conteúdo acima e clica <b style={{ color: "#ef476f" }}>Gerar carrossel</b> — ou começa na mão</div>
+              <div style={{ fontSize: 14, marginBottom: 20 }}>Cola um conteúdo acima e clica <b style={{ color: "#F01E79" }}>Gerar carrossel</b> — ou começa na mão</div>
               <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
                 <button className="dg-btn" onClick={addCard}>+ adicionar card manual</button>
                 <button className="dg-btn" onClick={() => setCarousel(SAMPLE)}>ver exemplo</button>
@@ -1260,15 +1260,15 @@ export default function CriarPage() {
                     ? (sc.logos || []).map((l, i) => handle(`lg-${i}`, l.x, l.y, "LOGO " + (i + 1), "rgba(20,33,61,.95)"))
                     : (showLogo && handle("logo", lx, ly, "LOGO", "rgba(20,33,61,.95)"))}
                   {elementHandles.map((el) => handle(`el-${el.id}`, el.x, el.y, el.label, "rgba(255,132,74,.95)"))}
-                  {ovs.map((o, i) => handle(`ov-${i}`, o.x, o.y, "img", "rgba(239,71,111,.92)"))}
-                  {(sc.cardImages || []).map((ci, i) => handle(`ci-${i}`, Math.min(0.98, Math.max(0.02, ci.x)), Math.min(0.98, Math.max(0.02, ci.y)), `IMG ${i + 1}`, "rgba(239,71,111,.85)"))}
+                  {ovs.map((o, i) => handle(`ov-${i}`, o.x, o.y, "img", "rgba(240,30,121,.92)"))}
+                  {(sc.cardImages || []).map((ci, i) => handle(`ci-${i}`, Math.min(0.98, Math.max(0.02, ci.x)), Math.min(0.98, Math.max(0.02, ci.y)), `IMG ${i + 1}`, "rgba(240,30,121,.85)"))}
                   {sc.headline && sc.body
                     ? <>
                         {handle("title", (hbase.title ? hbase.title.x : 0.5) + (sc.titleX ?? 0), (hbase.title ? hbase.title.y : 0.5) + (sc.titleY ?? 0), "TÍTULO", "rgba(95,211,138,.92)")}
                         {handle("body", (hbase.body ? hbase.body.x : 0.5) + (sc.bodyX ?? 0), (hbase.body ? hbase.body.y : 0.5) + (sc.bodyY ?? 0), "CORPO", "rgba(120,170,255,.92)")}
                       </>
                     : handle("text", (hbase.text ? hbase.text.x : 0.5) + (sc.textX ?? 0), (hbase.text ? hbase.text.y : 0.5) + (sc.textY ?? 0), "TEXTO", "rgba(95,211,138,.92)")}
-                  {!sc.hideNick && handle("nick", sc.nickPos?.x ?? 0.06, sc.nickPos?.y ?? 0.05, "NICK", "rgba(232,200,96,.95)")}
+                  {!sc.hideNick && handle("nick", sc.nickPos?.x ?? 0.06, sc.nickPos?.y ?? 0.05, "NICK", "rgba(254,213,118,.95)")}
                   {sc.signoff && handle("signoff", (hbase.signoff ? hbase.signoff.x : 0.5) + (sc.signoffX ?? 0), (hbase.signoff ? hbase.signoff.y : 0.88) + (sc.signoffY ?? 0), "CTA", "rgba(168,115,255,.95)")}
                   {sc.kicker && handle("kicker", Math.min(0.97, Math.max(0.03, (hbase.kicker?.x ?? 0.15) + (sc.kickerX ?? 0))), Math.min(0.97, Math.max(0.03, (hbase.kicker?.y ?? 0.7) + (sc.kickerY ?? 0))), "KICKER", "rgba(255,180,50,.95)")}
                   <div style={{ position: "absolute", left: 8, bottom: 8, fontSize: 10.5, color: "#fff", background: "rgba(0,0,0,.62)", padding: "3px 9px", borderRadius: 6, pointerEvents: "none" }}>🖱️ arraste os handles para mover foto, texto, logo, kicker ou elementos</div>

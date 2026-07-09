@@ -21,7 +21,7 @@ export interface RegInfo {
 // A régua da marca. Os 5 de distribuição somam 100% (30/25/20/15/10). Darkside é camada (não entra na conta).
 export const REGISTROS: RegInfo[] = [
   { id: "ferida",     label: "Diagnóstico",        emoji: "🎯", color: "#c77dad", target: 0.30, o_que: "enxerga o problema que ela ainda não viu — valida a dor, nunca a desculpa" },
-  { id: "porrada",    label: "Confronto",          emoji: "🔥", color: "#ef476f", target: 0.25, o_que: "o vilão é lá fora — mercado, atalho e promessa falsa, não a leitora" },
+  { id: "porrada",    label: "Confronto",          emoji: "🔥", color: "#F01E79", target: 0.25, o_que: "o vilão é lá fora — mercado, atalho e promessa falsa, não a leitora" },
   { id: "dominio",    label: "Domínio",            emoji: "👑", color: "#b98bd9", target: 0.20, o_que: "demonstra leitura e profundidade — autoridade percebida, nunca declarada" },
   { id: "ensino",     label: "Clareza Estratégica", emoji: "🧠", color: "#3e7cc4", target: 0.15, o_que: "faz enxergar o mecanismo — diagnóstico, causa, consequência, direção" },
   { id: "convocacao", label: "Convocação",         emoji: "⚔️", color: "#e0a458", target: 0.10, o_que: "chama pra assumir responsabilidade e uma identidade, não pra comprar" },

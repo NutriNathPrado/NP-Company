@@ -359,7 +359,7 @@ export default function ReelsPage() {
                   {([
                     { id: "topo",  emoji: "🔍", label: "Topo",  desc: "atrair atenção",       detail: "Descoberta · alcance · curiosidade · viral", color: "#22c55e" },
                     { id: "meio",  emoji: "📚", label: "Meio",  desc: "construir autoridade",  detail: "Educação · confiança · método · profundidade", color: "#3b82f6" },
-                    { id: "fundo", emoji: "🎯", label: "Fundo", desc: "gerar conversão",       detail: "Decisão · provas · quebra de objeções · CTA",  color: "#ef476f" },
+                    { id: "fundo", emoji: "🎯", label: "Fundo", desc: "gerar conversão",       detail: "Decisão · provas · quebra de objeções · CTA",  color: "#F01E79" },
                   ] as const).map(f => {
                     const on = funil === f.id;
                     return (

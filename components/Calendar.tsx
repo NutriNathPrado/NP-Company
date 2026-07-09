@@ -120,13 +120,13 @@ export default function Calendar({ onOpen, onPede }: { onOpen: (c: Carousel) => 
                     <div className="dose-goal" title={`meta ~${Math.round(row.info.target * 100)}%`} style={{ left: `${Math.round(row.info.target * 100)}%` }} />
                   </div>
                   <span style={{ textAlign: "right", fontSize: 12, color: "#cfcfcf" }}>{Math.round(row.pct * 100)}%</span>
-                  <span className="dose-note" style={{ fontSize: 11.5, color: row.status === "ok" ? "#6bd482" : row.status === "alto" ? "#ff6f99" : "#d0a541" }}>{row.nota}</span>
+                  <span className="dose-note" style={{ fontSize: 11.5, color: row.status === "ok" ? "#6bd482" : row.status === "alto" ? "#FF577F" : "#d0a541" }}>{row.nota}</span>
                 </div>
               ))}
             </div>
             {dose.alarme ? (
               <div className="studio-row studio-row--wrap" style={{ marginTop: 14, paddingTop: 13, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-                <span style={{ fontSize: 13, color: "#e8c860" }}>⚠ {dose.alarme}</span>
+                <span style={{ fontSize: 13, color: "#FED576" }}>⚠ {dose.alarme}</span>
                 {dose.pede && <span style={{ fontSize: 13, color: "#cfcfcf" }}>O ritmo pede <b style={{ color: REG_MAP[dose.pede].color }}>{REG_MAP[dose.pede].emoji} {REG_MAP[dose.pede].label}</b></span>}
                 {dose.pede && onPede && (
                   <button onClick={() => onPede(dose.pede!)} className="dg-btn-primary" style={{ fontSize: 12, padding: "6px 13px" }}>
@@ -224,7 +224,7 @@ export default function Calendar({ onOpen, onPede }: { onOpen: (c: Carousel) => 
                   onDragEnd={() => { dragId.current = null; setOverDay(null); }}
                   onClick={() => onOpen(p.carousel)} title={p.tema + (p.registro ? ` · ${REG_MAP[p.registro].label}` : "")}
                   className="calendar-event"
-                  style={{ ["--event-color" as string]: p.registro ? REG_MAP[p.registro].color : "#ef476f" }}>
+                  style={{ ["--event-color" as string]: p.registro ? REG_MAP[p.registro].color : "#F01E79" }}>
                   {p.registro ? REG_MAP[p.registro].emoji + " " : ""}{(p.carousel.cards[0]?.headline || p.tema).replace(/\*\*/g, "")}
                 </div>
               ))}

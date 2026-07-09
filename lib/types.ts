@@ -136,7 +136,7 @@ export interface Card {
   bodyShadow?: number;    // intensidade da sombra do corpo (0 = sem, ~0.5 padrão)
   titleColor?: string;    // cor do título (default branco #f5f5f5)
   bodyColor?: string;     // cor do corpo/bullets (default branco #f5f5f5)
-  highlightColor?: string;// cor do destaque (base para todos os elementos de marcação) — default rosa #ef476f
+  highlightColor?: string;// cor do destaque (base para todos os elementos de marcação) — default rosa #F01E79
   caixaColor?: string;    // cor da ==caixa== sólida (default: highlightColor ou rosa)
   sublinhColor?: string;  // cor do __sublinhado__ (default: highlightColor ou rosa)
   marcaColor?: string;    // cor do ~~marca-texto~~ (default: highlightColor ou rosa)

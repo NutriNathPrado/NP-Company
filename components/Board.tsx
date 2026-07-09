@@ -153,7 +153,7 @@ export default function Board({ onOpen, onCreate }: { onOpen: (c: Carousel) => v
                   </div>
                   <div className="board-actions">
                     {p.carousel.cards.length === 0 ? (
-                      <button onClick={() => onCreate?.(p)} style={{ ...mini, color: "#ef476f", borderColor: "#5a1c2c" }} title={p.savedHook ? "abre no Criar com o gancho salvo travado" : "abre no Criar pra escrever o roteiro na voz da marca"}>{p.savedHook ? "✍️ escrever (gancho)" : "✍️ escrever"}</button>
+                      <button onClick={() => onCreate?.(p)} style={{ ...mini, color: "#F01E79", borderColor: "#5a1c2c" }} title={p.savedHook ? "abre no Criar com o gancho salvo travado" : "abre no Criar pra escrever o roteiro na voz da marca"}>{p.savedHook ? "✍️ escrever (gancho)" : "✍️ escrever"}</button>
                     ) : (
                       <button onClick={() => onOpen(p.carousel)} style={mini}>abrir</button>
                     )}

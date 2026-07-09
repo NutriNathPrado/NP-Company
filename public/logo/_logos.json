@@ -1,4 +1,6 @@
 {
-  "logos": [],
-  "active": null
+  "logos": [
+    "np-logo.png"
+  ],
+  "active": "np-logo.png"
 }

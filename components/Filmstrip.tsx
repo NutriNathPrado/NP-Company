@@ -29,7 +29,7 @@ export default function Filmstrip({ cards, selected, onSelect, onAdd, onDuplicat
             onDrop={() => { if (drag.current != null && drag.current !== i) onReorder(drag.current, i); drag.current = null; }}
             onClick={() => onSelect(i)}
             title={`Card ${i + 1} — clica pra editar, arrasta pra reordenar`}
-            style={{ flexShrink: 0, position: "relative", cursor: "pointer", borderRadius: 6, overflow: "hidden", border: "2px solid " + (on ? "#ef476f" : "#2a3552"), width: 72, height: 90, background: "#000" }}>
+            style={{ flexShrink: 0, position: "relative", cursor: "pointer", borderRadius: 6, overflow: "hidden", border: "2px solid " + (on ? "#F01E79" : "#2a3552"), width: 72, height: 90, background: "#000" }}>
             <div style={{ transform: "scale(0.0667)", transformOrigin: "top left", pointerEvents: "none", width: 1080, height: 1350 }}>
               <CarouselCard card={c} grain={false} />
             </div>
@@ -37,7 +37,7 @@ export default function Filmstrip({ cards, selected, onSelect, onAdd, onDuplicat
             {on && (
               <div style={{ position: "absolute", right: 2, top: 2, display: "flex", gap: 2 }}>
                 <button onClick={(e) => { e.stopPropagation(); onDuplicate(i); }} title="duplicar card" style={fsBtn}>⧉</button>
-                <button onClick={(e) => { e.stopPropagation(); onDelete(i); }} title="remover card" style={{ ...fsBtn, color: "#ff7a9a" }}>×</button>
+                <button onClick={(e) => { e.stopPropagation(); onDelete(i); }} title="remover card" style={{ ...fsBtn, color: "#FF577F" }}>×</button>
               </div>
             )}
           </div>

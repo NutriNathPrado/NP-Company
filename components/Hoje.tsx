@@ -42,19 +42,19 @@ function MiniTrend() {
     <svg className="hoje-mini-trend" viewBox="0 0 260 96" aria-hidden="true">
       <defs>
         <linearGradient id="trendLine" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0%" stopColor="#ef476f" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#ff6f99" />
+          <stop offset="0%" stopColor="#F01E79" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#FF577F" />
         </linearGradient>
         <linearGradient id="trendFill" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#ef476f" stopOpacity="0.28" />
-          <stop offset="100%" stopColor="#ef476f" stopOpacity="0" />
+          <stop offset="0%" stopColor="#F01E79" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#F01E79" stopOpacity="0" />
         </linearGradient>
       </defs>
       <path d="M8 82 L38 70 L72 72 L112 45 L154 43 L198 54 L246 14 L246 96 L8 96 Z" fill="url(#trendFill)" />
       <path d="M8 82 L38 70 L72 72 L112 45 L154 43 L198 54 L246 14" fill="none" stroke="url(#trendLine)" strokeWidth="2.4" />
       {[8, 38, 72, 112, 154, 198, 246].map((x, i) => {
         const y = [82, 70, 72, 45, 43, 54, 14][i];
-        return <circle key={x} cx={x} cy={y} r={3.2} fill="#ff6f99" />;
+        return <circle key={x} cx={x} cy={y} r={3.2} fill="#FF577F" />;
       })}
     </svg>
   );

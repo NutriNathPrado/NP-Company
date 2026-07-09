@@ -53,14 +53,14 @@ export default function Marca({ onUse, onIdea }: { onUse?: (tema: string, angulo
 
       {/* VISÃO + INIMIGO */}
       <div className="studio-grid-2">
-        <section className="studio-section studio-section--pad studio-section--accent" style={{ ["--studio-accent" as string]: "#e8c860" }}>
+        <section className="studio-section studio-section--pad studio-section--accent" style={{ ["--studio-accent" as string]: "#FED576" }}>
           <div className="studio-section-head">
             <h3>Sua visão</h3>
             <p>Grande tese</p>
           </div>
           <textarea value={model.grandeTese} onChange={(e) => setModel({ ...model, grandeTese: e.target.value })} rows={4} className="studio-textarea" style={{ fontSize: 16, fontWeight: 700 }} />
         </section>
-        <section className="studio-section studio-section--pad studio-section--accent" style={{ ["--studio-accent" as string]: "#ef476f" }}>
+        <section className="studio-section studio-section--pad studio-section--accent" style={{ ["--studio-accent" as string]: "#F01E79" }}>
           <div className="studio-section-head">
             <h3>O que combate</h3>
             <p>Inimigo narrativo</p>

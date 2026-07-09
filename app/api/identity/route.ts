@@ -17,7 +17,7 @@ async function readManifest(): Promise<Manifest> { try { return JSON.parse(await
 async function writeManifest(m: Manifest) { await fs.writeFile(MANIFEST(), JSON.stringify(m, null, 2)); }
 
 const PALETTE = [
-  { name: "Rosa", hex: "#EF476F" },
+  { name: "Rosa", hex: "#F01E79" },
   { name: "Azul-marinho", hex: "#14213D" },
   { name: "Branco", hex: "#FFFFFF" },
   { name: "Cinza claro", hex: "#F5F5F5" },

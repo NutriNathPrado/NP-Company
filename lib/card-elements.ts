@@ -20,7 +20,7 @@ export interface CardElementDef {
   colorable?: boolean;
 }
 
-const RED = "#ef476f";
+const RED = "#F01E79";
 const GOLD = "#c9a24b";
 
 const l2Layouts: Layout[] = ["l2-capa", "l2-dor-dir", "l2-dor-esq", "l2-emocional", "l2-virada", "l2-cta"];
