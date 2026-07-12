@@ -153,31 +153,25 @@ export const STORY_IDEAS: IdeaCat[] = [
 
 // ROTINA REAL DA NATHALIA: contexto para sugestões precisas de stories
 export const NATH_ROUTINE = `
-ROTINA (use para dar sugestões contextualizadas por momento do dia). AJUSTE aos detalhes REAIS da Nathalia quando ela informar — nunca invente fatos pessoais:
+ROTINA REAL DA NATHALIA (use para sugestões contextualizadas por momento do dia; a agenda é FLEXÍVEL e muda conforme a fase: PREPARAÇÃO de competição x OFF-SEASON):
 
-MANHÃ: ABERTURA:
-Acorda, primeira refeição, bastidor pessoal antes do trabalho. Abertura leve, humana. (E)
+AO ACORDAR:
+Primeira coisa, independente do horário (às vezes 4h, às vezes 6h): leva os cachorros pra fazer xixi. Ela tem dois: CHICO (chihuahua, 2 anos) e SIMBA (spitz, 7-8 anos). Depois toma cafeína e vai pro cardio. "Depois do cardio meu dia começa de verdade." (É tão básico pra ela que ela esquece que o óbvio precisa ser dito, virar conteúdo.)
 
-MANHÃ: CONSULTORIA (1ª parte):
-Atende as alunas: ajustes de dieta, dúvidas de alimentação e treino, revisa feedback e evolução. Bastidor real da consultoria de nutrição esportiva: conteúdo forte de A (autoridade aplicada na prática).
+MANHÃ (o pico dela):
+De manhã ela FUNCIONA melhor: senta pra trabalhar nas coisas que exigem pensar e desenvolver (conteúdo, planejamento). Isso é inegociável. Em preparação, encaixa LPF (Low Pressure Fitness) todo dia pós-cardio.
 
-MANHÃ/TARDE: TREINO PESSOAL:
-Vai treinar — o próprio treino dela: skin in the game puro (é atleta de fisiculturismo, vive o que ensina). Sugestões para o treino:
-1. Explicar um detalhe técnico de execução que o mercado erra
-2. Um insight que surgiu durante a série
-3. Uma dúvida real que apareceu no treino hoje
-4. Uma polêmica que questionou enquanto treinava
-5. Comparação de execução: o jeito errado vs. o jeito certo
-6. Como encaixa a alimentação em torno do treino (pré e pós)
+TREINOS (âncoras do dia):
+Os treinos são âncoras. Perna é segunda, quarta e sábado — dias que ela reserva 2 a 3 horas. Em preparação, coloca treino de pose no fim. Musculação vem da N² Squad (treino do noivo Neto).
 
-TARDE: ALMOÇO + CONSULTORIA (2ª parte):
-Refeição real (mostra na prática o que ensina sobre comer pra performar). Volta pra consultoria: ajustes de dieta, mensagens, feedback. Também faz carrosséis e conteúdo.
+ATENDIMENTOS / CONSULTORIA:
+Suporte às pacientes durante o dia; os atendimentos ela costuma encaixar no fim do dia / à noite (ou de manhã, aí as outras atividades vão pra tarde). Tem ~50 pacientes ativas e fiéis. Ajusta a semana semanalmente.
 
-TARDE/NOITE: NUTRIÇÃO / PREPARAÇÃO:
-Preparo de refeições, escolhas alimentares reais do dia, suplementação e — quando em prep — bastidor da preparação de competição. Conteúdo: A (método na prática) + E (o lado humano da rotina de atleta).
+VIDA PESSOAL (bastidor que ela topa mostrar):
+Cinema/filme, comer fora nas refeições livres (gosta de hambúrguer), amigos (que são da academia, vê todo dia — o treino também é social), família (tenta estar com a mãe aos domingos). Hoje a vida dela é ela, o noivo Neto e os cachorros. Música: eletrônica, psytrance, MPB (tipo Ana Vitória), rock emo.
 
-NOITE: FECHAMENTO:
-Confere pendências da consultoria. Momento pessoal / vida fora do trabalho (personalize com o que é real seu). Alivia o volume se já postou muito.
+COMO ELA GRAVA:
+Grava na academia (às vezes como conversa com o noivo) e em casa no estilo lo-fi. O que MAIS engaja: vídeos sobre COMPORTAMENTO (por que a pessoa não segue a dieta, não é consistente, não treina). Ela odeia conteúdo simplista e só posta o que tem uma razão real de ser dito.
 `;
 
 // RITMO DO DIA: estrutura em blocos com intervalo de 3-4h entre cada um.

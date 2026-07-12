@@ -326,35 +326,53 @@ export interface BrainModel {
 }
 // HISTÓRIA pessoal real da Nathalia Prado (1ª pessoa). Material pra IA ancorar conteúdo de marca
 // pessoal — NUNCA inventar; usar só quando o post pedir história/vivência. Editável na aba Marca.
-const DEFAULT_HISTORIA = "";  // vazio: preencha sua história real na aba Marca (nunca inventar)
+const DEFAULT_HISTORIA = `1. DE ONDE EU VIM
+Minha infância foi confusa. Meus pais se separaram quando eu tinha 3 anos, minha mãe foi ficar com meu padrasto, e eu cresci num triângulo amoroso, com muita briga e muita confusão. Vivia cobrada de todos os lados. Quem neutralizava tudo isso era minha avó, minha maior conexão (ela faleceu em 2022, e foi muito difícil pra mim). Cresci com perguntas que ninguém sabia responder, e encontrei no álcool uma fuga: comecei a beber cedo, aos 14. Meu pai é alcoólatra, tenho essa história na família, e eu tinha tudo pra seguir o mesmo caminho. A comida também era de qualquer jeito. Por muito tempo eu fui o oposto do que um dia eu ia pregar.
+
+2. A NUTRIÇÃO QUE AINDA NÃO FAZIA SENTIDO
+Me formei em nutrição em 2015, com só 21 anos. Imatura, ainda uma menina, vivendo de festa e bebida. Não existia essa facilidade de consultoria online, então minha primeira oportunidade foi gerir uma cozinha industrial. Foram 4 anos ali, uma escola dura: aprendi a levar porrada no trabalho, a ter responsabilidade, a impor respeito sendo uma menina de 21 anos no meio de mulheres mais velhas. Fui promovida três vezes. Mas eu não gostava, chegava todo dia cheirando gordura, sem paz, cheia de bolinha no corpo de tanto estresse.
+
+3. OS RECOMEÇOS (NUNCA TIVE MEDO DE RECOMEÇAR)
+Cansei e fui tentar outra coisa: prestei FATEC de eventos, porque vivia em festa. Larguei tudo, mas não deu certo. Chorei muito, e aprendi ali que eu nunca tive medo de recomeçar. Voltei pra nutrição, fui pra indústria de alimentos na qualidade, gostei, mas por impulso troquei de novo por uma cozinha. Foram 3 meses horríveis, e foi ali que eu falei: nunca mais. Isso foi no fim de 2020, emendou na pandemia: desempregada, bebendo mais, muito triste, de volta à terapia, me perguntando o que eu ia fazer da vida.
+
+4. A MUSCULAÇÃO QUE MUDOU TUDO
+Consegui um emprego de vendas numa empresa de TI, home office, e a terapia foi me equilibrando. Comecei a treinar musculação por volta de 2019/2020, depois de terminar um relacionamento de quase 6 anos. Eu não sabia treinar. Foi quando conheci o Neto, treinador na academia e hoje meu noivo. Pedi pra ele montar meu treino, e ali começou minha história de verdade com a musculação: todo dia eu me sentia desafiada. Sem perceber, foi a musculação que me reaproximou da nutrição.
+
+5. O EMAGRECIMENTO QUE ME DEVOLVEU A IDENTIDADE
+Depois de quase dois anos treinando, senti necessidade de fazer dieta. Contratei um nutricionista (o Gabriel, que virou meu coach), fiz um cutting e emagreci: saí de 26-27% de gordura pra 13% em 8 meses, só na dedicação: musculação, dieta, aeróbico, sono e gestão de estresse. Junto com a terapia (foram uns 10 anos entre idas e vindas), fui desfazendo os nós das minhas emoções. Nesse processo saí da casa dos meus pais e fui morar sozinha numa kitnet em São Paulo. Foi ali que percebi: eu estava voltando pra nutrição através da minha própria vida, só que muito mais madura.
+
+6. A ATLETA E A NUTRICIONISTA QUE SOU HOJE
+Como eu já tinha massa muscular dos treinos, eu, o Neto e o Gabriel decidimos que eu ia competir. Entrei no fisiculturismo, categoria Wellness. Voltei a atuar como nutricionista em 2023, com consultório online, e voltei pra Jundiaí, onde trabalho num centro de treinamento até hoje. Hoje faço nutrição há 3 anos como meu ganha-pão, estou terminando a pós em emagrecimento e metabolismo, competindo todo ano com vários títulos amadores e indo pro ProCard. Tenho cerca de 50 pacientes ativas e fiéis, e uma comunidade que construo com carinho (fiz até um evento com elas, o "Efeito Espelho: você se torna o que está ao seu redor"). Levei 10 anos e muita terapia pra chegar nessa clareza. Por isso digo que minha história com a nutrição é bonita: eu precisei viver inteiramente o que prego pra ter autoridade de verdade. E é isso que levo pra cada paciente: dá pra mudar de estilo de vida e construir uma nova identidade, com método, comportamento e acolhimento.`;
 export const DEFAULT_MODEL: BrainModel = {
   grandeTese: "Existe uma grande diferença entre PERDER PESO e construir um corpo que você realmente goste — e a maioria das mulheres nunca descobre isso porque passou a vida presa na restrição, na neura da balança e na mentalidade do 'tudo ou nada'. O que trava não é falta de força de vontade: é falta de estrutura, de rotina e de uma relação saudável com a comida. Quando a mulher entende que ESTRUTURA VENCE A PERFEIÇÃO, que carboidrato é combustível, que a musculação muda a composição corporal e que o comportamento e a emoção fazem parte do processo, ela emagrece e mantém SEM sofrer — com autonomia e paz com a comida. Resultado sustentável não vem de dieta da moda nem de comer cada vez menos; vem de constância adaptada à vida real, treino com progressão e acolhimento.",
   inimigo: "A mentalidade de escassez e tudo que a alimenta: dieta restritiva e detox milagroso, jejuns e 'comer cada vez menos', cortar carboidrato, ficar horas sem comer, a neura da balança como único termômetro, a mentalidade 'tudo ou nada' que faz desistir por um deslize, o 'começo na segunda-feira', a culpa depois de comer, o medo de comer depois de emagrecer, a promessa do próximo suplemento milagroso, e a dieta genérica no papel que ignora a rotina, o comportamento e o acolhimento da mulher. O inimigo não é a comida nem a viagem nem o evento: é a falta de estrutura e a mentalidade de privação.",
   historia: DEFAULT_HISTORIA,
   pilares: [
-    "Emagrecimento sustentável: constância flexível vence a dieta perfeita.",
-    "Estrutura vence a perfeição — a dieta cabe na sua vida, não o contrário.",
+    "COMPORTAMENTO é a base de tudo: ambiente, previsibilidade e organização sustentam qualquer dieta.",
+    "Emagrecimento sustentável: constância flexível vence a dieta perfeita (estrutura vence a perfeição).",
     "Relação saudável com a comida: sem culpa, sem 'tudo ou nada'.",
-    "Fome emocional e comportamento: comer por ansiedade faz parte do processo.",
-    "Musculação muda a composição — o espelho conta mais que a balança.",
+    "Fome emocional: comer por ansiedade faz parte, e se resolve com estratégia e reflexão, não com punição.",
+    "Musculação é inegociável (treino do N² Squad, do meu noivo Neto): muda a composição — o espelho conta mais que a balança.",
     "Carboidrato é combustível do treino, não vilão.",
     "Manutenção: emagrecer é metade; manter sem medo de comer é a outra.",
-    "Autonomia: viagem, evento e fim de semana sem sabotar o processo.",
-    "Minha história real: de sobrepeso a atleta de fisiculturismo, sem nada mágico.",
-    "Acolhimento e comunidade de mulheres (N² Squad) — uma apoia a outra.",
+    "Mentalidade e mindset: eu vivo os extremos, então falo muito de cabeça, identidade e ambiente ('você se torna o que está ao seu redor').",
+    "Saúde da mulher no geral: hormônios, ciclo menstrual, LPF, bem-estar.",
+    "Minha vivência real: de sobrepeso a atleta Wellness, com 10 anos de terapia e vários recomeços.",
+    "Acolhimento + verdade que puxa a orelha (durona e acolhedora), e comunidade de mulheres (N² Squad) — uma apoia a outra.",
     "Opinião clara como combustível de comunidade — posição firme cria pertencimento.",
     "Frequência e desdobramento — uma ideia vira vários formatos; aparecer todo dia supera viralizar uma vez.",
     "Alcance qualificado acima de alcance amplo — atingir as pessoas certas vale mais que muitas.",
   ],
   temas: [
+    "Comportamento alimentar, ambiente e organização",
     "Emagrecimento sustentável e manutenção de peso",
-    "Relação com a comida e comportamento alimentar",
-    "Fome emocional, ansiedade e gatilhos",
-    "Mentalidade tudo-ou-nada e constância flexível",
-    "Musculação, progressão de carga e composição corporal",
-    "Nutrição que cabe na rotina (substituições, organização, improviso)",
-    "Medo de comer e culpa após o emagrecimento",
-    "Bastidores de atleta de fisiculturismo e história pessoal",
+    "Relação com a comida, fome emocional e culpa",
+    "Mentalidade, mindset e construção de identidade",
+    "Musculação, composição corporal e estética feminina",
+    "Saúde da mulher (hormônios, ciclo menstrual, LPF)",
+    "Medo de comer e de carboidrato depois de emagrecer",
+    "Nutrição que cabe na rotina (previsibilidade, substituições)",
+    "Bastidores de atleta Wellness e história pessoal",
   ],
 };
 export async function getBrainModel(): Promise<BrainModel> {
