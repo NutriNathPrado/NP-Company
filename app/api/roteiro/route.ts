@@ -78,7 +78,7 @@ export async function POST(req: Request) {
   const inlineBlock = inline ? `\n\nFONTE PRINCIPAL (embase os números NISTO, na voz da Nathalia, sem copiar frases):\n${inline}` : "";
 
   // exemplos-ouro da voz (alvo de imitação de cadência) + estruturas-ouro (arco)
-  const { getGold, getGoldStructures, getAudience, getEdge, recentFreshLabels, addFreshness, getBrainModel, getLearnings, getRejects, sourcesBackground } = await import("@/lib/store");
+  const { getGold, getGoldStructures, getAudience, getEdge, recentFreshLabels, addFreshness, getBrainModel, getLearnings, getWinnerLearnings, getRejects, sourcesBackground } = await import("@/lib/store");
   const [aud, edg, recent] = await Promise.all([getAudience(), getEdge(), recentFreshLabels(30)]);
   const reguaBlock = `\n\nRÉGUA ATUAL DA MARCA (use como norte):\nPÚBLICO: ${aud}\nARESTA / CARA DA MARCA: ${edg}`;
 
@@ -123,7 +123,9 @@ export async function POST(req: Request) {
     ? `\n\nESTRUTURA QUE FUNCIONOU (validada por métrica — use como MOLDE do ARCO, adapte ao tema, não copie):\n${pickedStructs.map((s) => s.outline).join("\n")}`
     : "";
 
-  const userMsg = `${GENERATION_RULES}${reguaBlock}${brandBlock}${historiaBlock}${learnBlock}${regBlock}${funilBlock}${freshBlock}${hkBlock}${emoBlock}${chosenBlock}${corrBlock}${structBlock}${booksBlock}${sourcesBlock}${inlineBlock}${goldBlock}${rejectBlock}\n\nCONTEÚDO BRUTO PRA VIRAR ROTEIRO:\n${content}\n\nEscreva o roteiro corrido, na voz da Nathalia. Só o texto.`;
+  const _wl = await getWinnerLearnings();
+  const winnerBlock = _wl?.summary ? `\n\nO QUE BOMBA NO INSTAGRAM (campeões reais — surfe esse padrão):\n${_wl.summary}` : "";
+  const userMsg = `${GENERATION_RULES}${reguaBlock}${brandBlock}${historiaBlock}${learnBlock}${winnerBlock}${regBlock}${funilBlock}${freshBlock}${hkBlock}${emoBlock}${chosenBlock}${corrBlock}${structBlock}${booksBlock}${sourcesBlock}${inlineBlock}${goldBlock}${rejectBlock}\n\nCONTEÚDO BRUTO PRA VIRAR ROTEIRO:\n${content}\n\nEscreva o roteiro corrido, na voz da Nathalia. Só o texto.`;
 
   try {
     // ESCREVE o rascunho (pensa o arco antes; o texto de pensamento não entra no roteiro).

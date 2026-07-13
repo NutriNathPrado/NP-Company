@@ -25,9 +25,14 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const body = (await req.json().catch(() => ({}))) as { audience?: string; edge?: string; model?: BrainModel };
-  if (typeof body.audience === "string") await setAudience(body.audience);
-  if (typeof body.edge === "string") await setEdge(body.edge);
-  if (body.model) await setBrainModel(body.model);
-  return Response.json({ ok: true });
+  try {
+    const body = (await req.json().catch(() => ({}))) as { audience?: string; edge?: string; model?: BrainModel };
+    if (typeof body.audience === "string") await setAudience(body.audience);
+    if (typeof body.edge === "string") await setEdge(body.edge);
+    const model = body.model ? await setBrainModel(body.model) : undefined;
+    return Response.json({ ok: true, model });
+  } catch (error) {
+    console.error("POST /api/brain", error);
+    return Response.json({ error: "Não foi possível salvar a marca. Tente novamente." }, { status: 500 });
+  }
 }

@@ -18,6 +18,8 @@ const NAV_ITEMS = [
   ["biblioteca", "Biblioteca"],
   ["cerebro", "Cérebro"],
   ["vault", "Vault"],
+  ["perfil", "Perfil"],
+  ["direct", "Direct"],
 ] as const;
 
 const TITLES: Record<string, [string, string]> = {
@@ -33,6 +35,8 @@ const TITLES: Record<string, [string, string]> = {
   biblioteca: ["BIBLIOTECA", "fotos por categoria + identidade visual"],
   cerebro: ["CÉREBRO", "lado técnico, voz e estrutura"],
   vault: ["VAULT", "desempenho & aprendizado"],
+  perfil: ["PERFIL", "Instagram: números reais e diagnóstico da IA"],
+  direct: ["DIRECT", "responder DMs e parcerias na sua voz"],
 };
 
 type ThemeMode = "light" | "dark" | "system";
@@ -59,6 +63,8 @@ function Icon({ name }: { name: string }) {
     case "cerebro": return (<svg {...c}><rect x="5" y="5" width="14" height="14" rx="2" /><rect x="9" y="9" width="6" height="6" /><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" /></svg>);
     case "vault": return (<svg {...c}><path d="M4 10V8l8-5 8 5v2" /><path d="M5.5 10h13v9a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2z" /><path d="M9 15h6M12 12v6" /></svg>);
     case "reels": return (<svg {...c}><rect x="2" y="2" width="20" height="20" rx="4" /><path d="m10 8 6 4-6 4V8z" /><path d="M2 12h2M20 12h2M12 2v2M12 20v2" /></svg>);
+    case "perfil": return (<svg {...c}><circle cx="12" cy="8" r="4" /><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" /></svg>);
+    case "direct": return (<svg {...c}><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5z" /></svg>);
     default: return null;
   }
 }

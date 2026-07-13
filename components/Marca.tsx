@@ -9,6 +9,7 @@ export default function Marca({ onUse, onIdea }: { onUse?: (tema: string, angulo
   const [model, setModel] = useState<Model>({ grandeTese: "", inimigo: "", pilares: [], temas: [], historia: "" });
   const [loaded, setLoaded] = useState(false);
   const [msg, setMsg] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -26,8 +27,19 @@ export default function Marca({ onUse, onIdea }: { onUse?: (tema: string, angulo
   }, []);
   function flash(m: string) { setMsg(m); setTimeout(() => setMsg(""), 2500); }
   async function save() {
-    await fetch("/api/brain", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model }) });
-    flash("Marca salva ✓ — pilares e temas já valem nas pautas");
+    setSaving(true);
+    setMsg("");
+    try {
+      const response = await fetch("/api/brain", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model }) });
+      const result = await response.json().catch(() => ({})) as { model?: Model; error?: string };
+      if (!response.ok || !result.model) throw new Error(result.error || "Não foi possível salvar a marca.");
+      setModel(result.model);
+      flash("Marca salva ✓ — inclusive sua história");
+    } catch (error) {
+      flash(error instanceof Error ? error.message : "Não foi possível salvar a marca.");
+    } finally {
+      setSaving(false);
+    }
   }
   const setPilar = (i: number, v: string) => setModel((m) => ({ ...m, pilares: m.pilares.map((p, idx) => (idx === i ? v : p)) }));
   const delPilar = (i: number) => setModel((m) => ({ ...m, pilares: m.pilares.filter((_, idx) => idx !== i) }));
@@ -69,7 +81,7 @@ export default function Marca({ onUse, onIdea }: { onUse?: (tema: string, angulo
         </section>
       </div>
 
-      {msg && <div style={{ color: "#7ed957", fontSize: 13 }}>{msg}</div>}
+      {msg && <div role="status" style={{ color: msg.startsWith("Marca salva") ? "#7ed957" : "#ff7a90", fontSize: 13 }}>{msg}</div>}
 
       {/* PILARES */}
       <section className="studio-section studio-section--pad">
@@ -116,7 +128,7 @@ export default function Marca({ onUse, onIdea }: { onUse?: (tema: string, angulo
         <textarea value={model.historia} onChange={(e) => setModel({ ...model, historia: e.target.value })} rows={12} placeholder="Escreve aqui a tua história real, em primeira pessoa: de onde você veio, o que te fez virar a chave, por que você faz o que faz hoje" className="studio-textarea" style={{ fontSize: 13.5, lineHeight: 1.6 }} />
       </section>
 
-      <button onClick={save} className="dg-btn-primary" style={{ alignSelf: "flex-start", padding: "10px 22px" }}>Salvar marca</button>
+      <button onClick={save} disabled={saving} className="dg-btn-primary" style={{ alignSelf: "flex-start", padding: "10px 22px" }}>{saving ? "Salvando…" : "Salvar marca"}</button>
 
       {/* PAUTAS — a partir dos pilares acima */}
       <section className="studio-section studio-section--pad">

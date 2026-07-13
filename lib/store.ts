@@ -401,16 +401,19 @@ export async function setWeekPlan(plan: WeekPlan): Promise<void> {
   if (error) console.error("setWeekPlan", error.message);
 }
 
-export async function setBrainModel(m: BrainModel): Promise<void> {
+export async function setBrainModel(m: BrainModel): Promise<BrainModel> {
   const clean: BrainModel = {
     grandeTese: (m.grandeTese || "").trim(),
     inimigo: (m.inimigo || "").trim(),
     pilares: (m.pilares || []).map((p) => p.trim()).filter(Boolean).slice(0, 30),
     temas: (m.temas || []).map((t) => t.trim()).filter(Boolean).slice(0, 30),
-    historia: (m.historia || "").trim().slice(0, 8000),
+    // A história cresce com o tempo. Não corte silenciosamente o final, porque
+    // é justamente onde a pessoa costuma acrescentar as novas passagens.
+    historia: (m.historia || "").trim(),
   };
   const { error } = await sb.from("kv").upsert({ key: "brain_model", value: clean });
-  if (error) console.error("setBrainModel", error.message);
+  if (error) throw new Error(`Não foi possível salvar a marca: ${error.message}`);
+  return clean;
 }
 
 // ---- GUARDA DE FRESCOR: o que já foi usado (pontes/figuras), pra não repetir ----
@@ -500,4 +503,57 @@ export async function sourcesBackground(totalBudget = 8000): Promise<string> {
     budget -= txt.length;
   }
   return parts.join("\n");
+}
+
+// ============ INSTAGRAM (API oficial da Meta) ============
+export interface IgConfig {
+  appId: string; appSecret: string; token: string;   // token de usuário long-lived
+  igUserId: string; pageId: string; username: string;
+  connectedAt: string; tokenExpiresAt?: string;
+}
+export interface IgPost {
+  id: string; caption?: string; mediaType?: string; timestamp?: string;
+  permalink?: string; thumbnail?: string;
+  likes?: number; comments?: number; reach?: number; saved?: number;
+  shares?: number; totalInteractions?: number; views?: number;
+}
+export interface IgSnapshot {
+  updatedAt: string;
+  profile: { username: string; followers: number; mediaCount: number; picture?: string };
+  posts: IgPost[];
+}
+export interface IgAnalysis { updatedAt: string; text: string }
+export interface WinnerLearnings { updatedAt: string; n: number; summary: string }
+
+export async function getIgConfig(): Promise<IgConfig | null> {
+  const { data } = await sb.from("kv").select("value").eq("key", "ig_config").maybeSingle();
+  return (data?.value as IgConfig) || null;
+}
+export async function setIgConfig(c: IgConfig | null): Promise<void> {
+  const { error } = await sb.from("kv").upsert({ key: "ig_config", value: c });
+  if (error) console.error("setIgConfig", error.message);
+}
+export async function getIgSnapshot(): Promise<IgSnapshot | null> {
+  const { data } = await sb.from("kv").select("value").eq("key", "ig_snapshot").maybeSingle();
+  return (data?.value as IgSnapshot) || null;
+}
+export async function setIgSnapshot(s: IgSnapshot): Promise<void> {
+  const { error } = await sb.from("kv").upsert({ key: "ig_snapshot", value: s });
+  if (error) console.error("setIgSnapshot", error.message);
+}
+export async function getIgAnalysis(): Promise<IgAnalysis | null> {
+  const { data } = await sb.from("kv").select("value").eq("key", "ig_analysis").maybeSingle();
+  return (data?.value as IgAnalysis) || null;
+}
+export async function setIgAnalysis(a: IgAnalysis): Promise<void> {
+  const { error } = await sb.from("kv").upsert({ key: "ig_analysis", value: a });
+  if (error) console.error("setIgAnalysis", error.message);
+}
+export async function getWinnerLearnings(): Promise<WinnerLearnings | null> {
+  const { data } = await sb.from("kv").select("value").eq("key", "ig_winner_learnings").maybeSingle();
+  return (data?.value as WinnerLearnings) || null;
+}
+export async function setWinnerLearnings(l: WinnerLearnings): Promise<void> {
+  const { error } = await sb.from("kv").upsert({ key: "ig_winner_learnings", value: l });
+  if (error) console.error("setWinnerLearnings", error.message);
 }

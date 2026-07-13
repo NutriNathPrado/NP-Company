@@ -190,6 +190,7 @@ function buildUserMsg(args: {
   reguaBlock: string;
   histBlock: string;
   learnBlock: string;
+  winnerBlock: string;
   goldBlock: string;
   rejectBlock: string;
   ctxBlock: string;
@@ -205,7 +206,7 @@ function buildUserMsg(args: {
 
   return `${GENERATION_RULES}
 
-${args.reguaBlock}${args.histBlock}${args.learnBlock}${args.goldBlock}${args.rejectBlock}${args.ctxBlock}${args.funilBlock}${args.tomBlock}
+${args.reguaBlock}${args.histBlock}${args.learnBlock}${args.winnerBlock}${args.goldBlock}${args.rejectBlock}${args.ctxBlock}${args.funilBlock}${args.tomBlock}
 
 ${REELS_TRANSCRICOES}${args.trendBlock}
 
@@ -291,9 +292,9 @@ export async function POST(req: Request) {
   const funil = body.funil || null;
   const reg = body.registro || null;
 
-  const { getAudience, getEdge, getBrainModel, getGold, getRejects, getReelLearnings } = await import("@/lib/store");
-  const [aud, edg, model, gold, rejects, reelLearnings] = await Promise.all([
-    getAudience(), getEdge(), getBrainModel(), getGold(), getRejects("voice"), getReelLearnings(),
+  const { getAudience, getEdge, getBrainModel, getGold, getRejects, getReelLearnings, getWinnerLearnings } = await import("@/lib/store");
+  const [aud, edg, model, gold, rejects, reelLearnings, winnerLearn] = await Promise.all([
+    getAudience(), getEdge(), getBrainModel(), getGold(), getRejects("voice"), getReelLearnings(), getWinnerLearnings(),
   ]);
 
   const reguaBlock = `PÚBLICO-ALVO: ${aud}\n\nARESTA E CARA DA NATHALIA: ${edg}`;
@@ -308,6 +309,9 @@ export async function POST(req: Request) {
     : "";
   const learnBlock = reelLearnings?.summary
     ? `\n\nO QUE FUNCIONA NOS REELS DA NATHALIA (aprendido — aplique):\n${reelLearnings.summary.slice(0, 800)}`
+    : "";
+  const winnerBlock = winnerLearn?.summary
+    ? `\n\nO QUE BOMBA NO INSTAGRAM (campeões reais — surfe esse padrão):\n${winnerLearn.summary.slice(0, 800)}`
     : "";
   const ctxBlock = contexto ? `\n\nCONTEXTO DO MOMENTO:\n${contexto}` : "";
   const tomBlock = registroBlock(reg);
@@ -337,6 +341,7 @@ export async function POST(req: Request) {
         reguaBlock,
         histBlock,
         learnBlock,
+        winnerBlock,
         goldBlock,
         rejectBlock,
         ctxBlock,

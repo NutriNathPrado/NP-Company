@@ -111,7 +111,7 @@ export async function POST(req: Request) {
   const ctxBlock = ctxLines.length ? `\nCONTEXTO EXTRA DO DIA:\n${ctxLines.join("\n")}` : "";
 
   // Cérebro (mesmo do carrossel)
-  const { getAudience, getEdge, getBrainModel, getGold, getRejects, getStoriesStyle, getStoryLearnings } = await import("@/lib/store");
+  const { getAudience, getEdge, getBrainModel, getGold, getRejects, getStoriesStyle, getStoryLearnings, getWinnerLearnings } = await import("@/lib/store");
   const [aud, edg, model, gold, rejects, estilo, storyLearnings] = await Promise.all([
     getAudience(), getEdge(), getBrainModel(), getGold(), getRejects("voice"), getStoriesStyle(), getStoryLearnings()
   ]);
@@ -127,7 +127,9 @@ export async function POST(req: Request) {
     ? `\n\nMODO SEQUÊNCIA ESCRITA (OBRIGATÓRIO):\n• Todos os frames devem ser tipo "tela" (campo "tipo": "tela"). NENHUM frame de câmera.\n• Cada frame carrega apenas texto escrito — curto, direto, impactante.\n• Os frames se complementam em sequência: cada um continua ou aprofunda o anterior, como uma thread visual.\n• Campo "mostrar": deixe vazio ou descreva apenas o fundo/cenário visual estático.\n• Sem "gravar", sem "câmera", sem instruções de gravação — é conteúdo 100% escrito.`
     : "";
 
-  const userMsg = `${GENERATION_RULES}${reguaBlock}${histBlock}${NATH_ROUTINE}${estiloBlock}${learnBlock}${goldBlock}${rejectBlock}${escritaBlock}
+  const _wl = await getWinnerLearnings();
+  const winnerBlock = _wl?.summary ? `\n\nO QUE BOMBA NO INSTAGRAM (campeões reais — surfe esse padrão):\n${_wl.summary.slice(0, 900)}` : "";
+  const userMsg = `${GENERATION_RULES}${reguaBlock}${histBlock}${NATH_ROUTINE}${estiloBlock}${learnBlock}${winnerBlock}${goldBlock}${rejectBlock}${escritaBlock}
 
 OBJETIVO DO DIA: ${objetivo}${ctxBlock}
 
