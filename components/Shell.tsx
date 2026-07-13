@@ -5,26 +5,34 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Toaster from "@/components/Toaster";
 
-// menu lateral + barra de título. Cada item é um LINK de verdade (abre em aba nova, favorito, voltar funciona).
-const NAV_ITEMS = [
-  ["hoje", "Hoje"],
-  ["criar", "Criar"],
-  ["stories", "Stories"],
-  ["reels", "Reels"],
-  ["quadro", "Quadro"],
-  ["calendario", "Calendário"],
-  ["marca", "Marca"],
-  ["fontes", "Fontes"],
-  ["biblioteca", "Biblioteca"],
-  ["cerebro", "Cérebro"],
-  ["vault", "Vault"],
-  ["perfil", "Perfil"],
-  ["direct", "Direct"],
-] as const;
+// menu lateral + barra de título. Itens soltos (Link) e grupos accordion (expansíveis).
+type NavItem = { v: string; label: string };
+type NavGroup = { group: string; label: string; icon: string; items: NavItem[] };
+type NavEntry = NavItem | NavGroup;
+
+const NAV: NavEntry[] = [
+  { v: "hoje", label: "Hoje" },
+  { v: "perfil", label: "Perfil" },
+  { group: "criacao", label: "Criação", icon: "criacao", items: [
+    { v: "criar", label: "Carrossel" },
+    { v: "reels", label: "Reels" },
+    { v: "stories", label: "Stories" },
+    { v: "direct", label: "Direct" },
+  ] },
+  { group: "sky", label: "Sky", icon: "sky", items: [
+    { v: "biblioteca", label: "Biblioteca" },
+    { v: "marca", label: "Marca" },
+    { v: "fontes", label: "Fontes" },
+    { v: "cerebro", label: "Cérebro" },
+  ] },
+  { v: "quadro", label: "Quadro" },
+  { v: "calendario", label: "Calendário" },
+  { v: "vault", label: "Vault" },
+];
 
 const TITLES: Record<string, [string, string]> = {
   hoje: ["Bem Vinda ao Nath Prado Studio", ""],
-  criar: ["CRIAR", "roteiro, gancho e carrossel"],
+  criar: ["CARROSSEL", "roteiro, gancho e carrossel"],
   stories: ["STORIES", "ideias e sequências do dia a dia"],
   reels: ["REELS", "banco de ideias para gravar"],
   kit: ["KIT DA MARCA", "seus estilos salvos: ver, renomear, excluir"],
@@ -65,6 +73,8 @@ function Icon({ name }: { name: string }) {
     case "reels": return (<svg {...c}><rect x="2" y="2" width="20" height="20" rx="4" /><path d="m10 8 6 4-6 4V8z" /><path d="M2 12h2M20 12h2M12 2v2M12 20v2" /></svg>);
     case "perfil": return (<svg {...c}><circle cx="12" cy="8" r="4" /><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" /></svg>);
     case "direct": return (<svg {...c}><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5z" /></svg>);
+    case "criacao": return (<svg {...c}><path d="m12 2 9 5-9 5-9-5 9-5z" /><path d="m3 12 9 5 9-5" /><path d="m3 17 9 5 9-5" /></svg>);
+    case "sky": return (<svg {...c}><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.98A6 6 0 0 0 6.4 8.5 4 4 0 0 0 6.5 19h11z" /></svg>);
     default: return null;
   }
 }
@@ -123,6 +133,17 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const [title, sub] = TITLES[cur] || TITLES.hoje;
   const hidePageHead = cur === "stories" || cur === "reels";
 
+  const groupWith = (v: string) => NAV.find((e): e is NavGroup => "group" in e && e.items.some((i) => i.v === v));
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    const g = groupWith(cur);
+    return g ? { [g.group]: true } : {};
+  });
+  useEffect(() => {
+    const g = groupWith(cur);
+    if (g) setOpenGroups((o) => (o[g.group] ? o : { ...o, [g.group]: true }));
+  }, [cur]);
+  const toggle = (g: string) => setOpenGroups((o) => ({ ...o, [g]: !o[g] }));
+
   return (
     <div className="dg-shell">
       <aside className="dg-sidebar">
@@ -137,13 +158,45 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </Link>
 
         <nav className="dg-nav-list" aria-label="Menu principal">
-          {NAV_ITEMS.map(([v, label]) => {
-            const active = cur === v;
+          {NAV.map((entry) => {
+            if ("v" in entry) {
+              const active = cur === entry.v;
+              return (
+                <Link key={entry.v} href={`/${entry.v}`} className={"dg-nav" + (active ? " active" : "")}>
+                  <span className="ico"><Icon name={entry.v} /></span>
+                  {entry.label}
+                </Link>
+              );
+            }
+            const isOpen = !!openGroups[entry.group];
+            const hasActive = entry.items.some((i) => i.v === cur);
             return (
-              <Link key={v} href={`/${v}`} className={"dg-nav" + (active ? " active" : "")}>
-                <span className="ico"><Icon name={v} /></span>
-                {label}
-              </Link>
+              <div key={entry.group}>
+                <button
+                  type="button"
+                  onClick={() => toggle(entry.group)}
+                  aria-expanded={isOpen}
+                  className="dg-nav"
+                  style={{ width: "100%", background: "transparent", border: 0, font: "inherit", cursor: "pointer", textAlign: "left", color: hasActive ? "var(--dg-red)" : undefined }}
+                >
+                  <span className="ico"><Icon name={entry.icon} /></span>
+                  {entry.label}
+                  <span style={{ marginLeft: "auto", transition: "transform .15s ease", transform: isOpen ? "rotate(90deg)" : "none", opacity: 0.7, fontSize: 17, lineHeight: 1 }}>›</span>
+                </button>
+                {isOpen && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4, margin: "3px 0 4px 10px", paddingLeft: 8, borderLeft: "1px solid var(--dg-line)" }}>
+                    {entry.items.map((i) => {
+                      const active = cur === i.v;
+                      return (
+                        <Link key={i.v} href={`/${i.v}`} className={"dg-nav" + (active ? " active" : "")} style={{ minHeight: 38, fontSize: 14 }}>
+                          <span className="ico"><Icon name={i.v} /></span>
+                          {i.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>
