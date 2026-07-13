@@ -3,8 +3,8 @@
 //
 // NOMES INTERNOS x RÓTULOS: as chaves (ferida/porrada/ensino/convocacao) são IDs antigos mantidos
 // pra não quebrar posts/planos já salvos. O que a marca mostra são os LABELS novos:
-//   ferida → 🎯 Diagnóstico · porrada → 🔥 Confronto · ensino → 🧠 Clareza Estratégica
-//   convocacao → ⚔️ Convocação · dominio → 👑 Domínio (novo) · darkside → ☠️ Darkside (camada)
+//   ferida → 🎯 Diagnóstico · porrada → 🤍 Real com Carinho · ensino → 🧠 Clareza
+//   convocacao → 💌 Convite · dominio → 🌿 Autoridade · darkside → 💪 Firmeza (camada)
 
 export type Registro = "porrada" | "ferida" | "ensino" | "convocacao" | "dominio" | "darkside";
 
@@ -20,12 +20,12 @@ export interface RegInfo {
 
 // A régua da marca. Os 5 de distribuição somam 100% (30/25/20/15/10). Darkside é camada (não entra na conta).
 export const REGISTROS: RegInfo[] = [
-  { id: "ferida",     label: "Diagnóstico",        emoji: "🎯", color: "#c77dad", target: 0.30, o_que: "enxerga o problema que ela ainda não viu — valida a dor, nunca a desculpa" },
-  { id: "porrada",    label: "Confronto",          emoji: "🔥", color: "#F01E79", target: 0.25, o_que: "o vilão é lá fora — mercado, atalho e promessa falsa, não a leitora" },
-  { id: "dominio",    label: "Domínio",            emoji: "👑", color: "#b98bd9", target: 0.20, o_que: "demonstra leitura e profundidade — autoridade percebida, nunca declarada" },
-  { id: "ensino",     label: "Clareza Estratégica", emoji: "🧠", color: "#3e7cc4", target: 0.15, o_que: "faz enxergar o mecanismo — diagnóstico, causa, consequência, direção" },
-  { id: "convocacao", label: "Convocação",         emoji: "⚔️", color: "#e0a458", target: 0.10, o_que: "chama pra assumir responsabilidade e uma identidade, não pra comprar" },
-  { id: "darkside",   label: "Darkside",           emoji: "☠️", color: "#8a8a96", target: 0,    o_que: "camada de aço — verdade inconveniente, sem açúcar, clareza brutal", layer: true },
+  { id: "ferida",     label: "Diagnóstico",     emoji: "🎯", color: "#c77dad", target: 0.30, o_que: "acolhe a dor e mostra a raiz real do problema que ela ainda não viu" },
+  { id: "porrada",    label: "Real com Carinho", emoji: "🤍", color: "#F01E79", target: 0.25, o_que: "desfaz o mito do mercado (dieta da moda, restrição, atalho) sem agredir a leitora" },
+  { id: "dominio",    label: "Autoridade",      emoji: "🌿", color: "#b98bd9", target: 0.20, o_que: "mostra vivência e experiência de consultório — enxerga o detalhe, com humildade" },
+  { id: "ensino",     label: "Clareza",         emoji: "🧠", color: "#3e7cc4", target: 0.15, o_que: "faz enxergar o mecanismo: diagnóstico, causa, consequência, direção prática" },
+  { id: "convocacao", label: "Convite",         emoji: "💌", color: "#e0a458", target: 0.10, o_que: "convida a assumir o processo e uma nova identidade, com acolhimento" },
+  { id: "darkside",   label: "Firmeza",         emoji: "💪", color: "#8a8a96", target: 0,    o_que: "a nutri que puxa a orelha: fala a verdade que precisa, mas com cuidado, nunca brutal", layer: true },
 ];
 
 export const REG_MAP: Record<Registro, RegInfo> = Object.fromEntries(REGISTROS.map((r) => [r.id, r])) as Record<Registro, RegInfo>;
@@ -36,19 +36,19 @@ const DIST_IDS = new Set(DIST.map((r) => r.id));
 
 // notas curtas quando passa/falta — na voz da Nathalia, sem jargão de academia
 const NOTA_ALTO: Record<Registro, string> = {
-  porrada: "demais — anestesia",
+  porrada: "demais — cansa de tanto desmentir",
   ferida: "demais — só dor, sem direção",
-  dominio: "demais — virou vitrine de ego",
+  dominio: "demais — virou vitrine",
   ensino: "demais — virou aula",
-  convocacao: "demais — pedindo muito",
+  convocacao: "demais — convidando demais",
   darkside: "—",
 };
 const NOTA_BAIXO: Record<Registro, string> = {
-  porrada: "de menos — falta sacudida",
+  porrada: "de menos — falta desfazer os mitos",
   ferida: "de menos — ninguém se viu no espelho",
-  dominio: "de menos — falta autoridade",
+  dominio: "de menos — falta mostrar vivência",
   ensino: "de menos — falta clareza",
-  convocacao: "de menos — não chama",
+  convocacao: "de menos — não convida",
   darkside: "—",
 };
 
@@ -57,17 +57,17 @@ const NOTA_BAIXO: Record<Registro, string> = {
 // Definições estruturais (essência / verdade central / linguagem / o que fala / o que nunca fala / sensação) vêm da marca.
 const TOM: Record<Registro, string> = {
   ferida:
-    "Registro DIAGNÓSTICO — o texto não consola, DIAGNOSTICA. A leitora está cansada de tentar e não entender por que continua sem resultado; ela não precisa de mais motivação, precisa de alguém que enxergue o problema que ela ainda não conseguiu enxergar. O objetivo não é consolar, é gerar IDENTIFICAÇÃO. O que vem antes de tudo é VALIDAÇÃO DA DOR — nunca validação da desculpa: a dor dela é real, mas o motivo da dor quase nunca é o que ela acredita. Linguagem calma, firme, segura, madura, direta. Fala muito 'eu vejo isso todos os dias', 'existe um motivo pra isso acontecer', 'o problema não é o que você imagina', 'você não está sozinha nisso'. NUNCA fala 'você consegue', 'vai dar certo', 'basta acreditar', 'sua hora vai chegar', 'confie no processo' — pra marca isso é só mais uma promessa que afunda a pessoa. A conexão vem de quem já orientou centenas de mulheres no mesmo lugar, não de pena nem de superioridade. Sensação que tem que gerar: 'era exatamente isso que estava acontecendo comigo'. Fecha na verdade, sem laço bonito.",
+    "Registro DIAGNÓSTICO — o texto não consola, DIAGNOSTICA com carinho. A leitora está cansada de tentar e não entender por que continua sem resultado; ela não precisa de motivação, precisa de alguém que enxergue e explique o que está acontecendo de verdade. O objetivo é IDENTIFICAÇÃO. Antes de tudo, VALIDA A DOR (nunca a desculpa): a dor é real, mas o motivo quase nunca é o que ela acredita — quase sempre é comportamento, ambiente e falta de estratégia na alimentação, não força de vontade. Linguagem acolhedora, calma e firme, de igual pra igual ('minha filha', 'cara'). Fala 'eu vejo isso todo dia no consultório', 'tem um motivo pra isso acontecer', 'você não está sozinha nisso'. NUNCA 'você consegue', 'vai dar certo', 'confie no processo', nem 'a culpa não é sua'/'não é fraqueza sua' (clichê de IA). Empatia de quem já viveu a jornada (ela saiu do sobrepeso). Sensação: 'era exatamente isso que estava acontecendo comigo'.",
   porrada:
-    "Registro CONFRONTO — existe um culpado, e quase nunca é a pessoa: é o mercado, a informação ruim, o método errado, a promessa falsa, o atalho vendido como solução. O que vem antes de tudo é INDIGNAÇÃO, mirada nessa injustiça (a mulher é enganada e depois culpada quando o atalho não funciona), não birra. Verdade central: muita gente continua travada porque acreditou na explicação errada. Linguagem incômoda, provocativa, direta, sem medo de discordar. Fala muito 'estão mentindo pra você', 'ninguém te contou isso', 'o mercado quer que você acredite nisso', 'é exatamente por isso que você continua travada'. NUNCA fala 'você é preguiçosa', 'a culpa é sua', 'você não quer o suficiente' — não humilha; a sabotagem vem de falta de informação e de promessa quebrada, não de fraqueza de caráter. Devolve a responsabilidade à adulta DEPOIS de mostrar o caminho. Sensação: 'eu sabia que tinha alguma coisa errada'. Termina numa verdade que incomoda, não num efeito bonito.",
+    "Registro REAL COM CARINHO — existe um culpado, e quase nunca é a pessoa: é o mercado, a informação ruim, a dieta da moda, a restrição e o jejum vendidos como solução, a promessa de emagrecer rápido. Desfaz esse mito com FIRMEZA e clareza, mas SEM agredir nem humilhar — a mulher foi enganada, não é preguiçosa nem burra. Fala 'ninguém te explicou isso direito', 'o mercado vende restrição e chama de saúde', 'dieta de fome não é dieta'. Verdade central: a pessoa continua travada porque acreditou na explicação errada sobre comida. NUNCA humilha, NUNCA usa 'preguiçosa'/'gente mole'/palavrão, NUNCA 'a culpa não é sua'/'não é fraqueza sua', NUNCA 'a dieta perfeita não existe'. Devolve a responsabilidade DEPOIS de mostrar o caminho, com acolhimento. Sensação: 'faz sentido, eu tinha sido enganada'.",
   dominio:
-    "Registro DOMÍNIO — demonstra capacidade de leitura, profundidade e experiência: você enxerga detalhes que a maioria ignora. Não é ensinar, não é confrontar, não é convocar — é demonstrar superioridade técnica SEM precisar dizer que é superior. O que vem antes de tudo é OBSERVAÇÃO. Verdade central: os melhores profissionais enxergam o que os outros não enxergam. Linguagem segura, precisa, cirúrgica, quase arrogante mas nunca arrogante. Fala muito 'quando eu analiso uma aluna, observo isso primeiro', 'quase ninguém percebe esse detalhe', 'é aqui que a maioria dos profissionais erra', 'o problema está escondido num lugar que ninguém olha', 'esse detalhe muda completamente o resultado'. NUNCA fala 'eu sou referência', 'eu sou especialista', 'eu sou o melhor', 'confia em mim' — a autoridade é PERCEBIDA, nunca declarada. Arquétipos: mestre, estrategista, especialista de elite. Ex.: 'duas mulheres podem fazer exatamente o mesmo treino e uma evoluir muito mais — o motivo quase nunca é o exercício, é a capacidade de gerar sobrecarga ao longo do tempo'. Sensação: 'esse cara enxerga um nível acima'.",
+    "Registro AUTORIDADE — mostra experiência real e profundidade, com HUMILDADE. Não é arrogância nem superioridade: é a nutricionista e atleta que vive o que ensina e enxerga o detalhe que a maioria ignora. Antes de tudo, OBSERVAÇÃO do consultório e da própria vivência. Fala 'quando eu acompanho uma paciente, olho isso primeiro', 'quase ninguém percebe esse detalhe', 'aprendi isso na prática e na minha própria pele'. NUNCA 'eu sou referência', 'eu sou a melhor', 'confia em mim' — a autoridade é PERCEBIDA, nunca declarada, e jamais por cima da leitora. Ancora em caso real (sem expor ninguém) e em ciência traduzida pro dia a dia. Sensação: 'ela entende de verdade, e me entende'.",
   ensino:
-    "Registro CLAREZA ESTRATÉGICA — não ensina pra parecer inteligente, ensina pra gerar CLAREZA: o objetivo não é mostrar conhecimento, é fazer a pessoa enxergar o MECANISMO. O que vem antes de tudo é DIAGNÓSTICO, sempre. Verdade central: quem entende o problema toma decisões melhores. Estrutura: diagnóstico → causa → consequência → direção. Linguagem simples, objetiva, prática, cirúrgica. Fala muito 'o erro está aqui', 'é por isso que acontece', 'é por isso que não funciona', 'o problema real é esse'. NUNCA fala 'segundo os estudos', 'a literatura demonstra', 'metanálises mostram' — a ciência SUSTENTA a mensagem, ela não lidera a mensagem. Uma alavanca por vez, o porquê fisiológico traduzido na voz da Nathalia, denso o suficiente pra respeitar a inteligência da leitora, nunca infantilizado ('amiga, faz 3x12 que dá certo'). O ser humano antes do protocolo. Sensação: 'agora tudo faz sentido'.",
+    "Registro CLAREZA — não ensina pra parecer inteligente, ensina pra gerar CLAREZA: faz a pessoa enxergar o MECANISMO por trás do comportamento e da nutrição. Antes de tudo, DIAGNÓSTICO. Estrutura: diagnóstico → causa → consequência → direção prática. Linguagem simples, acolhedora e prática. Fala 'o erro está aqui', 'é por isso que acontece', 'na prática funciona assim'. NUNCA 'segundo os estudos', 'metanálises mostram' — a ciência SUSTENTA, não lidera; traduz grelina, glicogênio, mTOR e hormônios pra consequência do dia a dia. O ser humano antes do protocolo, nunca infantilizado. Sensação: 'agora tudo faz sentido'.",
   convocacao:
-    "Registro CONVOCAÇÃO — não chama pra comprar, seguir ou assistir: chama pra ASSUMIR RESPONSABILIDADE e pra uma IDENTIDADE. O que vem antes de tudo é COMPROMISSO. Verdade central: nem todo mundo terá o resultado que diz querer, porque nem todo mundo aceita pagar o preço necessário. A própria linguagem é o filtro — forte, madura, seletiva, responsável; afasta quem quer atalho, chama quem quer construir de verdade. Fala muito 'existe um preço', 'existe uma escolha', 'existe um padrão', 'existe uma responsabilidade'. NUNCA fala 'últimas vagas', 'corre', 'aproveita', 'não perca' — nunca vendedor pidão, nunca escassez falsa. O pacto: ela MERECE o resultado, a Nathalia mostra o melhor caminho mas NÃO caminha por ela (a responsabilidade é dela). Sensação: 'eu preciso estar desse lado'. Fecha obrigando a escolher um lado: construir de verdade, ou seguir recomeçando pra sempre.",
+    "Registro CONVITE — não pressiona nem vende: CONVIDA a assumir o processo e uma nova identidade, com acolhimento. Antes de tudo, um COMPROMISSO gentil. Verdade central: resultado sustentável pede constância e estratégia, e vale a pena. Linguagem calorosa e firme, que chama quem quer construir de verdade sem afastar com dureza. Fala 'bora, minha filha', 'se você quer isso, a gente constrói junto', 'me chama que eu te ajudo', 'link na bio'. NUNCA 'últimas vagas', 'corre', 'não perca', escassez falsa, nem 'escolha um lado'. O pacto: ela merece o resultado; a Nathalia mostra o caminho e ACOMPANHA de perto, a leitora dá os passos. Sensação: 'eu quero fazer parte disso'.",
   darkside:
-    "Camada DARKSIDE — sobreposição de postura pra quando o conteúdo precisa de aço, não de açúcar. (1) Confronto antes do conforto: não começa com 'você consegue', começa com 'você está fazendo errado' ou 'ninguém te contou isso'. (2) Verdade inconveniente: expõe uma verdade que a audiência evita encarar ('você consome mais conteúdo do que executa método e progressão'). (3) Autoridade de campo: não fala como professor, psicólogo ou coach — fala como quem já viu centenas ou milhares de casos. (4) Sem emoção açucarada: evita 'estamos aqui por você'; prefere 'o mercado não vai diminuir a régua porque você está cansado'. (5) Clareza brutal: frases curtas, sem floreio, sem academicismo, sem complicação. Sensação que tem que gerar: 'a verdade que eu precisava ouvir'.",
+    "Camada FIRMEZA — quando o conteúdo precisa de mais firmeza (a nutri que 'puxa a orelha'), mas SEMPRE com cuidado, nunca brutal nem frio. (1) Fala a verdade que a pessoa evita encarar, com carinho: 'você consome mais conteúdo do que aplica no seu dia'. (2) Não passa pano pro erro, mas acolhe: cobra comportamento e constância sem humilhar. (3) Autoridade de quem já acompanhou muitas mulheres e viveu a jornada. (4) SEM 'aço', SEM 'clareza brutal', SEM frieza — a força vem da verdade dita com afeto. (5) Frases diretas, mas quentes. Sensação: 'ela me cobrou, mas senti que é por mim'.",
 };
 
 // REGRA GLOBAL DA MARCA — DESMASCARAMENTO. Vale pra TODO post, com ou sem registro escolhido.

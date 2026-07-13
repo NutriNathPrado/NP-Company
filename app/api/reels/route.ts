@@ -34,9 +34,9 @@ const VALID_FORMATOS: ReelFormato[] = ["falado", "conversa", "pov_trend"];
 const BATCH_SIZE = 10;
 const BATCH_CONCURRENCY = 3;
 const BATCH_FOCUS = [
-  "execução e biomecânica aplicada",
-  "mitos, crenças erradas e opinião forte",
-  "progressão, método e bastidor da consultoria",
+  "comportamento alimentar, fome emocional e relação com a comida",
+  "mitos de dieta e crenças erradas (carboidrato, restrição, detox)",
+  "emagrecimento sustentável, manutenção e bastidor da consultoria",
   "prova social, objeções e decisão",
 ];
 
@@ -78,7 +78,7 @@ async function buscarTendencias(exaKey: string): Promise<string> {
     .join("\n");
 
   return snippets
-    ? `\n\nTENDÊNCIAS REAIS DO MOMENTO (busca web — últimos 45 dias):\n${snippets}\n\nUse essas referências para criar ideias de POV/Trend que se encaixam no que está bombando AGORA — adaptado pro universo da Nathalia (glúteo, treino feminino, método, N2 Squad). Não copie, inspire-se no formato e no espírito da tendência.`
+    ? `\n\nTENDÊNCIAS REAIS DO MOMENTO (busca web — últimos 45 dias):\n${snippets}\n\nUse essas referências para criar ideias de POV/Trend que se encaixam no que está bombando AGORA — adaptado pro universo da Nathalia (nutrição, comportamento alimentar, emagrecimento sustentável, N2 Squad). Não copie, inspire-se no formato e no espírito da tendência.`
     : "";
 }
 
@@ -230,7 +230,7 @@ VARIEDADE TEMÁTICA, escolha assuntos diferentes entre si:
 • Progressão de carga, como fazer, por que importa mais que volume
 • Técnica avançada no momento errado
 • Treino de glúteo que na verdade vira treino de quadríceps
-• Mentalidade, disciplina, constância e intensidade no estilo darkside, sem clichê
+• Mentalidade, comportamento e constância com firmeza acolhedora, sem clichê
 • POV ou trend de treino com gancho visual forte
 
 REGRAS:

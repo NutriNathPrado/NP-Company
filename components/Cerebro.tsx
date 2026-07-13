@@ -143,7 +143,7 @@ export default function Cerebro() {
 
       <Section title="⭐ Voz — como você escreve (por tom)" hint={`${voz.length} ${voz.length === 1 ? "exemplo" : "exemplos"}`} defaultOpen>
         <div style={{ fontSize: 12, color: "#9aa0b0", lineHeight: 1.55, marginBottom: 10 }}>
-          É o texto REAL que a IA imita pra clonar sua cadência. Quanto mais, melhor — e <b style={{ color: "#cfcfcf" }}>marque o tom</b> de cada um, principalmente os novos (👑 Domínio e ☠️ Darkside), que ainda estão zerados.
+          É o texto REAL que a IA imita pra clonar sua cadência. Quanto mais, melhor — e <b style={{ color: "#cfcfcf" }}>marque o tom</b> de cada um, principalmente os novos (🌿 Autoridade e 💪 Firmeza), que ainda estão zerados.
         </div>
         {/* cobertura por registro — deixa os vazios óbvios */}
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>

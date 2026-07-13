@@ -154,12 +154,12 @@ export default function Calendar({ onOpen, onPede }: { onOpen: (c: Carousel) => 
                 <>
                   <span style={{ fontSize: 12.5, color: "#cfcfcf" }}>
                     {conv.never
-                      ? `${conv.n} posts e nenhuma convocação no mês — só entregou, nunca chamou pra dentro; já mereceu pedir`
-                      : `${conv.desde} posts desde a última convocação — entregou bastante, hora de chamar pra dentro`}
+                      ? `${conv.n} posts e nenhum convite no mês — só entregou, nunca chamou pra dentro; já mereceu convidar`
+                      : `${conv.desde} posts desde o último convite — entregou bastante, hora de chamar pra dentro`}
                   </span>
                   {onPede && (
                     <button onClick={() => onPede("convocacao")} className="dg-btn-primary" style={{ fontSize: 12, padding: "6px 13px" }}>
-                      criar ⚔️ Convocação →
+                      criar 💌 Convite →
                     </button>
                   )}
                 </>

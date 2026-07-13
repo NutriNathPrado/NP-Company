@@ -166,10 +166,10 @@ export async function POST(req: Request) {
     async function judgeVoice(text: string): Promise<{ score: number; issues: string[] }> {
       const refs = pickedGold.length
         ? pickedGold.map((g, i) => `### exemplo ${i + 1}\n${g.text}`).join("\n\n")
-        : "(sem exemplos-ouro ainda — julgue pela régua de voz da Nathalia: calmo, breve, hesita na reflexão, detalhe mundano, fecha na verdade incômoda, zero cara de IA/coachismo)";
+        : "(sem exemplos-ouro ainda — julgue pela régua de voz da Nathalia: acolhedora e de igual pra igual, conta história/caso, ciência traduzida, foco em nutrição e comportamento, sem julgamento nem drama, zero cara de IA/coachismo)";
       const jr = await anthropic.messages.create({
         model: JUDGE_MODEL, max_tokens: 500,
-        messages: [{ role: "user", content: `Você é o juiz de voz da Nathalia Prado (Nath Prado Nutricionista · N² Squad). Compare o ROTEIRO com os EXEMPLOS REAIS da escrita dela e dê uma nota 0-100 de "quão a Nathalia isso soa": cadência, brevidade, hesitação na reflexão (não no fato técnico), detalhe concreto/mundano, fecho na verdade incômoda, e ZERO cara de IA / coachismo / motivação açucarada. Seja rigoroso — 100 é "parece escrito por ela". Responda APENAS JSON {"score": <int 0-100>, "issues": ["o que mais destoa da voz dela, bem curto", ...]} (até 4 issues; [] se estiver ótimo).\n\nEXEMPLOS REAIS DA VOZ DELA:\n${refs}\n\nROTEIRO A JULGAR:\n${text}` }],
+        messages: [{ role: "user", content: `Você é o juiz de voz da Nathalia Prado (Nath Prado Nutricionista · N² Squad). Compare o ROTEIRO com os EXEMPLOS REAIS da escrita dela e dê uma nota 0-100 de "quão a Nathalia isso soa": tom acolhedor e firme, de igual pra igual ("minha filha", "cara"), história/caso real, ciência traduzida pro dia a dia, foco em nutrição/comportamento, sem julgamento nem drama nem agressão, e ZERO cara de IA / clichê / motivação açucarada. Seja rigoroso — 100 é "parece escrito por ela". Responda APENAS JSON {"score": <int 0-100>, "issues": ["o que mais destoa da voz dela, bem curto", ...]} (até 4 issues; [] se estiver ótimo).\n\nEXEMPLOS REAIS DA VOZ DELA:\n${refs}\n\nROTEIRO A JULGAR:\n${text}` }],
       });
       try {
         const j = JSON.parse(extractJson(textOf(jr))) as { score?: number; issues?: string[] };
@@ -180,7 +180,7 @@ export async function POST(req: Request) {
       const v1 = await judgeVoice(roteiro);
       voiceScore = v1.score; voiceIssues = v1.issues;
       if (v1.score < VOICE_MIN) {
-        const fb = `\n\nA TENTATIVA ANTERIOR NÃO SOOU SUFICIENTEMENTE COMO A NATHALIA (nota ${v1.score}/100). Reescreva o roteiro inteiro mais na cadência REAL dela (mais breve, mais hesitação na reflexão, detalhe mundano, fecho na verdade incômoda, ZERO cara de IA/coachismo), corrigindo: ${v1.issues.join(" | ") || "soou redondo/genérico demais"}. NÃO perca a substância nem o gancho escolhido.`;
+        const fb = `\n\nA TENTATIVA ANTERIOR NÃO SOOU SUFICIENTEMENTE COMO A NATHALIA (nota ${v1.score}/100). Reescreva o roteiro inteiro mais na voz REAL dela (mais acolhedora e de igual pra igual, com história/caso, ciência traduzida, foco em nutrição/comportamento, ZERO cara de IA/clichê/agressão), corrigindo: ${v1.issues.join(" | ") || "soou redondo/genérico demais"}. NÃO perca a substância nem o gancho escolhido.`;
         const gen2 = await anthropic.messages.create({
           model: WRITE_MODEL, max_tokens: 6000, thinking: { type: "adaptive" as const },
           system: [{ type: "text", text: ROTEIRO_SYSTEM, cache_control: { type: "ephemeral" } }],

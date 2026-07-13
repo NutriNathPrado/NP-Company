@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   const gold = await getGold();
   const pickedGold = pickRandom(gold, 2);
   const goldBlock = pickedGold.length
-    ? `\n\nA VOZ DA NATHALIA — COMO ELA ESCREVE (imite a CADÊNCIA: frases curtas e quebradas, perguntas que cutucam, palavrão só quando carrega emoção real, fecho na verdade incômoda). NÃO copie o tema nem a estrutura — só o jeito de escrever:\n${pickedGold.map((g, i) => `### exemplo ${i + 1}\n${g.text}`).join("\n\n")}`
+    ? `\n\nA VOZ DA NATHALIA — COMO ELA ESCREVE (imite a CADÊNCIA: acolhedora e de igual pra igual ("minha filha", "cara"), perguntas que acolhem, história/caso, ciência traduzida, SEM palavrão, fecho no convite). NÃO copie o tema nem a estrutura — só o jeito de escrever:\n${pickedGold.map((g, i) => `### exemplo ${i + 1}\n${g.text}`).join("\n\n")}`
     : "";
 
   const userMsg = `Tom: ${body.tom || "técnico"}.
