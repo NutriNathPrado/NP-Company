@@ -715,13 +715,14 @@ html, body {
     min-height: auto;
   }
   .hoje-hero__image {
-    background-position: 70% center;
-    opacity: 0.72;
+    background-position: 72% center;
+    opacity: 1;
+    filter: saturate(1.14) contrast(1.06);
   }
   .hoje-hero__blend {
     background:
-      linear-gradient(90deg, rgba(6,7,10,0.98), rgba(6,7,10,0.84)),
-      linear-gradient(180deg, rgba(240,30,121,0.12), rgba(0,0,0,0.32));
+      linear-gradient(90deg, rgba(6,7,10,0.98) 0%, rgba(6,7,10,0.88) 42%, rgba(6,7,10,0.42) 70%, rgba(6,7,10,0.08) 100%),
+      linear-gradient(180deg, rgba(240,30,121,0.08), rgba(0,0,0,0.42));
   }
   .hoje-hero__content {
     padding: 30px 24px 28px;
