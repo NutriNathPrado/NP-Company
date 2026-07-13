@@ -45,9 +45,15 @@ const TITLES: Record<string, [string, string]> = {
   vault: ["VAULT", "desempenho & aprendizado"],
   perfil: ["PERFIL", "Instagram: números reais e diagnóstico da IA"],
   direct: ["DIRECT", "responder DMs e parcerias na sua voz"],
+  configuracoes: ["CONFIGURAÇÕES", "aparência e identidade do Studio"],
 };
 
 type ThemeMode = "light" | "dark" | "system";
+type StudioSettings = { menuTitle: string; menuSubtitle: string; footerTitle: string; footerNote: string; logo?: string };
+
+const DEFAULT_SETTINGS: StudioSettings = {
+  menuTitle: "NATH COMPANY", menuSubtitle: "Studio", footerTitle: "Nath Prado Studio", footerNote: "Seu espaço de criação",
+};
 
 const THEME_OPTIONS: { value: ThemeMode; label: string }[] = [
   { value: "light", label: "Claro" },
@@ -87,14 +93,15 @@ function applyTheme(mode: ThemeMode) {
 }
 
 function ThemeSwitch() {
-  const [mode, setMode] = useState<ThemeMode>("system");
+  const [mode, setMode] = useState<ThemeMode>(() => {
+    if (typeof window === "undefined") return "system";
+    const saved = window.localStorage.getItem("np-theme-mode");
+    return saved === "light" || saved === "dark" || saved === "system" ? saved : "system";
+  });
 
   useEffect(() => {
-    const saved = window.localStorage.getItem("np-theme-mode") as ThemeMode | null;
-    const initial = saved === "light" || saved === "dark" || saved === "system" ? saved : "system";
-    setMode(initial);
-    applyTheme(initial);
-  }, []);
+    applyTheme(mode);
+  }, [mode]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -132,28 +139,34 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const cur = (pathname?.split("/")[1] || "hoje");
   const [title, sub] = TITLES[cur] || TITLES.hoje;
   const hidePageHead = cur === "stories" || cur === "reels";
+  const [settings, setSettings] = useState<StudioSettings>(DEFAULT_SETTINGS);
+
+  useEffect(() => {
+    fetch("/api/studio-settings").then((response) => response.json()).then((data) => {
+      if (data.settings) setSettings(data.settings);
+    }).catch(() => {});
+    const onSettings = (event: Event) => setSettings((event as CustomEvent<StudioSettings>).detail);
+    window.addEventListener("studio-settings", onSettings);
+    return () => window.removeEventListener("studio-settings", onSettings);
+  }, []);
 
   const groupWith = (v: string) => NAV.find((e): e is NavGroup => "group" in e && e.items.some((i) => i.v === v));
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
     const g = groupWith(cur);
     return g ? { [g.group]: true } : {};
   });
-  useEffect(() => {
-    const g = groupWith(cur);
-    if (g) setOpenGroups((o) => (o[g.group] ? o : { ...o, [g.group]: true }));
-  }, [cur]);
   const toggle = (g: string) => setOpenGroups((o) => ({ ...o, [g]: !o[g] }));
 
   return (
     <div className="dg-shell">
       <aside className="dg-sidebar">
         <Link href="/hoje" className="dg-brand">
-          <img src="/logo/np-logo.png" alt="Nath Company" className="dg-brand-logo"
+          <img src={settings.logo || "/logo/np-logo.png"} alt={settings.menuTitle} className="dg-brand-logo"
             onError={(e) => { e.currentTarget.style.display = "none"; const s = e.currentTarget.nextElementSibling as HTMLElement | null; if (s) s.style.display = "block"; }} />
           <span className="dg-brand-fallback">NP</span>
           <div className="dg-brand-copy">
-            <span>NATH COMPANY</span>
-            <small>Studio</small>
+            <span>{settings.menuTitle}</span>
+            <small>{settings.menuSubtitle}</small>
           </div>
         </Link>
 
@@ -168,8 +181,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                 </Link>
               );
             }
-            const isOpen = !!openGroups[entry.group];
             const hasActive = entry.items.some((i) => i.v === cur);
+            const isOpen = openGroups[entry.group] ?? hasActive;
             return (
               <div key={entry.group}>
                 <button
@@ -202,15 +215,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="dg-user-card">
-          <div
-            className="dg-user-avatar"
-            aria-hidden="true"
-          >
-            <span />
+          <div className="dg-user-card__identity">
+            <div className="dg-user-avatar" aria-hidden="true" style={settings.logo ? { backgroundImage: `url(${settings.logo})` } : undefined}><span /></div>
+            <div><strong>{settings.footerTitle}</strong>{settings.footerNote && <small>{settings.footerNote}</small>}</div>
           </div>
-          <div>
-            <strong>Nath Prado Studio</strong>
-          </div>
+          <Link href="/configuracoes" className="dg-settings-link"><span aria-hidden="true">⚙</span> Configurações</Link>
         </div>
       </aside>
 

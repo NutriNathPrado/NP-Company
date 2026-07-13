@@ -557,3 +557,80 @@ export async function setWinnerLearnings(l: WinnerLearnings): Promise<void> {
   const { error } = await sb.from("kv").upsert({ key: "ig_winner_learnings", value: l });
   if (error) console.error("setWinnerLearnings", error.message);
 }
+
+// ---- RELATÓRIOS DO INSTAGRAM ----
+// Snapshots imutáveis salvos na mesma KV já usada pelo restante do Studio.
+export interface IgReport {
+  id: string;
+  createdAt: string;
+  username: string;
+  snapshot: IgSnapshot;
+  analysis?: IgAnalysis | null;
+  summary: string;
+}
+
+export async function listIgReports(): Promise<IgReport[]> {
+  const { data } = await sb.from("kv").select("value").eq("key", "ig_reports").maybeSingle();
+  return ((data?.value as IgReport[]) || []).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function createIgReport(): Promise<IgReport | null> {
+  const [snapshot, analysis, reports] = await Promise.all([getIgSnapshot(), getIgAnalysis(), listIgReports()]);
+  if (!snapshot) return null;
+  const report: IgReport = {
+    id: `igr_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+    createdAt: new Date().toISOString(),
+    username: snapshot.profile.username,
+    snapshot,
+    analysis,
+    summary: analysis?.text?.replace(/[#*_`>-]/g, " ").replace(/\s+/g, " ").trim().slice(0, 180)
+      || `Retrato de ${snapshot.posts.length} publicações lidas pela API da Meta.`,
+  };
+  const next = [report, ...reports].slice(0, 60);
+  const { error } = await sb.from("kv").upsert({ key: "ig_reports", value: next });
+  if (error) throw new Error(error.message);
+  return report;
+}
+
+export async function getIgReport(id: string): Promise<IgReport | null> {
+  return (await listIgReports()).find((report) => report.id === id) || null;
+}
+
+export async function deleteIgReport(id: string): Promise<void> {
+  const reports = await listIgReports();
+  const { error } = await sb.from("kv").upsert({ key: "ig_reports", value: reports.filter((report) => report.id !== id) });
+  if (error) throw new Error(error.message);
+}
+
+export interface StudioSettings {
+  menuTitle: string;
+  menuSubtitle: string;
+  footerTitle: string;
+  footerNote: string;
+  logo?: string;
+}
+
+export const DEFAULT_STUDIO_SETTINGS: StudioSettings = {
+  menuTitle: "NATH COMPANY",
+  menuSubtitle: "Studio",
+  footerTitle: "Nath Prado Studio",
+  footerNote: "Seu espaço de criação",
+};
+
+export async function getStudioSettings(): Promise<StudioSettings> {
+  const { data } = await sb.from("kv").select("value").eq("key", "studio_settings").maybeSingle();
+  return { ...DEFAULT_STUDIO_SETTINGS, ...((data?.value as Partial<StudioSettings>) || {}) };
+}
+
+export async function setStudioSettings(settings: StudioSettings): Promise<StudioSettings> {
+  const clean: StudioSettings = {
+    menuTitle: settings.menuTitle.trim().slice(0, 40) || DEFAULT_STUDIO_SETTINGS.menuTitle,
+    menuSubtitle: settings.menuSubtitle.trim().slice(0, 30) || DEFAULT_STUDIO_SETTINGS.menuSubtitle,
+    footerTitle: settings.footerTitle.trim().slice(0, 50) || DEFAULT_STUDIO_SETTINGS.footerTitle,
+    footerNote: settings.footerNote.trim().slice(0, 80),
+    logo: settings.logo?.startsWith("data:image/") ? settings.logo : undefined,
+  };
+  const { error } = await sb.from("kv").upsert({ key: "studio_settings", value: clean });
+  if (error) throw new Error(error.message);
+  return clean;
+}
