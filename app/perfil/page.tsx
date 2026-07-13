@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Markdown from "@/components/Markdown";
 import Modal from "@/components/Modal";
+import InstagramProfileCard from "@/components/InstagramProfileCard";
 import { toast } from "@/lib/toast";
 import {
   engagement, formatDate, formatLabel, formatNumber, formatPercent, hasNumber,
@@ -161,18 +162,16 @@ export default function PerfilPage() {
         </section>
         <PrintAnalysis onSaved={(value) => { setAnalysis(value); setAnalysisOpen(true); }} />
       </> : <>
-        <section className="ig-section ig-profile-card">
-          <div className="ig-profile-identity">
-            <div className="ig-avatar">{snap?.profile.picture ? <img src={snap.profile.picture} alt={`Foto de @${snap.profile.username}`} /> : <span>{(status.username || "I").slice(0, 1).toUpperCase()}</span>}</div>
-            <div><h2>@{status.username}</h2><p>Insights atualizados em {formatDate(snap?.updatedAt, true)}</p></div>
-          </div>
-          <div className="ig-actions ig-actions--profile">
-            <button type="button" className="ig-btn ig-btn--primary" disabled={!!busy} onClick={() => runAction<{ snapshot: Snapshot }>("insights", "/api/instagram/insights", (data) => setSnap(data.snapshot), "Insights atualizados.")}>{busy === "insights" ? "atualizando..." : "atualizar insights"}</button>
-            <button type="button" className="ig-btn ig-btn--primary" disabled={!!busy || !snap} onClick={createReport}>{busy === "report" ? "criando..." : "criar relatório"}</button>
-            <button type="button" className="ig-btn" onClick={() => router.push("/perfil/relatorios")}>meus relatórios</button>
-            <button type="button" className="ig-btn ig-btn--quiet" disabled={!!busy} onClick={disconnect}>{busy === "disconnect" ? "desconectando..." : "desconectar"}</button>
-          </div>
-        </section>
+        <InstagramProfileCard
+          username={status.username || snap?.profile.username || "Instagram"}
+          picture={snap?.profile.picture}
+          updatedAtLabel={formatDate(snap?.updatedAt, true)}
+          busy={busy}
+          onUpdate={() => runAction<{ snapshot: Snapshot }>("insights", "/api/instagram/insights", (data) => setSnap(data.snapshot), "Insights atualizados.")}
+          onCreateReport={createReport}
+          onReports={() => router.push("/perfil/relatorios")}
+          onDisconnect={disconnect}
+        />
 
         <section aria-labelledby="metricas-title">
           <div className="ig-section-head ig-section-head--plain"><div><h2 id="metricas-title">Painel de métricas</h2><p>* Totais de período representam a soma dos posts datados lidos pela API, não o agregado oficial da conta.</p></div></div>
@@ -183,23 +182,18 @@ export default function PerfilPage() {
             <MetricCard label="Visualizações · últimos 7 dias*" value={formatNumber(views7)} />
             <MetricCard label="Alcance · últimos 30 dias*" value={formatNumber(reach30)} onClick={() => setInfoModal("reach")} />
             <MetricCard label="Alcance · últimos 7 dias*" value={formatNumber(reach7)} onClick={() => setInfoModal("reach")} />
-            <MetricCard label="Novos seguidores · 30 dias" value="—" />
-            <MetricCard label="Taxa de conversão em seguidores" value="—" accent onClick={() => setInfoModal("funnel")} />
-            <MetricCard label="Deixaram de seguir · 30 dias" value="—" />
-            <MetricCard label="Novos seguidores · 7 dias" value="—" />
-            <MetricCard label="Deixaram de seguir · 7 dias" value="—" />
             <MetricCard label="Posts lidos pela API" value={formatNumber(snap?.posts.length)} />
           </div>
         </section>
 
-        <section className="ig-section">
+        <section className={`ig-section${analysis ? "" : " ig-section--empty-feature"}`}>
           <div className="ig-section-head"><div><h2>análise estratégica</h2><p>Diagnóstico da IA com as métricas atuais e o Cérebro da marca.</p></div><button type="button" className="ig-btn ig-btn--primary" disabled={!!busy || !snap?.posts.length} onClick={() => runAction<{ analysis: Analysis }>("analysis", "/api/instagram/analyze", (data) => { setAnalysis(data.analysis); setAnalysisOpen(true); }, "Análise atualizada.")}>{busy === "analysis" ? "analisando..." : "analisar meu perfil"}</button></div>
-          {analysis ? <div className="ig-collapsible"><button type="button" onClick={() => setAnalysisOpen((value) => !value)}><span>Última análise · {formatDate(analysis.updatedAt, true)}</span><b>{analysisOpen ? "recolher" : "ver análise"}</b></button>{analysisOpen && <div className="ig-markdown"><Markdown text={analysis.text} /></div>}</div> : <div className="ig-empty"><strong>A análise estratégica ainda não foi criada.</strong><span>Atualize os Insights e selecione “analisar meu perfil”.</span></div>}
+          {analysis ? <div className="ig-collapsible"><button type="button" onClick={() => setAnalysisOpen((value) => !value)}><span>Última análise · {formatDate(analysis.updatedAt, true)}</span><b>{analysisOpen ? "recolher" : "ver análise"}</b></button>{analysisOpen && <div className="ig-markdown"><Markdown text={analysis.text} /></div>}</div> : <div className="ig-empty ig-empty--compact"><strong>Análise ainda não criada.</strong><span>Atualize os Insights ou inicie a análise.</span></div>}
         </section>
 
-        <section className="ig-section">
+        <section className={`ig-section${learnings ? "" : " ig-section--empty-feature"}`}>
           <div className="ig-section-head"><div><h2>aprender com meus campeões</h2><p>A IA compara os posts de maior e menor desempenho para descobrir padrões.</p></div><button type="button" className="ig-btn ig-btn--primary" disabled={!!busy || (snap?.posts.length || 0) < 3} onClick={() => runAction<{ learnings: Learnings }>("winners", "/api/instagram/learn-winners", (data) => setLearnings(data.learnings), "Aprendizado atualizado e aplicado às gerações.")}>{busy === "winners" ? "aprendendo..." : "iniciar aprendizado"}</button></div>
-          {learnings ? <div className="ig-learning-status"><div><strong>Aprendizado ativo</strong><span>Executado em {formatDate(learnings.updatedAt, true)} · {learnings.n} posts analisados</span></div><b>Já aplicado às novas gerações</b></div> : <div className="ig-empty"><strong>Nenhum aprendizado executado.</strong><span>São necessários pelo menos 3 posts lidos.</span></div>}
+          {learnings ? <div className="ig-learning-status"><div><strong>Aprendizado ativo</strong><span>Executado em {formatDate(learnings.updatedAt, true)} · {learnings.n} posts analisados</span></div><b>Já aplicado às novas gerações</b></div> : <div className="ig-empty ig-empty--compact"><strong>Aprendizado ainda não iniciado.</strong><span>São necessários pelo menos 3 posts lidos.</span></div>}
         </section>
 
         <section className="ig-section">

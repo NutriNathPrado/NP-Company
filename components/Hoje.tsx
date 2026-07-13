@@ -3,6 +3,14 @@
 import { useEffect, useState } from "react";
 import type { Post } from "@/lib/types";
 import { computeDose, sequenceAlerts, REG_MAP, type Registro } from "@/lib/vitals";
+import InstagramProfileCard from "@/components/InstagramProfileCard";
+import { formatDate } from "@/lib/instagram-metrics";
+import { toast } from "@/lib/toast";
+
+type InstagramSummary = {
+  updatedAt: string;
+  profile: { username: string; picture?: string };
+};
 
 function ActionIcon({ name }: { name: "pen" | "plus" | "grid" | "refresh" | "wave" | "calendar" | "hook" }) {
   const c = { width: 19, height: 19, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
@@ -71,9 +79,69 @@ export default function Hoje({ onNovo, onResume, onPede, onHook, onGoto, hasDraf
 }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [week, setWeek] = useState<(Registro | "")[]>(["", "", "", "", "", "", ""]);
+  const [instagram, setInstagram] = useState<InstagramSummary | null>(null);
+  const [instagramBusy, setInstagramBusy] = useState("");
   useEffect(() => { fetch("/api/posts").then((r) => r.json()).then((d) => setPosts(d.posts || [])); }, []);
   useEffect(() => { fetch("/api/weekplan").then((r) => r.json()).then((d) => { if (Array.isArray(d.plan)) setWeek(d.plan); }); }, []);
+  useEffect(() => {
+    let active = true;
+    void (async () => {
+      try {
+        const statusResponse = await fetch("/api/instagram/connect");
+        const status = await statusResponse.json();
+        if (!statusResponse.ok || !status.connected) return;
+        const insightsResponse = await fetch("/api/instagram/insights");
+        const insights = await insightsResponse.json();
+        if (active && insightsResponse.ok && insights.snapshot) setInstagram(insights.snapshot);
+      } catch {
+        // O resumo é complementar na página inicial; a aba Perfil mantém o tratamento completo de erro.
+      }
+    })();
+    return () => { active = false; };
+  }, []);
   const hojeReg = week[new Date().getDay()] || "";
+
+  async function updateInstagram() {
+    if (instagramBusy) return;
+    setInstagramBusy("insights");
+    try {
+      const response = await fetch("/api/instagram/insights", { method: "POST" });
+      const data = await response.json();
+      if (!response.ok || data.error) throw new Error(data.error || "Não foi possível atualizar os Insights.");
+      setInstagram(data.snapshot);
+      toast("Insights atualizados.");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : "Não foi possível atualizar os Insights.", "err");
+    } finally { setInstagramBusy(""); }
+  }
+
+  async function createInstagramReport() {
+    if (instagramBusy) return;
+    setInstagramBusy("report");
+    try {
+      const response = await fetch("/api/instagram/reports", { method: "POST" });
+      const data = await response.json();
+      if (!response.ok || data.error) throw new Error(data.error || "Não foi possível criar o relatório.");
+      toast("Relatório criado.");
+      onGoto(`perfil/relatorios/${data.report.id}`);
+    } catch (error) {
+      toast(error instanceof Error ? error.message : "Não foi possível criar o relatório.", "err");
+    } finally { setInstagramBusy(""); }
+  }
+
+  async function disconnectInstagram() {
+    if (instagramBusy || !window.confirm("Desconectar o Instagram? Os relatórios salvos serão preservados.")) return;
+    setInstagramBusy("disconnect");
+    try {
+      const response = await fetch("/api/instagram/connect", { method: "DELETE" });
+      const data = await response.json();
+      if (!response.ok || data.error) throw new Error(data.error || "Não foi possível desconectar o Instagram.");
+      setInstagram(null);
+      toast("Instagram desconectado.");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : "Não foi possível desconectar o Instagram.", "err");
+    } finally { setInstagramBusy(""); }
+  }
 
   const ym = new Date().toISOString().slice(0, 7);
   const hojeStr = new Date().toISOString().slice(0, 10);
@@ -121,6 +189,20 @@ export default function Hoje({ onNovo, onResume, onPede, onHook, onGoto, hasDraf
             <DraftMark />
           </div>
         </section>
+      )}
+
+      {instagram && (
+        <InstagramProfileCard
+          className="hoje-instagram-card"
+          username={instagram.profile.username}
+          picture={instagram.profile.picture}
+          updatedAtLabel={formatDate(instagram.updatedAt, true)}
+          busy={instagramBusy}
+          onUpdate={updateInstagram}
+          onCreateReport={createInstagramReport}
+          onReports={() => onGoto("perfil/relatorios")}
+          onDisconnect={disconnectInstagram}
+        />
       )}
 
       {hojeReg && (
