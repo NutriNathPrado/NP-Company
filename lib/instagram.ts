@@ -155,8 +155,7 @@ export async function fetchSnapshot(cfg: IgConfig, limit = 25): Promise<IgSnapsh
     access_token: tok,
   });
   const items = (media.data as Array<Record<string, unknown>>) || [];
-  const posts: IgPost[] = [];
-  for (const m of items) {
+  const readPost = async (m: Record<string, unknown>): Promise<IgPost> => {
     const post: IgPost = {
       id: String(m.id),
       caption: m.caption as string | undefined,
@@ -187,7 +186,12 @@ export async function fetchSnapshot(cfg: IgConfig, limit = 25): Promise<IgSnapsh
         // tenta o próximo conjunto de métricas
       }
     }
-    posts.push(post);
+    return post;
+  };
+  const posts: IgPost[] = [];
+  // Poucas chamadas em paralelo mantêm a rotina diária dentro do limite da função sem pressionar a API da Meta.
+  for (let index = 0; index < items.length; index += 5) {
+    posts.push(...await Promise.all(items.slice(index, index + 5).map(readPost)));
   }
   return {
     updatedAt: new Date().toISOString(),
