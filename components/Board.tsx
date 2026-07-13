@@ -108,7 +108,8 @@ export default function Board({ onOpen, onCreate }: { onOpen: (c: Carousel) => v
         placeholder="Joga uma ideia rapida" className="studio-input" style={{ flex: 1 }} />
       <button className="dg-btn-primary" onClick={addIdea} style={{ padding: "0 18px" }}>+ Ideia</button>
     </div>
-    <div className="board-columns">
+    <p className="board-mobile-hint">Deslize para o lado para ver todas as etapas.</p>
+    <div className="board-columns" tabIndex={0} aria-label="Etapas do quadro; deslize horizontalmente para navegar">
       {STAGES.map((st) => {
         const items = posts.filter((p) => (p.stage || "ideia") === st.key);
         const isOver = over === st.key;

@@ -140,6 +140,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const [title, sub] = TITLES[cur] || TITLES.hoje;
   const hidePageHead = cur === "stories" || cur === "reels";
   const [settings, setSettings] = useState<StudioSettings>(DEFAULT_SETTINGS);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/studio-settings").then((response) => response.json()).then((data) => {
@@ -150,6 +151,15 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("studio-settings", onSettings);
   }, []);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [mobileMenuOpen]);
+
   const groupWith = (v: string) => NAV.find((e): e is NavGroup => "group" in e && e.items.some((i) => i.v === v));
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
     const g = groupWith(cur);
@@ -159,23 +169,35 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="dg-shell">
-      <aside className="dg-sidebar">
-        <Link href="/hoje" className="dg-brand">
-          <img src={settings.logo || "/logo/np-logo.png"} alt={settings.menuTitle} className="dg-brand-logo"
-            onError={(e) => { e.currentTarget.style.display = "none"; const s = e.currentTarget.nextElementSibling as HTMLElement | null; if (s) s.style.display = "block"; }} />
-          <span className="dg-brand-fallback">NP</span>
-          <div className="dg-brand-copy">
-            <span>{settings.menuTitle}</span>
-            <small>{settings.menuSubtitle}</small>
-          </div>
-        </Link>
+      <aside className={"dg-sidebar" + (mobileMenuOpen ? " is-mobile-open" : "")}>
+        <div className="dg-sidebar-top">
+          <Link href="/hoje" className="dg-brand" onClick={() => setMobileMenuOpen(false)}>
+            <img src={settings.logo || "/logo/np-logo.png"} alt={settings.menuTitle} className="dg-brand-logo"
+              onError={(e) => { e.currentTarget.style.display = "none"; const s = e.currentTarget.nextElementSibling as HTMLElement | null; if (s) s.style.display = "block"; }} />
+            <span className="dg-brand-fallback">NP</span>
+            <div className="dg-brand-copy">
+              <span>{settings.menuTitle}</span>
+              <small>{settings.menuSubtitle}</small>
+            </div>
+          </Link>
+          <button
+            type="button"
+            className="dg-mobile-menu-toggle"
+            aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="studio-navigation"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
 
-        <nav className="dg-nav-list" aria-label="Menu principal">
+        <nav id="studio-navigation" className="dg-nav-list" aria-label="Menu principal">
           {NAV.map((entry) => {
             if ("v" in entry) {
               const active = cur === entry.v;
               return (
-                <Link key={entry.v} href={`/${entry.v}`} className={"dg-nav" + (active ? " active" : "")}>
+                <Link key={entry.v} href={`/${entry.v}`} className={"dg-nav" + (active ? " active" : "")} onClick={() => setMobileMenuOpen(false)}>
                   <span className="ico"><Icon name={entry.v} /></span>
                   {entry.label}
                 </Link>
@@ -201,7 +223,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                     {entry.items.map((i) => {
                       const active = cur === i.v;
                       return (
-                        <Link key={i.v} href={`/${i.v}`} className={"dg-nav" + (active ? " active" : "")} style={{ minHeight: 38, fontSize: 14 }}>
+                        <Link key={i.v} href={`/${i.v}`} className={"dg-nav" + (active ? " active" : "")} style={{ minHeight: 38, fontSize: 14 }} onClick={() => setMobileMenuOpen(false)}>
                           <span className="ico"><Icon name={i.v} /></span>
                           {i.label}
                         </Link>
@@ -217,7 +239,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <div className="dg-user-card">
           <div className="dg-user-card__identity">
             <div className="dg-user-avatar" aria-hidden="true" style={settings.logo ? { backgroundImage: `url(${settings.logo})` } : undefined}><span /></div>
-            <div><strong>{settings.footerTitle}</strong><Link href="/configuracoes" className="dg-settings-inline"><span aria-hidden="true">⚙</span> Configurações</Link></div>
+            <div><strong>{settings.footerTitle}</strong><Link href="/configuracoes" className="dg-settings-inline" onClick={() => setMobileMenuOpen(false)}><span aria-hidden="true">⚙</span> Configurações</Link></div>
           </div>
         </div>
       </aside>

@@ -262,7 +262,7 @@ export default function Biblioteca() {
   const total = displayCats.reduce((a, c) => a + c.images.length, 0);
 
   return (
-    <div className="studio-page">
+    <div className="studio-page library-page">
       <section className="studio-hero">
         <div className="studio-hero__copy">
           <h2>Assets organizados para a IA criar com identidade</h2>

@@ -14,16 +14,17 @@ export default function Modal({ title, onClose, children, maxWidth = 560 }: { ti
   }, [onClose]);
 
   return (
-    <div onMouseDown={onClose}
+    <div onMouseDown={onClose} className="dg-modal-backdrop"
+      role="dialog" aria-modal="true" aria-label={typeof title === "string" ? title : "Janela de detalhes"}
       style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.64)", backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "7vh 20px 48px", overflowY: "auto" }}>
-      <div onMouseDown={(e) => e.stopPropagation()} className="dg-panel" style={{ width: "100%", maxWidth, padding: 0, animation: "dgModalIn .16s ease-out", boxShadow: "0 24px 70px -20px rgba(0,0,0,0.9)" }}>
+      <div onMouseDown={(e) => e.stopPropagation()} className="dg-panel dg-modal-panel" style={{ width: "100%", maxWidth, padding: 0, animation: "dgModalIn .16s ease-out", boxShadow: "0 24px 70px -20px rgba(0,0,0,0.9)" }}>
         {title != null && (
           <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "15px 20px", borderBottom: "1px solid var(--dg-line-soft)" }}>
             <div style={{ flex: 1, fontFamily: "'Bebas Neue',sans-serif", letterSpacing: 1, fontSize: 19, color: "var(--dg-white)" }}>{title}</div>
-            <button onClick={onClose} aria-label="fechar" style={{ background: "transparent", border: "1px solid var(--dg-line)", color: "var(--dg-grey)", borderRadius: 8, width: 30, height: 30, cursor: "pointer", fontSize: 15, lineHeight: 1 }}>✕</button>
+            <button type="button" onClick={onClose} aria-label="fechar" style={{ background: "transparent", border: "1px solid var(--dg-line)", color: "var(--dg-grey)", borderRadius: 8, width: 30, height: 30, cursor: "pointer", fontSize: 15, lineHeight: 1 }}>✕</button>
           </div>
         )}
-        <div style={{ padding: 20 }}>{children}</div>
+        <div className="dg-modal-body" style={{ padding: 20 }}>{children}</div>
       </div>
       <style>{`@keyframes dgModalIn{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}`}</style>
     </div>
