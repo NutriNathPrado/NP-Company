@@ -108,16 +108,21 @@ async function fetchAccountPeriod(igUserId: string, tok: string, days: 7 | 30) {
 async function fetchAccountMetric(igUserId: string, tok: string, metric: "views" | "reach" | "profile_views", days: 7 | 30): Promise<number | undefined> {
   const until = Math.floor(Date.now() / 1000);
   const since = until - days * 24 * 60 * 60;
-  for (const metricType of ["total_value", ""] as const) {
+  const variants = [
+    { period: "total_over_range", metricType: "" },
+    { period: "day", metricType: "total_value" },
+    { period: "day", metricType: "" },
+  ] as const;
+  for (const variant of variants) {
     try {
       const params: Record<string, string> = {
         metric,
-        period: "day",
+        period: variant.period,
         since: String(since),
         until: String(until),
         access_token: tok,
       };
-      if (metricType) params.metric_type = metricType;
+      if (variant.metricType) params.metric_type = variant.metricType;
       const payload = await gget(`${igUserId}/insights`, params);
       const row = ((payload.data as InsightResult[] | undefined) || [])[0];
       const total = (row?.total_value as { value?: unknown } | undefined)?.value;
@@ -125,7 +130,7 @@ async function fetchAccountMetric(igUserId: string, tok: string, metric: "views"
       const sum = sumInsightValues(payload, metric);
       if (sum !== undefined) return sum;
     } catch {
-      // Tenta a forma diária usada por versões anteriores da Graph API.
+      // Tenta a próxima forma aceita pela versão/conta conectada.
     }
   }
   return undefined;

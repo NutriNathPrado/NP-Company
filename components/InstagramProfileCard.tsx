@@ -29,7 +29,7 @@ export default function InstagramProfileCard({
         </div>
         <div>
           <h2>@{username}</h2>
-          <p>Insights atualizados em {updatedAtLabel}</p>
+          <p>Insights atualizados em {updatedAtLabel} · automático diariamente às 06:30</p>
         </div>
       </div>
       <div className="ig-actions ig-actions--profile">
