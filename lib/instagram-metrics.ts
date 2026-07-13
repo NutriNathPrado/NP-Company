@@ -14,6 +14,19 @@ export type DashboardPost = {
   views?: number;
 };
 
+export type InstagramDashboardSnapshot = {
+  updatedAt: string;
+  profile: { username: string; followers: number; mediaCount: number; picture?: string };
+  account?: {
+    newFollowers30?: number;
+    unfollows30?: number;
+    newFollowers7?: number;
+    unfollows7?: number;
+    profileViews30?: number;
+  };
+  posts: DashboardPost[];
+};
+
 export function hasNumber(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
 }

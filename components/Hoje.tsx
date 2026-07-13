@@ -4,13 +4,9 @@ import { useEffect, useState } from "react";
 import type { Post } from "@/lib/types";
 import { computeDose, sequenceAlerts, REG_MAP, type Registro } from "@/lib/vitals";
 import InstagramProfileCard from "@/components/InstagramProfileCard";
-import { formatDate } from "@/lib/instagram-metrics";
+import InstagramMetricsPanel from "@/components/InstagramMetricsPanel";
+import { formatDate, type InstagramDashboardSnapshot } from "@/lib/instagram-metrics";
 import { toast } from "@/lib/toast";
-
-type InstagramSummary = {
-  updatedAt: string;
-  profile: { username: string; picture?: string };
-};
 
 function ActionIcon({ name }: { name: "pen" | "plus" | "grid" | "refresh" | "wave" | "calendar" | "hook" }) {
   const c = { width: 19, height: 19, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
@@ -79,7 +75,7 @@ export default function Hoje({ onNovo, onResume, onPede, onHook, onGoto, hasDraf
 }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [week, setWeek] = useState<(Registro | "")[]>(["", "", "", "", "", "", ""]);
-  const [instagram, setInstagram] = useState<InstagramSummary | null>(null);
+  const [instagram, setInstagram] = useState<InstagramDashboardSnapshot | null>(null);
   const [instagramBusy, setInstagramBusy] = useState("");
   useEffect(() => { fetch("/api/posts").then((r) => r.json()).then((d) => setPosts(d.posts || [])); }, []);
   useEffect(() => { fetch("/api/weekplan").then((r) => r.json()).then((d) => { if (Array.isArray(d.plan)) setWeek(d.plan); }); }, []);
@@ -192,17 +188,20 @@ export default function Hoje({ onNovo, onResume, onPede, onHook, onGoto, hasDraf
       )}
 
       {instagram && (
-        <InstagramProfileCard
-          className="hoje-instagram-card"
-          username={instagram.profile.username}
-          picture={instagram.profile.picture}
-          updatedAtLabel={formatDate(instagram.updatedAt, true)}
-          busy={instagramBusy}
-          onUpdate={updateInstagram}
-          onCreateReport={createInstagramReport}
-          onReports={() => onGoto("perfil/relatorios")}
-          onDisconnect={disconnectInstagram}
-        />
+        <div className="hoje-instagram-summary">
+          <InstagramProfileCard
+            className="hoje-instagram-card"
+            username={instagram.profile.username}
+            picture={instagram.profile.picture}
+            updatedAtLabel={formatDate(instagram.updatedAt, true)}
+            busy={instagramBusy}
+            onUpdate={updateInstagram}
+            onCreateReport={createInstagramReport}
+            onReports={() => onGoto("perfil/relatorios")}
+            onDisconnect={disconnectInstagram}
+          />
+          <InstagramMetricsPanel snapshot={instagram} compact />
+        </div>
       )}
 
       {hojeReg && (

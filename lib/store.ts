@@ -520,6 +520,13 @@ export interface IgPost {
 export interface IgSnapshot {
   updatedAt: string;
   profile: { username: string; followers: number; mediaCount: number; picture?: string };
+  account?: {
+    newFollowers30?: number;
+    unfollows30?: number;
+    newFollowers7?: number;
+    unfollows7?: number;
+    profileViews30?: number;
+  };
   posts: IgPost[];
 }
 export interface IgAnalysis { updatedAt: string; text: string }

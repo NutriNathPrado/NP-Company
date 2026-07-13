@@ -50,10 +50,96 @@ async function pageToken(cfg: IgConfig): Promise<string> {
 const METRICS = "reach,saved,shares,total_interactions,views";
 const METRICS_FALLBACK = "reach,saved,shares,total_interactions";
 
+type InsightResult = Record<string, unknown>;
+
+function sumInsightValues(payload: Record<string, unknown>, metric: string): number | undefined {
+  const row = ((payload.data as InsightResult[] | undefined) || []).find((item) => item.name === metric);
+  const values = (row?.values as Array<{ value?: unknown }> | undefined) || [];
+  const numbers = values.map((item) => item.value).filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+  return numbers.length ? numbers.reduce((total, value) => total + value, 0) : undefined;
+}
+
+function followBreakdown(payload: Record<string, unknown>): { follows?: number; unfollows?: number } {
+  const rows = (payload.data as InsightResult[] | undefined) || [];
+  let follows: number | undefined;
+  let unfollows: number | undefined;
+  for (const row of rows) {
+    const totalValue = row.total_value as { breakdowns?: Array<{ results?: Array<{ dimension_values?: unknown[]; value?: unknown }> }> } | undefined;
+    for (const breakdown of totalValue?.breakdowns || []) {
+      for (const result of breakdown.results || []) {
+        const label = String(result.dimension_values?.[0] || "").toUpperCase();
+        if (typeof result.value !== "number" || !Number.isFinite(result.value)) continue;
+        if (label.includes("UNFOLLOW") || label.includes("NON_FOLLOW")) unfollows = (unfollows || 0) + result.value;
+        else if (label.includes("FOLLOW")) follows = (follows || 0) + result.value;
+      }
+    }
+  }
+  return { follows, unfollows };
+}
+
+async function fetchAccountPeriod(igUserId: string, tok: string, days: 7 | 30) {
+  const until = Math.floor(Date.now() / 1000);
+  const since = until - days * 24 * 60 * 60;
+  const range = { period: "day", since: String(since), until: String(until), access_token: tok };
+  let follows: number | undefined;
+  let unfollows: number | undefined;
+  try {
+    const payload = await gget(`${igUserId}/insights`, {
+      ...range,
+      metric: "follows_and_unfollows",
+      metric_type: "total_value",
+      breakdown: "follow_type",
+    });
+    ({ follows, unfollows } = followBreakdown(payload));
+  } catch {
+    // Algumas contas/versões da Meta ainda não liberam o detalhamento de unfollows.
+  }
+  if (follows === undefined) {
+    try {
+      const payload = await gget(`${igUserId}/insights`, { ...range, metric: "follower_count" });
+      follows = sumInsightValues(payload, "follower_count");
+    } catch {
+      // Mantém ausente: o dashboard exibirá “—” sem estimar valores.
+    }
+  }
+  return { follows, unfollows };
+}
+
+async function fetchProfileViews30(igUserId: string, tok: string): Promise<number | undefined> {
+  const until = Math.floor(Date.now() / 1000);
+  const since = until - 30 * 24 * 60 * 60;
+  for (const metricType of ["total_value", ""] as const) {
+    try {
+      const params: Record<string, string> = {
+        metric: "profile_views",
+        period: "day",
+        since: String(since),
+        until: String(until),
+        access_token: tok,
+      };
+      if (metricType) params.metric_type = metricType;
+      const payload = await gget(`${igUserId}/insights`, params);
+      const row = ((payload.data as InsightResult[] | undefined) || [])[0];
+      const total = (row?.total_value as { value?: unknown } | undefined)?.value;
+      if (typeof total === "number" && Number.isFinite(total)) return total;
+      const sum = sumInsightValues(payload, "profile_views");
+      if (sum !== undefined) return sum;
+    } catch {
+      // Tenta a forma diária usada por versões anteriores da Graph API.
+    }
+  }
+  return undefined;
+}
+
 // puxa perfil + últimos N posts com métricas reais. Tolerante: se uma métrica faltar, ignora.
 export async function fetchSnapshot(cfg: IgConfig, limit = 25): Promise<IgSnapshot> {
   const tok = await pageToken(cfg);
-  const prof = await gget(cfg.igUserId, { fields: "username,followers_count,media_count,profile_picture_url", access_token: tok });
+  const [prof, period30, period7, profileViews30] = await Promise.all([
+    gget(cfg.igUserId, { fields: "username,followers_count,media_count,profile_picture_url", access_token: tok }),
+    fetchAccountPeriod(cfg.igUserId, tok, 30),
+    fetchAccountPeriod(cfg.igUserId, tok, 7),
+    fetchProfileViews30(cfg.igUserId, tok),
+  ]);
   const media = await gget(`${cfg.igUserId}/media`, {
     fields: "id,caption,media_type,media_product_type,timestamp,permalink,thumbnail_url,media_url,like_count,comments_count",
     limit: String(limit),
@@ -101,6 +187,13 @@ export async function fetchSnapshot(cfg: IgConfig, limit = 25): Promise<IgSnapsh
       followers: (prof.followers_count as number) || 0,
       mediaCount: (prof.media_count as number) || 0,
       picture: prof.profile_picture_url as string | undefined,
+    },
+    account: {
+      newFollowers30: period30.follows,
+      unfollows30: period30.unfollows,
+      newFollowers7: period7.follows,
+      unfollows7: period7.unfollows,
+      profileViews30,
     },
     posts,
   };

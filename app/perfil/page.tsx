@@ -5,18 +5,18 @@ import { useRouter } from "next/navigation";
 import Markdown from "@/components/Markdown";
 import Modal from "@/components/Modal";
 import InstagramProfileCard from "@/components/InstagramProfileCard";
+import InstagramMetricsPanel from "@/components/InstagramMetricsPanel";
 import { toast } from "@/lib/toast";
 import {
   engagement, formatDate, formatLabel, formatNumber, formatPercent, hasNumber,
-  percent, postsSince, ratio, sumAvailable, type DashboardPost,
+  percent, postsSince, ratio, sumAvailable, type DashboardPost, type InstagramDashboardSnapshot,
 } from "@/lib/instagram-metrics";
 
 type Status = { connected: boolean; username?: string; connectedAt?: string; tokenExpiresAt?: string };
-type Snapshot = { updatedAt: string; profile: { username: string; followers: number; mediaCount: number; picture?: string }; posts: DashboardPost[] };
+type Snapshot = InstagramDashboardSnapshot;
 type Analysis = { updatedAt: string; text: string };
 type Learnings = { updatedAt: string; n: number; summary: string };
 type SortMode = "recent" | "reach" | "engagement";
-type InfoModal = "reach" | "funnel" | null;
 
 async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, init);
@@ -84,7 +84,6 @@ export default function PerfilPage() {
   const [sortBy, setSortBy] = useState<SortMode>("recent");
   const [analysisOpen, setAnalysisOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<DashboardPost | null>(null);
-  const [infoModal, setInfoModal] = useState<InfoModal>(null);
 
   const load = useCallback(async () => {
     try {
@@ -128,11 +127,7 @@ export default function PerfilPage() {
   }
 
   const posts30 = useMemo(() => postsSince(snap?.posts || [], 30), [snap]);
-  const posts7 = useMemo(() => postsSince(snap?.posts || [], 7), [snap]);
   const views30 = useMemo(() => sumAvailable(posts30, "views"), [posts30]);
-  const views7 = useMemo(() => sumAvailable(posts7, "views"), [posts7]);
-  const reach30 = useMemo(() => sumAvailable(posts30, "reach"), [posts30]);
-  const reach7 = useMemo(() => sumAvailable(posts7, "reach"), [posts7]);
 
   const posts = useMemo(() => [...(snap?.posts || [])].sort((a, b) => {
     if (sortBy === "reach") return (b.reach ?? -1) - (a.reach ?? -1);
@@ -173,18 +168,7 @@ export default function PerfilPage() {
           onDisconnect={disconnect}
         />
 
-        <section aria-labelledby="metricas-title">
-          <div className="ig-section-head ig-section-head--plain"><div><h2 id="metricas-title">Painel de métricas</h2><p>* Totais de período representam a soma dos posts datados lidos pela API, não o agregado oficial da conta.</p></div></div>
-          <div className="ig-metrics-grid">
-            <MetricCard label="Seguidores" value={formatNumber(snap?.profile.followers)} />
-            <MetricCard label="Posts no perfil" value={formatNumber(snap?.profile.mediaCount)} />
-            <MetricCard label="Visualizações · últimos 30 dias*" value={formatNumber(views30)} />
-            <MetricCard label="Visualizações · últimos 7 dias*" value={formatNumber(views7)} />
-            <MetricCard label="Alcance · últimos 30 dias*" value={formatNumber(reach30)} onClick={() => setInfoModal("reach")} />
-            <MetricCard label="Alcance · últimos 7 dias*" value={formatNumber(reach7)} onClick={() => setInfoModal("reach")} />
-            <MetricCard label="Posts lidos pela API" value={formatNumber(snap?.posts.length)} />
-          </div>
-        </section>
+        {snap && <InstagramMetricsPanel snapshot={snap} />}
 
         <section className={`ig-section${analysis ? "" : " ig-section--empty-feature"}`}>
           <div className="ig-section-head"><div><h2>análise estratégica</h2><p>Diagnóstico da IA com as métricas atuais e o Cérebro da marca.</p></div><button type="button" className="ig-btn ig-btn--primary" disabled={!!busy || !snap?.posts.length} onClick={() => runAction<{ analysis: Analysis }>("analysis", "/api/instagram/analyze", (data) => { setAnalysis(data.analysis); setAnalysisOpen(true); }, "Análise atualizada.")}>{busy === "analysis" ? "analisando..." : "analisar meu perfil"}</button></div>
@@ -205,8 +189,6 @@ export default function PerfilPage() {
         </section>
       </>}
 
-      {infoModal === "reach" && <Modal title="Alcance e visualizações" onClose={() => setInfoModal(null)}><div className="ig-modal-copy"><p><b>Alcance</b> representa contas únicas que visualizaram o conteúdo.</p><p><b>Visualizações</b> podem contar várias reproduções da mesma pessoa e, por isso, podem ser maiores que o alcance.</p><p>Os valores variam de acordo com os dados disponibilizados pela Meta.</p></div><button type="button" className="ig-btn ig-btn--primary" onClick={() => setInfoModal(null)}>entendi</button></Modal>}
-      {infoModal === "funnel" && <Modal title="Funil de conversão" onClose={() => setInfoModal(null)} maxWidth={860}><div className="ig-funnel"><MetricCard label="Alcance · 30 dias*" value={formatNumber(reach30)} /><MetricCard label="Visitas ao perfil" value="—" /><MetricCard label="Taxa de visita" value="—" /><MetricCard label="Novos seguidores" value="—" /><MetricCard label="Taxa final" value="—" accent /></div><p className="ig-modal-note">A API atual não fornece visitas ao perfil nem novos seguidores por período. Nenhuma taxa foi estimada sem esses dados.</p><button type="button" className="ig-btn" onClick={() => setInfoModal(null)}>fechar</button></Modal>}
       {selectedPost && <PostModal post={selectedPost} onClose={() => setSelectedPost(null)} />}
     </div>
   );
