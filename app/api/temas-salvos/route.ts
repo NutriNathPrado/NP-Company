@@ -16,6 +16,7 @@ export async function POST(req: Request) {
     tema: t.tema.trim(),
     hook1: t.hook1,
     hook2: t.hook2,
+    hook3: t.hook3,
     pilar: t.pilar,
     createdAt: t.createdAt || new Date().toISOString(),
   });

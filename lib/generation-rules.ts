@@ -25,6 +25,14 @@ TELLS DE IA (o detector roda antes de entregar) - corta:
 - Correlacao preguicosa: "o corpo e como uma maquina/ponte/carro".
 - Confianca de robo: quando for reflexao, soa humana e proxima, nunca redonda demais.
 
+FRASES E ANGULOS PROIBIDOS (a Nathalia ODEIA — evite SEMPRE, em gancho, roteiro, card e legenda):
+- Ela e NUTRI: o foco e DIETA, COMIDA, COMPORTAMENTO e emagrecimento. Treino/musculacao so como apoio (N2 Squad), nunca o assunto central. Nada de "treino e mais importante que dieta" nem conteudo focado em treino/execucao.
+- Drama pessoal do peso: "eu ja fui a gorda da foto", "a gorda que emagreceu" e afins — NUNCA. Ela trabalha comportamento, sem choque nem exposicao pessoal.
+- "a dieta perfeita nao existe", "sua dieta perfeita e inutil" — ela nao fala assim.
+- "o corpo trava", "seu emagrecimento travou", "a pessoa fracassa/trava no emagrecimento" — cliche, nao usar.
+- "nao e fraqueza sua", "o problema nao e voce" — muito IA, nao usar.
+- Tom agressivo/call-out duro ("gente mole", "preguicoso", "sua consultoria e generica"): a Nathalia e acolhedora e firme, NUNCA agressiva nem humilhante.
+
 ACOLHIMENTO COM RESPONSABILIDADE (a linha da Nath)
 - ERRADO: culpar ou ser dura ("voce nao tem forca de vontade", "o problema e voce") OU vender facilidade ("e so querer", "corta tudo que resolve").
 - CERTO: acolher a dificuldade E devolver a saida pratica. Ex: "O problema pode nao ser voce. Talvez o plano que voce tenta seguir seja dificil demais pra sua rotina. Da pra estruturar algo que caiba na sua vida". Valida a dor, mostra o caminho real, cobra constancia com cuidado.

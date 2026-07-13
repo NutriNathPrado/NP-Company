@@ -240,6 +240,7 @@ export interface SavedTema {
   tema: string;
   hook1?: string;
   hook2?: string;
+  hook3?: string;
   pilar?: string;
   createdAt: string;
 }

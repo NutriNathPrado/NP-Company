@@ -98,8 +98,8 @@ export default function CriarPage() {
   const [chosenHook, setChosenHook] = useState(""); // abertura travada (alimenta o roteiro)
   const [chosenCover, setChosenCover] = useState(""); // capa travada — vai VERBATIM pro card 1 (o cards não destila)
   // Gerador de temas — 20 temas com 2 capas cada, minerando cérebro + livros
-  type Tema = { tema: string; hook1: string; hook2: string; pilar: string };
-  type SavedTema = { id: string; tema: string; hook1?: string; hook2?: string; pilar?: string; createdAt: string };
+  type Tema = { tema: string; hook1: string; hook2: string; hook3?: string; pilar: string };
+  type SavedTema = { id: string; tema: string; hook1?: string; hook2?: string; hook3?: string; pilar?: string; createdAt: string };
   const [temas, setTemas] = useState<Tema[]>([]);
   const [temasLoad, setTemasLoad] = useState(false);
   const [temasOpen, setTemasOpen] = useState(false);
@@ -117,7 +117,7 @@ export default function CriarPage() {
   async function salvarTema(t: Tema) {
     const r = await fetch("/api/temas-salvos", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: `tm_${Date.now()}`, tema: t.tema, hook1: t.hook1, hook2: t.hook2, pilar: t.pilar, createdAt: new Date().toISOString() }),
+      body: JSON.stringify({ id: `tm_${Date.now()}`, tema: t.tema, hook1: t.hook1, hook2: t.hook2, hook3: t.hook3, pilar: t.pilar, createdAt: new Date().toISOString() }),
     });
     const d = await r.json();
     if (d.tema) {
@@ -747,13 +747,13 @@ export default function CriarPage() {
                             style={{ fontSize: 11, background: "none", border: "none", color: "#5a6378", cursor: "pointer", padding: "2px 4px" }}>✕</button>
                         </div>
                         <p style={{ fontSize: 12.5, color: "#bdc4d4", lineHeight: 1.5, margin: 0 }}>{t.tema}</p>
-                        {(t.hook1 || t.hook2) && (
-                          <div style={{ display: "flex", flexDirection: "column", gap: 5, borderTop: "1px solid #2a2a36", paddingTop: 8 }}>
-                            {[t.hook1, t.hook2].filter(Boolean).map((h, hi) => (
+                        {(t.hook1 || t.hook2 || t.hook3) && (
+                          <div style={{ display: "flex", flexDirection: "column", gap: 5, borderTop: "1px solid var(--dg-line)", paddingTop: 8 }}>
+                            {[t.hook1, t.hook2, t.hook3].filter(Boolean).map((h, hi) => (
                               <div key={hi} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                                <span style={{ flex: 1, fontSize: 13, color: "#e8d5b7", fontWeight: 600, lineHeight: 1.3 }}
-                                  dangerouslySetInnerHTML={{ __html: (h as string).replace(/\*\*([^*]+)\*\*/g, '<span style="color:#e85d6a">$1</span>') }} />
-                                <button onClick={() => chooseTema({ tema: t.tema, hook1: t.hook1 || "", hook2: t.hook2 || "", pilar: t.pilar || "" }, (h as string).replace(/\*\*/g, ""))}
+                                <span style={{ flex: 1, fontSize: 13, color: "var(--dg-text)", fontWeight: 600, lineHeight: 1.3 }}
+                                  dangerouslySetInnerHTML={{ __html: (h as string).replace(/\*\*([^*]+)\*\*/g, '<span style="color:var(--dg-red)">$1</span>') }} />
+                                <button onClick={() => chooseTema({ tema: t.tema, hook1: t.hook1 || "", hook2: t.hook2 || "", hook3: t.hook3 || "", pilar: t.pilar || "" }, (h as string).replace(/\*\*/g, ""))}
                                   style={{ fontSize: 11, background: "#0e1420", color: "#7c8db0", border: "1px solid #2a3a5a", borderRadius: 6, padding: "3px 9px", cursor: "pointer", whiteSpace: "nowrap" }}>
                                   usar
                                 </button>
@@ -761,8 +761,8 @@ export default function CriarPage() {
                             ))}
                           </div>
                         )}
-                        <button onClick={() => chooseTema({ tema: t.tema, hook1: t.hook1 || "", hook2: t.hook2 || "", pilar: t.pilar || "" })}
-                          style={{ fontSize: 11.5, background: "transparent", color: "#5a6a8a", border: "1px dashed #2e3a50", borderRadius: 7, padding: "5px 0", cursor: "pointer", marginTop: 2 }}>
+                        <button onClick={() => chooseTema({ tema: t.tema, hook1: t.hook1 || "", hook2: t.hook2 || "", hook3: t.hook3 || "", pilar: t.pilar || "" })}
+                          style={{ fontSize: 11.5, background: "transparent", color: "var(--dg-grey)", border: "1px dashed var(--dg-line-strong)", borderRadius: 7, padding: "5px 0", cursor: "pointer", marginTop: 2 }}>
                           → usar tema (gerar capas depois)
                         </button>
                       </div>
@@ -777,29 +777,29 @@ export default function CriarPage() {
                   <div style={{ gridColumn: "1/-1", color: "#7c869c", fontSize: 13, padding: "20px 0" }}>analisando livros e cérebro…</div>
                 )}
                 {temas.map((t, i) => (
-                  <div key={i} style={{ background: "#17171b", border: "1px solid #2e2e36", borderRadius: 10, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div key={i} style={{ background: "var(--dg-surface)", border: "1px solid var(--dg-line)", borderRadius: 10, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
                     {/* pilar badge + salvar */}
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <span style={{ fontSize: 10, background: "#1e2030", color: "#7c8db0", borderRadius: 5, padding: "2px 7px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600 }}>{t.pilar}</span>
+                      <span style={{ fontSize: 10, background: "var(--dg-red-soft)", color: "var(--dg-red)", borderRadius: 5, padding: "2px 7px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700 }}>{t.pilar}</span>
                       <button
                         onClick={() => { if (!temaJaSalvo(t)) salvarTema(t); }}
                         title={temaJaSalvo(t) ? "Tema já salvo" : "Salvar tema para usar depois"}
                         style={{ marginLeft: "auto", fontSize: 14, background: "none", border: "none", cursor: temaJaSalvo(t) ? "default" : "pointer",
-                          color: temaJaSalvo(t) ? "#f5c820" : "#4e5878", padding: "0 2px", lineHeight: 1,
+                          color: temaJaSalvo(t) ? "#f5c820" : "var(--dg-grey)", padding: "0 2px", lineHeight: 1,
                           transition: "color .15s" }}>
                         {temaJaSalvo(t) ? "★" : "☆"}
                       </button>
                     </div>
                     {/* tema */}
-                    <p style={{ fontSize: 12.5, color: "#bdc4d4", lineHeight: 1.5, margin: 0 }}>{t.tema}</p>
+                    <p style={{ fontSize: 12.5, color: "var(--dg-text)", lineHeight: 1.5, margin: 0 }}>{t.tema}</p>
                     {/* capas */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 5, borderTop: "1px solid #2a2a36", paddingTop: 8 }}>
-                      {[t.hook1, t.hook2].map((h, hi) => (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5, borderTop: "1px solid var(--dg-line)", paddingTop: 8 }}>
+                      {[t.hook1, t.hook2, t.hook3].filter(Boolean).map((h, hi) => (
                         <div key={hi} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                          <span style={{ fontSize: 11, color: "#5a6378", minWidth: 14 }}>{hi + 1}.</span>
-                          <span style={{ flex: 1, fontSize: 13, color: "#e8d5b7", fontWeight: 600, lineHeight: 1.3 }}
-                            dangerouslySetInnerHTML={{ __html: h.replace(/\*\*([^*]+)\*\*/g, '<span style="color:#e85d6a">$1</span>') }} />
-                          <button onClick={() => chooseTema(t, h.replace(/\*\*/g, ""))}
+                          <span style={{ fontSize: 11, color: "var(--dg-grey)", minWidth: 14 }}>{hi + 1}.</span>
+                          <span style={{ flex: 1, fontSize: 13, color: "var(--dg-text)", fontWeight: 600, lineHeight: 1.3 }}
+                            dangerouslySetInnerHTML={{ __html: (h as string).replace(/\*\*([^*]+)\*\*/g, '<span style="color:var(--dg-red)">$1</span>') }} />
+                          <button onClick={() => chooseTema(t, (h as string).replace(/\*\*/g, ""))}
                             title="Usa este tema com esta capa já pré-selecionada"
                             style={{ fontSize: 11, background: "#0e1420", color: "#7c8db0", border: "1px solid #2a3a5a", borderRadius: 6, padding: "3px 9px", cursor: "pointer", whiteSpace: "nowrap" }}>
                             usar
