@@ -5,6 +5,57 @@ import { toast } from "@/lib/toast";
 
 type Cat = { key: string; images: string[] };
 type Identity = { logos: { file: string; url: string }[]; active: string | null; palette: { name: string; hex: string }[]; fonts: { primaria: string; secundaria: string; apoio: string } };
+type UploadProgress = { key: string; stage: "prepare" | "upload"; done: number; total: number };
+
+const MAX_BATCH_BYTES = 3_200_000;
+const MAX_BATCH_FILES = 8;
+
+async function optimizeLibraryImage(file: File, overlay: boolean): Promise<File> {
+  try {
+    const bitmap = await createImageBitmap(file);
+    const maxSide = overlay ? 1400 : 2160;
+    const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+    const width = Math.max(1, Math.round(bitmap.width * scale));
+    const height = Math.max(1, Math.round(bitmap.height * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("canvas indisponível");
+    if (!overlay) {
+      context.fillStyle = "#fff";
+      context.fillRect(0, 0, width, height);
+    }
+    context.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close();
+    const type = overlay ? "image/png" : "image/jpeg";
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, overlay ? undefined : 0.84));
+    if (!blob) throw new Error("não foi possível otimizar");
+    const extension = overlay ? "png" : "jpg";
+    const base = file.name.replace(/\.[^.]+$/, "") || "foto";
+    const optimized = new File([blob], `${base}.${extension}`, { type, lastModified: file.lastModified });
+    return optimized.size < file.size || file.size > MAX_BATCH_BYTES ? optimized : file;
+  } catch {
+    return file;
+  }
+}
+
+function createUploadBatches(files: File[]): File[][] {
+  const batches: File[][] = [];
+  let current: File[] = [];
+  let bytes = 0;
+  for (const file of files) {
+    if (current.length && (current.length >= MAX_BATCH_FILES || bytes + file.size > MAX_BATCH_BYTES)) {
+      batches.push(current);
+      current = [];
+      bytes = 0;
+    }
+    current.push(file);
+    bytes += file.size;
+  }
+  if (current.length) batches.push(current);
+  return batches;
+}
 
 export default function Biblioteca() {
   const [cats, setCats] = useState<Cat[]>([]);
@@ -12,6 +63,7 @@ export default function Biblioteca() {
   const [newCat, setNewCat] = useState("");
   const [logoV, setLogoV] = useState(0); // cache-bust do preview do logo
   const [busy, setBusy] = useState("");
+  const [uploadProgress, setUploadProgress] = useState<UploadProgress | null>(null);
   const [dragCat, setDragCat] = useState(""); // categoria sob o arrasto (highlight)
   const [editing, setEditing] = useState(""); // categoria sendo renomeada
   const [editName, setEditName] = useState("");
@@ -108,20 +160,62 @@ export default function Biblioteca() {
     else toast(d.error || "erro ao renomear", "err");
   }
   async function uploadImages(key: string, fileList: FileList | File[] | null) {
-    const files = (fileList ? Array.from(fileList) : []).filter((f) => f.type.startsWith("image/"));
+    const files = (fileList ? Array.from(fileList) : []).filter((file) =>
+      file.type.startsWith("image/") || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name)
+    );
     if (!files.length) return;
     setBusy(key);
+    setUploadProgress({ key, stage: "prepare", done: 0, total: files.length });
+    let uploaded = 0;
+    let failed = 0;
     try {
-      const fd = new FormData();
-      files.forEach((f) => fd.append("file", f)); // TODOS os arquivos numa requisição só
-      fd.append("category", key);
-      const r = await fetch("/api/library", { method: "POST", body: fd });
-      const d = await r.json().catch(() => ({}));
-      const n = Array.isArray(d.urls) ? d.urls.length : files.length;
-      toast(r.ok ? `✓ ${n} foto(s) em "${key}"` : (d.error || "erro ao enviar"), r.ok ? "ok" : "err");
-    } catch { toast("erro ao enviar", "err"); }
-    setBusy("");
-    load();
+      const prepared: File[] = [];
+      for (let index = 0; index < files.length; index++) {
+        const file = await optimizeLibraryImage(files[index], key === "overlays");
+        if (file.size <= MAX_BATCH_BYTES) prepared.push(file);
+        else failed += 1;
+        setUploadProgress({ key, stage: "prepare", done: index + 1, total: files.length });
+      }
+
+      const sendBatch = async (batch: File[]) => {
+        const fd = new FormData();
+        batch.forEach((file) => fd.append("file", file));
+        fd.append("category", key);
+        const response = await fetch("/api/library", { method: "POST", body: fd });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "erro ao enviar lote");
+        return Array.isArray(data.urls) ? data.urls.length : batch.length;
+      };
+
+      for (const batch of createUploadBatches(prepared)) {
+        try {
+          uploaded += await sendBatch(batch);
+        } catch {
+          // Se um lote falhar, tenta cada imagem separadamente para não perder as demais.
+          for (const file of batch) {
+            try { uploaded += await sendBatch([file]); }
+            catch { failed += 1; }
+          }
+        }
+        setUploadProgress({ key, stage: "upload", done: uploaded + failed, total: files.length });
+      }
+
+      if (uploaded && !failed) toast(`✓ ${uploaded} foto(s) enviadas para "${key}"`);
+      else if (uploaded) toast(`${uploaded} foto(s) enviadas; ${failed} não puderam ser processadas.`, "err");
+      else toast("Nenhuma foto pôde ser enviada. Tente arquivos JPG, PNG ou WEBP.", "err");
+    } catch (error) {
+      toast(error instanceof Error ? error.message : "erro ao enviar", "err");
+    } finally {
+      setBusy("");
+      setUploadProgress(null);
+      await load();
+    }
+  }
+
+  function uploadLabel(key: string, idle: string) {
+    const progress = uploadProgress?.key === key ? uploadProgress : null;
+    if (!progress) return idle;
+    return `${progress.stage === "prepare" ? "preparando" : "enviando"} ${progress.done}/${progress.total}`;
   }
   async function rotateImage(catKey: string, url: string) {
     setBusy(`rotate:${url}`);
@@ -257,7 +351,7 @@ export default function Biblioteca() {
           <span style={{ fontSize: 12, color: "#7c869c" }}>{overlays.length} figura(s)</span>
           <p>{dragCat === "overlays" ? "solte para subir" : "PNGs transparentes para compor cards"}</p>
           <span className="spacer" />
-          <button onClick={() => upRefs.current["overlays"]?.click()} disabled={busy === "overlays"} className="dg-btn" style={{ fontSize: 12, padding: "6px 12px" }}>{busy === "overlays" ? "enviando" : "subir overlays"}</button>
+          <button onClick={() => upRefs.current["overlays"]?.click()} disabled={busy === "overlays"} className="dg-btn" style={{ fontSize: 12, padding: "6px 12px" }}>{uploadLabel("overlays", "subir overlays")}</button>
           <input ref={(el) => { upRefs.current["overlays"] = el; }} type="file" accept="image/png,image/*" multiple hidden onChange={(e) => { uploadImages("overlays", Array.from(e.target.files || [])); e.currentTarget.value = ""; }} />
         </div>
         {overlays.length > 0 ? (
@@ -310,7 +404,7 @@ export default function Biblioteca() {
               <p>{dragCat === c.key ? "solte para subir" : "arraste fotos aqui"}</p>
               <span className="spacer" />
               <button onClick={() => upRefs.current[c.key]?.click()} disabled={busy === c.key} className="dg-btn" style={{ fontSize: 12, padding: "6px 12px" }}>
-                {busy === c.key ? "enviando" : "subir fotos"}
+                {uploadLabel(c.key, "subir fotos")}
               </button>
               <input ref={(el) => { upRefs.current[c.key] = el; }} type="file" accept="image/*" multiple hidden onChange={(e) => { uploadImages(c.key, Array.from(e.target.files || [])); e.currentTarget.value = ""; }} />
 <button onClick={() => delCat(c.key)} className="studio-danger-btn" type="button">apagar</button>
