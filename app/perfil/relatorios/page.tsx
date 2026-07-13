@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { formatDate, formatNumber, postsSince, sumAvailable, type DashboardPost } from "@/lib/instagram-metrics";
+import { formatDate, formatNumber, hasNumber, postsSince, sumAvailable, type DashboardPost } from "@/lib/instagram-metrics";
 import { toast } from "@/lib/toast";
 
-type Report = { id: string; createdAt: string; username: string; summary: string; snapshot: { posts: DashboardPost[] } };
+type Report = { id: string; createdAt: string; username: string; summary: string; snapshot: { account?: { views30?: number; reach30?: number }; posts: DashboardPost[] } };
 
 export default function ReportsPage() {
   const router = useRouter();
@@ -43,5 +43,7 @@ export default function ReportsPage() {
 
 function ReportCard({ report, busy, onOpen, onRemove }: { report: Report; busy: boolean; onOpen: () => void; onRemove: () => void }) {
   const posts30 = useMemo(() => postsSince(report.snapshot.posts, 30, new Date(report.createdAt).getTime()), [report]);
-  return <article className="ig-report-card"><div><span>@{report.username}</span><time>{formatDate(report.createdAt, true)}</time></div><div className="ig-report-metrics"><p><strong>{formatNumber(sumAvailable(posts30, "views"))}</strong><span>visualizações · 30 dias*</span></p><p><strong>{formatNumber(sumAvailable(posts30, "reach"))}</strong><span>alcance · 30 dias*</span></p><p><strong>{report.snapshot.posts.length}</strong><span>posts lidos</span></p></div><p>{report.summary}</p><div className="ig-actions"><button type="button" className="ig-btn ig-btn--primary" onClick={onOpen}>abrir</button><button type="button" className="ig-btn ig-btn--danger" disabled={busy} onClick={onRemove}>{busy ? "apagando..." : "apagar"}</button></div></article>;
+  const views30 = hasNumber(report.snapshot.account?.views30) ? report.snapshot.account.views30 : sumAvailable(posts30, "views");
+  const reach30 = hasNumber(report.snapshot.account?.reach30) ? report.snapshot.account.reach30 : sumAvailable(posts30, "reach");
+  return <article className="ig-report-card"><div><span>@{report.username}</span><time>{formatDate(report.createdAt, true)}</time></div><div className="ig-report-metrics"><p><strong>{formatNumber(views30)}</strong><span>visualizações · 30 dias</span></p><p><strong>{formatNumber(reach30)}</strong><span>alcance · 30 dias</span></p><p><strong>{report.snapshot.posts.length}</strong><span>posts lidos</span></p></div><p>{report.summary}</p><div className="ig-actions"><button type="button" className="ig-btn ig-btn--primary" onClick={onOpen}>abrir</button><button type="button" className="ig-btn ig-btn--danger" disabled={busy} onClick={onRemove}>{busy ? "apagando..." : "apagar"}</button></div></article>;
 }

@@ -105,13 +105,13 @@ async function fetchAccountPeriod(igUserId: string, tok: string, days: 7 | 30) {
   return { follows, unfollows };
 }
 
-async function fetchProfileViews30(igUserId: string, tok: string): Promise<number | undefined> {
+async function fetchAccountMetric(igUserId: string, tok: string, metric: "views" | "reach" | "profile_views", days: 7 | 30): Promise<number | undefined> {
   const until = Math.floor(Date.now() / 1000);
-  const since = until - 30 * 24 * 60 * 60;
+  const since = until - days * 24 * 60 * 60;
   for (const metricType of ["total_value", ""] as const) {
     try {
       const params: Record<string, string> = {
-        metric: "profile_views",
+        metric,
         period: "day",
         since: String(since),
         until: String(until),
@@ -122,7 +122,7 @@ async function fetchProfileViews30(igUserId: string, tok: string): Promise<numbe
       const row = ((payload.data as InsightResult[] | undefined) || [])[0];
       const total = (row?.total_value as { value?: unknown } | undefined)?.value;
       if (typeof total === "number" && Number.isFinite(total)) return total;
-      const sum = sumInsightValues(payload, "profile_views");
+      const sum = sumInsightValues(payload, metric);
       if (sum !== undefined) return sum;
     } catch {
       // Tenta a forma diária usada por versões anteriores da Graph API.
@@ -134,11 +134,15 @@ async function fetchProfileViews30(igUserId: string, tok: string): Promise<numbe
 // puxa perfil + últimos N posts com métricas reais. Tolerante: se uma métrica faltar, ignora.
 export async function fetchSnapshot(cfg: IgConfig, limit = 25): Promise<IgSnapshot> {
   const tok = await pageToken(cfg);
-  const [prof, period30, period7, profileViews30] = await Promise.all([
+  const [prof, period30, period7, views30, views7, reach30, reach7, profileViews30] = await Promise.all([
     gget(cfg.igUserId, { fields: "username,followers_count,media_count,profile_picture_url", access_token: tok }),
     fetchAccountPeriod(cfg.igUserId, tok, 30),
     fetchAccountPeriod(cfg.igUserId, tok, 7),
-    fetchProfileViews30(cfg.igUserId, tok),
+    fetchAccountMetric(cfg.igUserId, tok, "views", 30),
+    fetchAccountMetric(cfg.igUserId, tok, "views", 7),
+    fetchAccountMetric(cfg.igUserId, tok, "reach", 30),
+    fetchAccountMetric(cfg.igUserId, tok, "reach", 7),
+    fetchAccountMetric(cfg.igUserId, tok, "profile_views", 30),
   ]);
   const media = await gget(`${cfg.igUserId}/media`, {
     fields: "id,caption,media_type,media_product_type,timestamp,permalink,thumbnail_url,media_url,like_count,comments_count",
@@ -189,6 +193,10 @@ export async function fetchSnapshot(cfg: IgConfig, limit = 25): Promise<IgSnapsh
       picture: prof.profile_picture_url as string | undefined,
     },
     account: {
+      views30,
+      views7,
+      reach30,
+      reach7,
       newFollowers30: period30.follows,
       unfollows30: period30.unfollows,
       newFollowers7: period7.follows,

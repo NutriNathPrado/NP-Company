@@ -18,6 +18,10 @@ export type InstagramDashboardSnapshot = {
   updatedAt: string;
   profile: { username: string; followers: number; mediaCount: number; picture?: string };
   account?: {
+    views30?: number;
+    views7?: number;
+    reach30?: number;
+    reach7?: number;
     newFollowers30?: number;
     unfollows30?: number;
     newFollowers7?: number;

@@ -3,9 +3,9 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Markdown from "@/components/Markdown";
-import { engagement, formatDate, formatLabel, formatNumber, formatPercent, percent, postsSince, sumAvailable, type DashboardPost } from "@/lib/instagram-metrics";
+import { engagement, formatDate, formatLabel, formatNumber, formatPercent, hasNumber, percent, postsSince, sumAvailable, type DashboardPost } from "@/lib/instagram-metrics";
 
-type Report = { id: string; createdAt: string; username: string; summary: string; analysis?: { text: string; updatedAt: string } | null; snapshot: { profile: { followers: number; mediaCount: number }; posts: DashboardPost[] } };
+type Report = { id: string; createdAt: string; username: string; summary: string; analysis?: { text: string; updatedAt: string } | null; snapshot: { profile: { followers: number; mediaCount: number }; account?: { views30?: number; reach30?: number }; posts: DashboardPost[] } };
 type Tab = "overview" | "content" | "diagnosis";
 
 export default function ReportDashboard({ report }: { report: Report }) {
@@ -22,12 +22,14 @@ export default function ReportDashboard({ report }: { report: Report }) {
   const health = healthSignals === 3 ? "Dados consistentes" : healthSignals >= 1 ? "Dados parciais" : "Sem dados suficientes";
   const formats = Object.entries(report.snapshot.posts.reduce<Record<string, { n: number; reach: number; engagement: number }>>((acc, post) => { const key = formatLabel(post.mediaType); acc[key] ||= { n: 0, reach: 0, engagement: 0 }; acc[key].n += 1; acc[key].reach += post.reach || 0; acc[key].engagement += engagement(post); return acc; }, {}));
   const maxFormat = Math.max(1, ...formats.map(([, value]) => value.reach));
+  const accountViews30 = hasNumber(report.snapshot.account?.views30) ? report.snapshot.account.views30 : sumAvailable(current, "views");
+  const accountReach30 = hasNumber(report.snapshot.account?.reach30) ? report.snapshot.account.reach30 : sumAvailable(current, "reach");
 
   return <div className="ig-dashboard">
     <header className="ig-header"><div><span>RELATÓRIO SALVO · {formatDate(report.createdAt, true)}</span><h1>Dashboard estratégico · @{report.username}</h1><p>{report.summary}</p></div><button type="button" className="ig-btn" onClick={() => router.push("/perfil/relatorios")}>meus relatórios</button></header>
     <nav className="ig-tabs" aria-label="Seções do relatório">{([['overview','Visão geral'],['content','Conteúdo'],['diagnosis','Diagnóstico da IA']] as const).map(([value,label]) => <button type="button" key={value} className={tab === value ? "is-active" : ""} onClick={() => setTab(value)}>{label}</button>)}</nav>
     {tab === "overview" && <>
-      <section className="ig-section"><div className="ig-section-head"><div><h2>Saúde do perfil</h2><p>Qualidade e completude dos dados disponíveis neste retrato.</p></div><span className="ig-health">{health}</span></div><div className="ig-metrics-grid"><DashMetric label="Seguidores" value={formatNumber(report.snapshot.profile.followers)} /><DashMetric label="Posts no perfil" value={formatNumber(report.snapshot.profile.mediaCount)} /><DashMetric label="Visualizações · 30 dias*" value={formatNumber(sumAvailable(current, "views"))} /><DashMetric label="Alcance · 30 dias*" value={formatNumber(sumAvailable(current, "reach"))} /><DashMetric label="Posts lidos" value={formatNumber(report.snapshot.posts.length)} /></div></section>
+      <section className="ig-section"><div className="ig-section-head"><div><h2>Saúde do perfil</h2><p>Qualidade e completude dos dados disponíveis neste retrato.</p></div><span className="ig-health">{health}</span></div><div className="ig-metrics-grid"><DashMetric label="Seguidores" value={formatNumber(report.snapshot.profile.followers)} /><DashMetric label="Posts no perfil" value={formatNumber(report.snapshot.profile.mediaCount)} /><DashMetric label="Visualizações · 30 dias" value={formatNumber(accountViews30)} /><DashMetric label="Alcance · 30 dias" value={formatNumber(accountReach30)} /><DashMetric label="Posts lidos" value={formatNumber(report.snapshot.posts.length)} /></div></section>
       <section className="ig-section"><div className="ig-section-head"><div><h2>Comparações entre períodos</h2><p>Somente publicações datadas presentes no snapshot salvo.</p></div></div><div className="ig-comparison"><Compare label="Alcance" current={sumAvailable(current, "reach")} previous={sumAvailable(prior, "reach")} /><Compare label="Visualizações" current={sumAvailable(current, "views")} previous={sumAvailable(prior, "views")} /><Compare label="Alcance · 7 dias" current={sumAvailable(recent7, "reach")} previous={null} /></div></section>
       <section className="ig-section"><div className="ig-section-head"><div><h2>Desempenho por formato</h2><p>Alcance somado e engajamento dos posts lidos.</p></div></div>{formats.length ? <div className="ig-bars">{formats.map(([name,value]) => <div key={name}><span>{name} · {value.n} post{value.n > 1 ? "s" : ""}</span><div><i style={{ width: `${Math.max(4, (value.reach / maxFormat) * 100)}%` }} /></div><b>{formatNumber(value.reach)} alcance · {formatNumber(value.engagement)} eng.</b></div>)}</div> : <div className="ig-empty">Sem publicações para comparar.</div>}</section>
     </>}

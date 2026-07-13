@@ -127,7 +127,8 @@ export default function PerfilPage() {
   }
 
   const posts30 = useMemo(() => postsSince(snap?.posts || [], 30), [snap]);
-  const views30 = useMemo(() => sumAvailable(posts30, "views"), [posts30]);
+  const postViews30 = useMemo(() => sumAvailable(posts30, "views"), [posts30]);
+  const views30 = hasNumber(snap?.account?.views30) ? snap.account.views30 : postViews30;
 
   const posts = useMemo(() => [...(snap?.posts || [])].sort((a, b) => {
     if (sortBy === "reach") return (b.reach ?? -1) - (a.reach ?? -1);
@@ -141,7 +142,7 @@ export default function PerfilPage() {
     <div className="ig-dashboard">
       <header className="ig-header">
         <div><span>INSTAGRAM ANALYTICS</span><h1>insights atualizados direto da Meta</h1><p>Performance real, diagnóstico estratégico e aprendizados do conteúdo.</p></div>
-        {status?.connected && snap && <div className="ig-header-stats"><div><strong>{formatNumber(snap.profile.followers)}</strong><span>seguidores</span></div><div><strong>{formatNumber(views30)}</strong><span>visualizações · 30 dias*</span></div></div>}
+        {status?.connected && snap && <div className="ig-header-stats"><div><strong>{formatNumber(snap.profile.followers)}</strong><span>seguidores</span></div><div><strong>{formatNumber(views30)}</strong><span>visualizações · 30 dias</span></div></div>}
       </header>
 
       {!status?.connected ? <>
@@ -184,7 +185,7 @@ export default function PerfilPage() {
           <div className="ig-section-head"><div><h2>Publicações</h2><p>{snap?.posts.length || 0} posts lidos pela API.</p></div><div className="ig-pills" aria-label="Ordenar publicações">{([['recent','Recentes'],['reach','Alcance'],['engagement','Engajamento']] as const).map(([value, label]) => <button type="button" key={value} className={sortBy === value ? "is-active" : ""} onClick={() => setSortBy(value)}>{label}</button>)}</div></div>
           {posts.length ? <div className="ig-post-grid">{posts.map((post) => <button type="button" key={post.id} className="ig-post-card" onClick={() => setSelectedPost(post)}>
             <div className="ig-post-cover">{post.thumbnail ? <img src={post.thumbnail} alt="" loading="lazy" /> : <span>sem capa</span>}<b className={`ig-badge ig-badge--${formatLabel(post.mediaType).toLowerCase()}`}>{formatLabel(post.mediaType)}</b></div>
-            <div className="ig-post-body"><time>{formatDate(post.timestamp)}</time><p>{post.caption?.trim() || "Publicação sem legenda."}</p><div className="ig-post-stats"><span>♥ {formatNumber(post.likes)}</span><span>◌ {formatNumber(post.comments)}</span><span>▣ {formatNumber(post.saved)}</span><span>↗ {formatNumber(post.shares)}</span><span>◎ {formatNumber(post.reach)}</span></div><strong>{formatNumber(engagement(post))} engajamentos</strong></div>
+            <div className="ig-post-body"><time>{formatDate(post.timestamp)}</time><p>{post.caption?.trim() || "Publicação sem legenda."}</p><div className="ig-post-stats"><span title="Curtidas">♥ {formatNumber(post.likes)}</span><span title="Comentários">◌ {formatNumber(post.comments)}</span><span title="Salvamentos">▣ {formatNumber(post.saved)}</span><span title="Compartilhamentos">↗ {formatNumber(post.shares)}</span><span title="Alcance">◎ {formatNumber(post.reach)}</span><span title="Visualizações">▶ {formatNumber(post.views)}</span></div><strong>{formatNumber(engagement(post))} engajamentos</strong></div>
           </button>)}</div> : <div className="ig-empty"><strong>Nenhuma publicação disponível.</strong><span>Atualize os Insights para buscar os posts mais recentes.</span></div>}
         </section>
       </>}

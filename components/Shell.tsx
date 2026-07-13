@@ -217,9 +217,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <div className="dg-user-card">
           <div className="dg-user-card__identity">
             <div className="dg-user-avatar" aria-hidden="true" style={settings.logo ? { backgroundImage: `url(${settings.logo})` } : undefined}><span /></div>
-            <div><strong>{settings.footerTitle}</strong>{settings.footerNote && <small>{settings.footerNote}</small>}</div>
+            <div><strong>{settings.footerTitle}</strong><Link href="/configuracoes" className="dg-settings-inline"><span aria-hidden="true">⚙</span> Configurações</Link></div>
           </div>
-          <Link href="/configuracoes" className="dg-settings-link"><span aria-hidden="true">⚙</span> Configurações</Link>
         </div>
       </aside>
 

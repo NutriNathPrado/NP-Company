@@ -152,7 +152,7 @@ html, body {
   letter-spacing: 2.2px;
   text-transform: uppercase;
 }
-.dg-nav-list { display: flex; flex-direction: column; gap: 5px; padding: 2px 0; }
+.dg-nav-list { min-height: 0; display: flex; flex: 1 1 auto; flex-direction: column; gap: 5px; padding: 2px 0; overflow-y: auto; }
 .dg-nav {
   position: relative;
   display: flex; align-items: center; gap: 18px;
@@ -186,6 +186,10 @@ html, body {
 .dg-nav .ico { width: 22px; display: flex; align-items: center; justify-content: center; opacity: .96; }
 .dg-user-card {
   margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  flex: 0 0 auto;
   min-height: 72px;
   padding: 14px 13px;
   border: 1px solid rgba(31,31,31,0.10);
@@ -199,7 +203,8 @@ html, body {
 }
 .dg-user-card__identity { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .dg-user-card__identity > div:last-child { min-width: 0; }
-.dg-user-card__identity small { display: block; margin-top: 3px; color: var(--dg-grey); font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dg-settings-inline { display: inline-flex; align-items: center; gap: 5px; margin-top: 4px; color: var(--dg-grey); font-size: 10.5px; font-weight: 750; text-decoration: none; white-space: nowrap; transition: color .15s ease; }
+.dg-settings-inline:hover { color: var(--dg-red); }
 .dg-settings-link { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 34px; border-top: 1px solid var(--dg-line-soft); padding-top: 10px; color: var(--dg-grey); text-decoration: none; font-size: 12px; font-weight: 750; transition: color .15s ease; }
 .dg-settings-link:hover { color: var(--dg-red); }
 .dg-user-avatar {
@@ -656,6 +661,7 @@ html, body {
   .dg-brand { padding-inline: 10px; }
   .dg-nav-list {
     display: grid;
+    overflow-y: visible;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .dg-user-card { display: none; }
@@ -680,6 +686,7 @@ html, body {
   .dg-nav-list {
     display: flex;
     flex-direction: row;
+    flex: none;
     gap: 7px;
     overflow-x: auto;
     padding: 2px 2px 5px;
